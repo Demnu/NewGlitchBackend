@@ -8,6 +8,20 @@
       "when": 1696331611007,
       "tag": "0000_polite_black_cat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1696335076750,
+      "tag": "0001_superb_songbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1696335118588,
+      "tag": "0002_luxuriant_supreme_intelligence",
+      "breakpoints": true
     }
   ]
 }

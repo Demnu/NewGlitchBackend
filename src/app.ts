@@ -19,6 +19,7 @@ app.listen(PORT, () => {
 const pool = new Pool({
   connectionString: process.env.CONNECTION_STRING
 });
+
 const migrationConfig: MigrationConfig = {
   migrationsFolder: './src/db/migrations/'
 };
@@ -43,7 +44,7 @@ app.get('/applyMigrations', async (req: Request, res: Response) => {
 app.get('/testdb', async (req: Request, res: Response) => {
   try {
     const client = await pool.connect();
-    const result = await client.query('SELECT NOW() ças now');
+    const result = await client.query('SELECT NOW() as now');
     const currentTime = result.rows[0].now;
     client.release();
     res.send(`Database connected! Current time: ${currentTime}`);

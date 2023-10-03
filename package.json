@@ -9,6 +9,7 @@
     "start": "ts-node dist/app.js",
     "generate": "drizzle-kit generate:pg",
     "build": "tsc -p .",
+    "studio": "npx drizzle-kit studio",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "repository": {

@@ -5,10 +5,8 @@ import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 import { Pool } from 'pg';
-import drizzleConfig from '../drizzle.config';
+import drizzleConfig, { migrationConfig } from '../drizzle.config';
 import { env } from 'process';
-import { MigrationConfig } from 'drizzle-orm/migrator';
-import { Console, debug, log } from 'console';
 const app: Application = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,9 +18,7 @@ const pool = new Pool({
   connectionString: process.env.CONNECTION_STRING
 });
 
-const migrationConfig: MigrationConfig = {
-  migrationsFolder: './src/db/migrations/'
-};
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('TS App is Running');

@@ -2,6 +2,7 @@ import type { Config } from "drizzle-kit";
 import 'dotenv/config'
 import { MigrationConfig } from "drizzle-orm/migrator";
 
+
 export default {
   schema: "./src/db/schema",
   out: "./src/db/migrations/",
@@ -12,3 +13,4 @@ export default {
 export const migrationConfig: MigrationConfig = {
   migrationsFolder: './src/db/migrations/'
 };
+

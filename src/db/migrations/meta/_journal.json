@@ -22,6 +22,48 @@
       "when": 1696335118588,
       "tag": "0002_luxuriant_supreme_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1696498261077,
+      "tag": "0003_condemned_warbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1696505807031,
+      "tag": "0004_high_wallow",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1696508226175,
+      "tag": "0005_chubby_nehzno",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1696510234061,
+      "tag": "0006_worthless_shatterstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1696510300471,
+      "tag": "0007_needy_mongoose",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1696514154475,
+      "tag": "0008_conscious_alice",
+      "breakpoints": true
     }
   ]
 }

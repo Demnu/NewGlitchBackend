@@ -85,12 +85,12 @@ app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
     supplierId: process.env.GLITCH_SUPPLIER_ID
   });
 
-  let formattedOrders = readOrders(
+  let {formattedOrders} = readOrders(
     distResults.data,
     process.env.DIST_SUPPLIER_ID
   );
-  formattedOrders = [...formattedOrders, ...readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID)]
-  formattedOrders = [...formattedOrders, ...readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID)]
+  formattedOrders = [...formattedOrders, ...readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID).formattedOrders]
+  formattedOrders = [...formattedOrders, ...readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID).formattedOrders]
 
   // update saved orders
   const orderIds = formattedOrders.map(

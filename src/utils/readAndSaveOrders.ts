@@ -2,10 +2,9 @@ import { Order } from '../db/schema/orders';
 import { Order_Products } from '../db/schema/orders_products';
 import { Product } from '../db/schema/products';
 interface ProductsAndOrders {
-  orders : Order[]
+  formattedOrders : Order[]
   products : Product[]
   order_products: Order_Products[]
-
 }
 
 interface data {
@@ -30,7 +29,9 @@ interface LineItem {
 }
 export const readOrders = (orders: data[], supplierId: string | undefined) => {
   const t = 0;
+  const data: ProductsAndOrders = {formattedOrders:[],products:[],order_products:[]}
   const formattedOrders: Order[] = [];
+  
   orders.forEach((order) => {
     const tempOrder: Order = {
       orderId: order.id,
@@ -39,9 +40,13 @@ export const readOrders = (orders: data[], supplierId: string | undefined) => {
       createdAt: order.createdAt,
       updatedAt: order.updatedAt
     };
+    order.lineItems.forEach(item =>{
+
+    })
     formattedOrders.push(tempOrder);
   });
-  return formattedOrders;
+  data.formattedOrders = formattedOrders
+  return data;
 };
 
 const getSupplierName = (supplierId: string) => {

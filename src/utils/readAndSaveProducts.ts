@@ -12,7 +12,7 @@ export const readProducts = (products: data[]) => {
 
   products.forEach((product) => {
     const tempProduct: Product = {
-      productId: product.id,
+      id: product.id,
       productName: product.name,
       sku: product.SKU,
       price: parseFloat(product.price),

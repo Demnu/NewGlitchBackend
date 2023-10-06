@@ -9,8 +9,7 @@ import {
 import { orders_products } from './orders_products';
 
 export const products = pgTable('products', {
-  id: serial('id').primaryKey(),
-  productId: varchar('product_id', { length: 256 }).unique().notNull(),
+  id: varchar('id').primaryKey().notNull(),
   productName: varchar('product_name', { length: 256 }).notNull(),
   sku: varchar('sku', { length: 256 }),
   price: doublePrecision('price'),
@@ -18,7 +17,8 @@ export const products = pgTable('products', {
 });
 
 export const orderRelations = relations(products, ({ many }) => ({
-	order_products: many(orders_products),
+  order_products: many(orders_products)
 }));
 
 export type Product = typeof products.$inferInsert;
+export type ProductTest = typeof products.$inferSelect;

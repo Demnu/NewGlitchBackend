@@ -5,10 +5,10 @@ import { relations } from 'drizzle-orm';
 
 export const orders_products = pgTable('orders_products', {
   id: serial('id').primaryKey(),
-  orderId: integer('order_id').references(() => orders.id),
-  productId: integer('product_id').references(() => products.id),
-  supplierName: varchar('supplier_name', { length: 256 })
-});
+  orderId: varchar('order_id').references(() => orders.id),
+  productId: varchar('product_id').references(() => products.id),
+  amountOrdered: integer('amount_ordered').notNull(),
+ });
 
 export const ordersProductsRelations = relations(orders_products, ({ one }) => ({
 	order: one(orders, {

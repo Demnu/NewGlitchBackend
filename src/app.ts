@@ -10,20 +10,29 @@ import { Product, products } from './db/schema/products';
 import { recipes } from './db/schema/recipes';
 import { OrdermentumClient } from './ordermentumConnection';
 import { readOrders } from './utils/readAndSaveOrders';
-import { orderRelations, orders } from './db/schema/orders';
+import { Order, orderRelations, orders } from './db/schema/orders';
 import { eq, inArray } from 'drizzle-orm';
-import { QueryBuilder } from 'drizzle-orm/pg-core';
 import { readProducts } from './utils/readAndSaveProducts';
-import * as fs from 'fs';
-import { Bean, beans } from './db/schema/beans';
-import { ordersProductsRelations, orders_products } from './db/schema/orders_products';
+import {
+  ordersProductsRelations,
+  orders_products
+} from './db/schema/orders_products';
 
 const app: Application = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
 
-const db = drizzle(databaseClient, { schema: { products, recipes, orders, orders_products, orderRelations, ordersProductsRelations, } });
+const db = drizzle(databaseClient, {
+  schema: {
+    products,
+    recipes,
+    orders,
+    orders_products,
+    orderRelations,
+    ordersProductsRelations
+  }
+});
 const ordermentumClient = OrdermentumClient;
 
 const startServer = async () => {
@@ -60,19 +69,31 @@ setInterval(
 ); // 10 minutes in milliseconds
 
 app.get('/', (req: Request, res: Response) => {
-
   res.send('TS App is Running');
 });
 
-app.get('/getOrders',async (req: Request, res: Response) => {
+interface OrderDto{
+  orderId?: string
+  customerName?: string | null
+  products?: Product[]
+} 
+
+app.get('/getOrders', async (req: Request, res: Response) => {
   // const result = await db.query.orders_products.findMany({with:{order:'true'}})
   const results = await db.query.orders.findMany({
     with: {
-      order_products: {with: {product:true}},
-    },
+      order_products: { with: { product: true } }
+    }
   });
-  var test = {orderId: results[0].orderId, products: results[0].order_products.map(op => op.product)}
-  res.send('TS App is Running');
+
+
+  var orderDtos: OrderDto[]  = results.map((result)=>{
+    var orderDto: OrderDto = {orderId: result.id, customerName: result.customerName }
+    var products: Product[] = result.order_products.map(op => op.product).filter(product => product !== null) as Product[];
+    orderDto.products = products
+    return (orderDto)
+  })
+  res.send(orderDtos);
 });
 
 app.get('/getProductsFromOrdermentum', async (req: Request, res: Response) => {
@@ -135,17 +156,17 @@ async function getProductsFromOrdermentum(): Promise<string> {
 
   // update saved orders
   const productIds = formattedProducts.map(
-    (formattedOrder) => formattedOrder.productId
+    (formattedProduct) => formattedProduct.id
   );
 
   const results = await db
     .select()
     .from(products)
-    .where(inArray(products.productId, productIds));
+    .where(inArray(products.id, productIds));
 
   const promises = results.map((product) => {
     var updatedProduct = formattedProducts.find(
-      (p) => p.productId == product.productId
+      (p) => p.id == product.id
     );
     if (updatedProduct) {
       return db
@@ -156,7 +177,7 @@ async function getProductsFromOrdermentum(): Promise<string> {
           price: updatedProduct.price,
           possiblyCoffee: updatedProduct.possiblyCoffee
         })
-        .where(eq(products.productId, product.productId));
+        .where(eq(products.id, product.id));
     }
   });
   await Promise.all(promises);
@@ -188,33 +209,36 @@ async function getOrdersFromOrdermentum(): Promise<string> {
     supplierId: process.env.GLITCH_SUPPLIER_ID
   });
 
-  let { formattedOrders } = readOrders(
-    distResults.data,
-    process.env.DIST_SUPPLIER_ID
-  );
-  formattedOrders = [
-    ...formattedOrders,
-    ...readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID)
-      .formattedOrders
-  ];
-  formattedOrders = [
-    ...formattedOrders,
-    ...readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID)
-      .formattedOrders
-  ];
+  let {
+    formattedOrders: distOrders,
+    orderProductsFormatted: distOrderProducts
+  } = readOrders(distResults.data, process.env.DIST_SUPPLIER_ID);
+
+  let {
+    formattedOrders: flamOrders,
+    orderProductsFormatted: flamOrderProducts
+  } = readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID);
+
+  let {
+    formattedOrders: glitchOrders,
+    orderProductsFormatted: glitchOrderProducts
+  } = readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID);
+
 
   // update saved orders
+  const formattedOrders = [...distOrders, ...flamOrders, ...glitchOrders]
+
   const orderIds = formattedOrders.map(
-    (formattedOrder) => formattedOrder.orderId
+    (formattedOrder) => formattedOrder.id
   );
 
   const results = await db
     .select()
     .from(orders)
-    .where(inArray(orders.orderId, orderIds));
+    .where(inArray(orders.id, orderIds));
 
-  const promises = results.map((order) => {
-    var updatedOrder = formattedOrders.find((o) => o.orderId == order.orderId);
+  const orderPromises = results.map((order) => {
+    var updatedOrder = formattedOrders.find((o) => o.id == order.id);
     if (updatedOrder) {
       return db
         .update(orders)
@@ -222,12 +246,21 @@ async function getOrdersFromOrdermentum(): Promise<string> {
           updatedAt: updatedOrder.updatedAt,
           customerName: updatedOrder.customerName
         })
-        .where(eq(orders.orderId, order.orderId));
+        .where(eq(orders.id, order.id));
     }
   });
-  await Promise.all(promises);
+  await Promise.all(orderPromises);
+
 
   // save unstored orders
   await db.insert(orders).values(formattedOrders).onConflictDoNothing();
+
+  // save new order_products
+  const formattedOrdersProducts = [...distOrderProducts, ...flamOrderProducts, ...glitchOrderProducts]
+
+  const deletedResults = await db.delete(orders_products) .where(inArray(orders_products.orderId, orderIds));
+  const addOrdersProductsResults = await db.insert(orders_products).values(formattedOrdersProducts)
+
   return 'Orders saved!';
+
 }

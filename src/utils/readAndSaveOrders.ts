@@ -3,8 +3,7 @@ import { Order_Products } from '../db/schema/orders_products';
 import { Product } from '../db/schema/products';
 interface ProductsAndOrders {
   formattedOrders: Order[];
-  products: Product[];
-  order_products: Order_Products[];
+  orderProductsFormatted: Order_Products[];
 }
 
 interface data {
@@ -22,7 +21,7 @@ interface data {
 }
 
 interface LineItem {
-  id: string;
+  productId: string;
   name: string;
   price: string;
   quantity: number;
@@ -31,23 +30,25 @@ export const readOrders = (orders: data[], supplierId: string | undefined) => {
   const t = 0;
   const data: ProductsAndOrders = {
     formattedOrders: [],
-    products: [],
-    order_products: []
+    orderProductsFormatted: []
   };
-  const formattedOrders: Order[] = [];
-
   orders.forEach((order) => {
     const tempOrder: Order = {
-      orderId: order.id,
+      id: order.id,
       customerName: order.retailerAlias,
       supplierName: getSupplierName(supplierId || ''),
       createdAt: order.createdAt,
       updatedAt: order.updatedAt
     };
-    order.lineItems.forEach((item) => {});
-    formattedOrders.push(tempOrder);
+    order.lineItems.forEach((item) => {
+      data.orderProductsFormatted.push({
+        orderId: order.id,
+        productId: item.productId,
+        amountOrdered: item.quantity,
+      });
+    });
+    data.formattedOrders.push(tempOrder);
   });
-  data.formattedOrders = formattedOrders;
   return data;
 };
 

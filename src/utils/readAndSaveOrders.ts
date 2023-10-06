@@ -58,7 +58,7 @@ const getSupplierName = (supplierId: string) => {
       return 'Distribution';
     case process.env.GLITCH_SUPPLIER_ID:
       return 'Glitch';
-    case process.env.DIST_SUPPLIER_ID:
+    case process.env.FLAM_SUPPLIER_ID:
       return 'Flamingo';
     default:
       return 'N/A';

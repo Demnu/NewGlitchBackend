@@ -1,5 +1,3 @@
-import { Order } from '../db/schema/orders';
-import { Order_Products } from '../db/schema/orders_products';
 import { Product } from '../db/schema/products';
 
 interface data {
@@ -39,7 +37,6 @@ const checkIfPossiblyCoffee = (name: string, sku: string): boolean => {
     'Coffee',
     'Beans',
     'Bean',
-
     'Single Origin',
     'BAGS',
     'TINS',

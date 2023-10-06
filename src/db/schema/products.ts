@@ -1,11 +1,12 @@
+import { relations } from 'drizzle-orm';
 import {
   pgTable,
   serial,
-  integer,
   varchar,
   doublePrecision,
   boolean
 } from 'drizzle-orm/pg-core';
+import { orders_products } from './orders_products';
 
 export const products = pgTable('products', {
   id: serial('id').primaryKey(),
@@ -15,5 +16,9 @@ export const products = pgTable('products', {
   price: doublePrecision('price'),
   possiblyCoffee: boolean('possibly_coffee').notNull()
 });
+
+export const orderRelations = relations(products, ({ many }) => ({
+	order_products: many(orders_products),
+}));
 
 export type Product = typeof products.$inferInsert;

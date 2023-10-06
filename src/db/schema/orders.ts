@@ -6,6 +6,8 @@ import {
   varchar,
   date
 } from 'drizzle-orm/pg-core';
+import { orders_products } from './orders_products';
+import { relations } from 'drizzle-orm';
 
 export const orders = pgTable('orders', {
   id: serial('id').primaryKey().notNull(),
@@ -21,5 +23,9 @@ export const orders = pgTable('orders', {
     withTimezone: true
   })
 });
+
+export const orderRelations = relations(orders, ({ many }) => ({
+	order_products: many(orders_products),
+}));
 
 export type Order = typeof orders.$inferInsert;

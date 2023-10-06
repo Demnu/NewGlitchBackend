@@ -2,16 +2,16 @@ import { Order } from '../db/schema/orders';
 import { Order_Products } from '../db/schema/orders_products';
 import { Product } from '../db/schema/products';
 interface ProductsAndOrders {
-  formattedOrders : Order[]
-  products : Product[]
-  order_products: Order_Products[]
+  formattedOrders: Order[];
+  products: Product[];
+  order_products: Order_Products[];
 }
 
 interface data {
   id: string;
   createdAt: string;
   createdBy: string;
-  dueAt: 'string';
+  dueAt: string;
   orderNumber: string;
   retailerAlias: string;
   status: string;
@@ -29,9 +29,13 @@ interface LineItem {
 }
 export const readOrders = (orders: data[], supplierId: string | undefined) => {
   const t = 0;
-  const data: ProductsAndOrders = {formattedOrders:[],products:[],order_products:[]}
+  const data: ProductsAndOrders = {
+    formattedOrders: [],
+    products: [],
+    order_products: []
+  };
   const formattedOrders: Order[] = [];
-  
+
   orders.forEach((order) => {
     const tempOrder: Order = {
       orderId: order.id,
@@ -40,12 +44,10 @@ export const readOrders = (orders: data[], supplierId: string | undefined) => {
       createdAt: order.createdAt,
       updatedAt: order.updatedAt
     };
-    order.lineItems.forEach(item =>{
-
-    })
+    order.lineItems.forEach((item) => {});
     formattedOrders.push(tempOrder);
   });
-  data.formattedOrders = formattedOrders
+  data.formattedOrders = formattedOrders;
   return data;
 };
 

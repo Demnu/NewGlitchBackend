@@ -13,6 +13,7 @@ import { readOrders } from './utils/readAndSaveOrders';
 import { orders } from './db/schema/orders';
 import { eq, inArray } from 'drizzle-orm';
 import { QueryBuilder } from 'drizzle-orm/pg-core';
+import { readProducts } from './utils/readAndSaveProducts';
 
 const app: Application = express();
 app.use(bodyParser.json());
@@ -24,26 +25,78 @@ const ordermentumClient = OrdermentumClient;
 
 const startServer = async () => {
   try {
-    const result = await db.query.products.findFirst();
+    const result = await db.query.orders.findFirst();
     console.log(`server is running on PORT ${PORT}`);
     app.listen(PORT, () => {});
   } catch (error) {
+    console.log(error);
     console.error('Cannot start the server without a database connection.');
   }
 };
 
 startServer();
 
-// app.get('/getCountries', async (req: Request, res: Response) => {
-//   const result = await  db.query.countries.findMany();
-//   res.send(result);
-// });
+// Schedule the tasks to run every 10 minutes
+setInterval(async () => {
+  try {
+    await getProductsFromOrdermentum();
+    console.log('Products fetched and saved successfully.');
+  } catch (error) {
+    console.error('Failed to fetch and save products:', error);
+  }
+
+  try {
+    await getOrdersFromOrdermentum();
+    console.log('Orders fetched and saved successfully.');
+  } catch (error) {
+    console.error('Failed to fetch and save orders:', error);
+  }
+}, 10 * 60 * 1000); // 10 minutes in milliseconds
 
 app.get('/', (req: Request, res: Response) => {
   res.send('TS App is Running');
 });
 
 app.get('/getProductsFromOrdermentum', async (req: Request, res: Response) => {
+  try {
+      const result = await getProductsFromOrdermentum();
+      res.send(result);
+  } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).send('Failed to get products from Ordermentum');
+  }
+});
+
+app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
+  try {
+      const result = await getOrdersFromOrdermentum();
+      res.send(result);
+  } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).send('Failed to get orders from Ordermentum');
+  }
+});
+
+
+
+
+
+
+
+app.get('/applyMigrations', async (req: Request, res: Response) => {
+  try {
+    const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
+      max: 1
+    });
+    await migrate(drizzle(migrationClient), migrationConfig);
+    res.send('Migration successfull');
+  } catch (error) {
+    console.log(error);
+    res.send('Migration unsuccessfull');
+  }
+});
+
+async function getProductsFromOrdermentum(): Promise<string> {
   // Set your custom pagination settings
   const customPagination = { pageSize: 500, pageNo: 1 };
 
@@ -60,10 +113,48 @@ app.get('/getProductsFromOrdermentum', async (req: Request, res: Response) => {
     ...customPagination,
     supplierId: process.env.GLITCH_SUPPLIER_ID
   });
-  res.send('Hello');
-});
 
-app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
+  let formattedProducts = readProducts(distResults.data);
+  formattedProducts = [...formattedProducts, ...readProducts(flamResults.data)];
+  formattedProducts = [
+    ...formattedProducts,
+    ...readProducts(glitchResults.data)
+  ];
+
+  // update saved orders
+  const productIds = formattedProducts.map(
+    (formattedOrder) => formattedOrder.productId
+  );
+
+  const results = await db
+    .select()
+    .from(products)
+    .where(inArray(products.productId, productIds));
+
+  const promises = results.map((product) => {
+    var updatedProduct = formattedProducts.find(
+      (p) => p.productId == product.productId
+    );
+    if (updatedProduct) {
+      return db
+        .update(products)
+        .set({
+          productName: updatedProduct.productName,
+          sku: updatedProduct.sku,
+          price: updatedProduct.price,
+          possiblyCoffee: updatedProduct.possiblyCoffee
+        })
+        .where(eq(products.productId, product.productId));
+    }
+  });
+  await Promise.all(promises);
+
+  // save unstored orders
+  await db.insert(products).values(formattedProducts).onConflictDoNothing();
+  return 'Products saved!';
+}
+
+async function getOrdersFromOrdermentum(): Promise<string> {
   // Set your custom pagination settings
   const customPagination = {
     pageSize: 30,
@@ -85,12 +176,20 @@ app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
     supplierId: process.env.GLITCH_SUPPLIER_ID
   });
 
-  let {formattedOrders} = readOrders(
+  let { formattedOrders } = readOrders(
     distResults.data,
     process.env.DIST_SUPPLIER_ID
   );
-  formattedOrders = [...formattedOrders, ...readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID).formattedOrders]
-  formattedOrders = [...formattedOrders, ...readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID).formattedOrders]
+  formattedOrders = [
+    ...formattedOrders,
+    ...readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID)
+      .formattedOrders
+  ];
+  formattedOrders = [
+    ...formattedOrders,
+    ...readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID)
+      .formattedOrders
+  ];
 
   // update saved orders
   const orderIds = formattedOrders.map(
@@ -102,45 +201,21 @@ app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
     .from(orders)
     .where(inArray(orders.orderId, orderIds));
 
-
   const promises = results.map((order) => {
     var updatedOrder = formattedOrders.find((o) => o.orderId == order.orderId);
     if (updatedOrder) {
       return db
         .update(orders)
-        .set({ updatedAt: updatedOrder.updatedAt, customerName:updatedOrder.customerName })
+        .set({
+          updatedAt: updatedOrder.updatedAt,
+          customerName: updatedOrder.customerName
+        })
         .where(eq(orders.orderId, order.orderId));
     }
   });
   await Promise.all(promises);
 
   // save unstored orders
-  await db.insert(orders)
-  .values(formattedOrders)
-  .onConflictDoNothing();
- 
-  res.send('Hello');
-});
-
-app.get('/applyMigrations', async (req: Request, res: Response) => {
-  try {
-    const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
-      max: 1
-    });
-    await migrate(drizzle(migrationClient), migrationConfig);
-    res.send('Migration successfull');
-  } catch (error) {
-    console.log(error);
-    res.send('Migration unsuccessfull');
-  }
-});
-
-app.get('/saveProductsToDB', async (req: Request, res: Response) => {
-  try {
-    const product: Product = { productName: 'test' };
-    const result = await db.insert(products).values(product);
-    res.send('Product added');
-  } catch (error) {
-    res.send('Products not added');
-  }
-});
+  await db.insert(orders).values(formattedOrders).onConflictDoNothing();
+  return 'Orders saved!';
+}

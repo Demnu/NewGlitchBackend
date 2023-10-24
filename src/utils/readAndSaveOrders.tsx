@@ -6,7 +6,7 @@ interface ProductsAndOrders {
   orderProductsFormatted: Order_Products[];
 }
 
-interface data {
+interface OrderFromOrdermentumType {
   id: string;
   createdAt: string;
   createdBy: string;
@@ -26,7 +26,7 @@ interface LineItem {
   price: string;
   quantity: number;
 }
-export const readOrders = (orders: data[], supplierId: string | undefined) => {
+export const readOrders = (orders: OrderFromOrdermentumType[], supplierId: string | undefined) => {
   const t = 0;
   const data: ProductsAndOrders = {
     formattedOrders: [],

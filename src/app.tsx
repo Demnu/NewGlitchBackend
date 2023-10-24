@@ -13,13 +13,16 @@ import { readOrders } from './utils/readAndSaveOrders';
 import { Order, orderRelations, orders } from './db/schema/orders';
 import { eq, inArray } from 'drizzle-orm';
 import { readProducts } from './utils/readAndSaveProducts';
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('../swagger_output.json');
 import {
   ordersProductsRelations,
   orders_products
 } from './db/schema/orders_products';
 
 const app: Application = express();
-app.use(bodyParser.json());
+app.use(express.json());
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
 
@@ -72,13 +75,13 @@ app.get('/', (req: Request, res: Response) => {
   res.send('TS App is Running');
 });
 
-interface OrderDto{
-  orderId?: string
-  customerName?: string | null
-  products?: Product[]
-} 
+interface OrderDto {
+  orderId?: string;
+  customerName?: string | null;
+  products?: Product[];
+}
 
-app.get('/getOrders', async (req: Request, res: Response) => {
+app.post('/getOrders', async (req: Request, res: Response) => {
   // const result = await db.query.orders_products.findMany({with:{order:'true'}})
   const results = await db.query.orders.findMany({
     with: {
@@ -86,13 +89,17 @@ app.get('/getOrders', async (req: Request, res: Response) => {
     }
   });
 
-
-  var orderDtos: OrderDto[]  = results.map((result)=>{
-    var orderDto: OrderDto = {orderId: result.id, customerName: result.customerName }
-    var products: Product[] = result.order_products.map(op => op.product).filter(product => product !== null) as Product[];
-    orderDto.products = products
-    return (orderDto)
-  })
+  var orderDtos: OrderDto[] = results.map((result) => {
+    var orderDto: OrderDto = {
+      orderId: result.id,
+      customerName: result.customerName
+    };
+    var products: Product[] = result.order_products
+      .map((op) => op.product)
+      .filter((product) => product !== null) as Product[];
+    orderDto.products = products;
+    return orderDto;
+  });
   res.send(orderDtos);
 });
 
@@ -165,9 +172,7 @@ async function getProductsFromOrdermentum(): Promise<string> {
     .where(inArray(products.id, productIds));
 
   const promises = results.map((product) => {
-    var updatedProduct = formattedProducts.find(
-      (p) => p.id == product.id
-    );
+    var updatedProduct = formattedProducts.find((p) => p.id == product.id);
     if (updatedProduct) {
       return db
         .update(products)
@@ -224,13 +229,10 @@ async function getOrdersFromOrdermentum(): Promise<string> {
     orderProductsFormatted: glitchOrderProducts
   } = readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID);
 
-
   // update saved orders
-  const formattedOrders = [...distOrders, ...flamOrders, ...glitchOrders]
+  const formattedOrders = [...distOrders, ...flamOrders, ...glitchOrders];
 
-  const orderIds = formattedOrders.map(
-    (formattedOrder) => formattedOrder.id
-  );
+  const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
 
   const results = await db
     .select()
@@ -251,16 +253,22 @@ async function getOrdersFromOrdermentum(): Promise<string> {
   });
   await Promise.all(orderPromises);
 
-
   // save unstored orders
   await db.insert(orders).values(formattedOrders).onConflictDoNothing();
 
   // save new order_products
-  const formattedOrdersProducts = [...distOrderProducts, ...flamOrderProducts, ...glitchOrderProducts]
+  const formattedOrdersProducts = [
+    ...distOrderProducts,
+    ...flamOrderProducts,
+    ...glitchOrderProducts
+  ];
 
-  const deletedResults = await db.delete(orders_products) .where(inArray(orders_products.orderId, orderIds));
-  const addOrdersProductsResults = await db.insert(orders_products).values(formattedOrdersProducts)
+  const deletedResults = await db
+    .delete(orders_products)
+    .where(inArray(orders_products.orderId, orderIds));
+  const addOrdersProductsResults = await db
+    .insert(orders_products)
+    .values(formattedOrdersProducts);
 
   return 'Orders saved!';
-
 }

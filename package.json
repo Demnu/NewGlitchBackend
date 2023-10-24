@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node swagger.tsx && ts-node src/app.tsx",
+    "dev": "ts-node swagger.tsx && ts-node-dev --respawn --transpile-only src/app.tsx" ,
     "start": "ts-node dist/src/app.js",
     "generate": "drizzle-kit generate:pg",
     "build": "tsc -p . && ts-node swagger.tsx",
@@ -31,7 +31,9 @@
     "@types/react-dom": "^18.2.14",
     "drizzle-kit": "^0.19.13",
     "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {

@@ -15,12 +15,17 @@ import { eq, inArray } from 'drizzle-orm';
 import { readProducts } from './utils/readAndSaveProducts';
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
+const path = require('path');
+
 import {
   ordersProductsRelations,
   orders_products
 } from './db/schema/orders_products';
 
 const app: Application = express();
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.json());
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,8 +76,8 @@ setInterval(
   10 * 60 * 1000
 ); // 10 minutes in milliseconds
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('TS App is Running');
+app.get('/', (req, res) => {
+  res.render('welcome');
 });
 
 interface OrderDto {

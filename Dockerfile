@@ -22,6 +22,6 @@ ENV NODE_ENV=development
 # Expose the port the app runs on
 EXPOSE 9000
 
-RUN npm run build || true
+RUN npm run build 
 
 CMD [ "npm", "start" ]

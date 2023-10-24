@@ -81,7 +81,8 @@ interface OrderDto {
   products?: Product[];
 }
 
-app.post('/getOrders', async (req: Request, res: Response) => {
+app.get('/getOrders', async (req: Request, res: Response) => {
+  // #swagger.tags = ['Orders']
   // const result = await db.query.orders_products.findMany({with:{order:'true'}})
   const results = await db.query.orders.findMany({
     with: {
@@ -104,6 +105,7 @@ app.post('/getOrders', async (req: Request, res: Response) => {
 });
 
 app.get('/getProductsFromOrdermentum', async (req: Request, res: Response) => {
+  // #swagger.tags = ['Orders']
   try {
     const result = await getProductsFromOrdermentum();
     res.send(result);
@@ -114,6 +116,7 @@ app.get('/getProductsFromOrdermentum', async (req: Request, res: Response) => {
 });
 
 app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
+  // #swagger.tags = ['Orders']
   try {
     const result = await getOrdersFromOrdermentum();
     res.send(result);
@@ -124,6 +127,7 @@ app.get('/getOrdersFromOrdermentum', async (req: Request, res: Response) => {
 });
 
 app.get('/applyMigrations', async (req: Request, res: Response) => {
+  // #swagger.tags = ['Orders']
   try {
     const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
       max: 1

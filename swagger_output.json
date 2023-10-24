@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
+    "title": "Glitch Backend",
     "version": "1.0.0",
-    "title": "REST API",
     "description": ""
   },
   "host": "localhost:3000",
@@ -22,7 +22,10 @@
       }
     },
     "/getOrders": {
-      "post": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -33,6 +36,9 @@
     },
     "/getProductsFromOrdermentum": {
       "get": {
+        "tags": [
+          "Orders"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -46,6 +52,9 @@
     },
     "/getOrdersFromOrdermentum": {
       "get": {
+        "tags": [
+          "Orders"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -59,6 +68,9 @@
     },
     "/applyMigrations": {
       "get": {
+        "tags": [
+          "Orders"
+        ],
         "description": "",
         "responses": {
           "200": {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node src/app.tsx",
+    "dev": "ts-node swagger.tsx && ts-node src/app.tsx",
     "start": "ts-node dist/app.js",
     "generate": "drizzle-kit generate:pg",
     "build": "tsc -p .",

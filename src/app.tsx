@@ -14,7 +14,7 @@ import { Order, orderRelations, orders } from './db/schema/orders';
 import { eq, inArray } from 'drizzle-orm';
 import { readProducts } from './utils/readAndSaveProducts';
 const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('../swagger_output.json');
+const swaggerFile = require('./swagger_output.json');
 import {
   ordersProductsRelations,
   orders_products

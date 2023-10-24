@@ -11,7 +11,7 @@ const doc = {
 };
 
 const endpointsFiles = ['./src/app.tsx'];
-const outputFile = './swagger_output.json';
+const outputFile = './src/swagger_output.json';
 const routes = ['./src/app.tsx'];
 
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 

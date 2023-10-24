@@ -9,7 +9,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - .:/src/app
+      - .:/app
     env_file:
       - .env
-    working_dir: /app
+    working_dir: /src/app

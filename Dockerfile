@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install the application's dependencies inside the container
 RUN npm install
 
+# Install ts-node
+RUN npm install -g ts-node
+
 # Copy the rest of the application to the container
 COPY . .
 
@@ -19,5 +22,10 @@ ENV NODE_ENV=development
 # Expose the port the app runs on
 EXPOSE 9000
 
-# Define the command to run the app
-CMD [ "npm", "run","dev" ]
+# Build, generate Swagger, and other commands
+RUN npm run build
+RUN npm run generateSwagger
+
+# If you intend to run the app as the primary command when the container starts, use the CMD directive. 
+# If not, you can remove this line.
+CMD [ "npm", "start" ]

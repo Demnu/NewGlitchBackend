@@ -22,9 +22,6 @@ ENV NODE_ENV=development
 # Expose the port the app runs on
 EXPOSE 9000
 
-# this will fail but it will actually create the dist anyway
 RUN npm run build || true
 
-RUN npm run generateSwagger
-# If not, you can remove this line.
 CMD [ "npm", "start" ]

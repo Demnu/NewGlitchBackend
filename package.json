@@ -8,10 +8,9 @@
     "dev": "ts-node swagger.tsx && ts-node src/app.tsx",
     "start": "ts-node dist/src/app.js",
     "generate": "drizzle-kit generate:pg",
-    "build": "tsc -p .",
+    "build": "tsc -p . && ts-node swagger.tsx",
     "studio": "npx drizzle-kit studio",
-    "pretty": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "generateSwagger": "ts-node swagger.tsx"
+    "pretty": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "repository": {
     "type": "git",

@@ -24,4 +24,4 @@ EXPOSE 9000
 
 RUN npm run build 
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run","build" ]

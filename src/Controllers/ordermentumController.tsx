@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import saveProductsFromOrdermentumCommand from '../CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
 import saveOrdersFromOrdermentumCommand from '../CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "d27a2d48-9de6-424d-83f9-614a54147d78",
+  "id": "65678b40-0fb8-4f6e-83c2-df255e25f05a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "beans": {
@@ -186,6 +186,67 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "recipe_beans": {
+      "name": "recipe_beans",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "recipe_id": {
+          "name": "recipe_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bean_id": {
+          "name": "bean_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "amount_ordered": {
+          "name": "amount_ordered",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "recipe_beans_recipe_id_recipes_id_fk": {
+          "name": "recipe_beans_recipe_id_recipes_id_fk",
+          "tableFrom": "recipe_beans",
+          "tableTo": "recipes",
+          "columnsFrom": [
+            "recipe_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_beans_bean_id_beans_id_fk": {
+          "name": "recipe_beans_bean_id_beans_id_fk",
+          "tableFrom": "recipe_beans",
+          "tableTo": "beans",
+          "columnsFrom": [
+            "bean_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },

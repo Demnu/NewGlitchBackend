@@ -31,6 +31,13 @@ CREATE TABLE IF NOT EXISTS "products" (
 	"possibly_coffee" boolean NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "recipe_beans" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"recipe_id" integer,
+	"bean_id" integer,
+	"amount_ordered" integer NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipes" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"product_name" varchar(256)
@@ -44,6 +51,18 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "orders_products" ADD CONSTRAINT "orders_products_product_id_products_id_fk" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "recipe_beans" ADD CONSTRAINT "recipe_beans_recipe_id_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "recipes"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "recipe_beans" ADD CONSTRAINT "recipe_beans_bean_id_beans_id_fk" FOREIGN KEY ("bean_id") REFERENCES "beans"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

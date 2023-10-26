@@ -1,12 +1,12 @@
 import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-
 import { products } from './Domain/Entities/products';
 import { recipes } from './Domain/Entities/recipes';
 import { orders, orderRelations } from './Domain/Entities/orders';
 import { orders_products } from './Domain/Entities/orders_products';
 import { ordersProductsRelations } from './Domain/Entities/orders_products';
+import { drizzle } from 'drizzle-orm/postgres-js';
 
+console.log('in here');
 const databaseClient = postgres(process.env.CONNECTION_STRING || '', {
   max: 1
 });

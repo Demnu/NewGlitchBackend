@@ -5,12 +5,6 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 import { migrationConfig } from '../drizzle.config';
-import ordermentumClient from './ordermentumConnection';
-import { orders } from './Domain/Entities/orders';
-import { eq, inArray } from 'drizzle-orm';
-import { readProducts } from './Utilities/Ordermentum/readAndSaveProducts';
-import { orders_products } from './Domain/Entities/orders_products';
-import { products } from './Domain/Entities/products';
 import ordersController from './Controllers/ordersController';
 import ordermentumController from './Controllers/ordermentumController';
 

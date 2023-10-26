@@ -1,4 +1,4 @@
-import { Product } from '../db/schema/products';
+import { Product } from '../../Domain/Entities/products';
 
 interface data {
   price: string;

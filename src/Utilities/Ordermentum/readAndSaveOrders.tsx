@@ -1,6 +1,6 @@
-import { Order } from '../db/schema/orders';
-import { Order_Products } from '../db/schema/orders_products';
-import { Product } from '../db/schema/products';
+import { Order } from '../../Domain/Entities/orders';
+import { Order_Products } from '../../Domain/Entities/orders_products';
+import { Product } from '../../Domain/Entities/products';
 interface ProductsAndOrders {
   formattedOrders: Order[];
   orderProductsFormatted: Order_Products[];
@@ -26,7 +26,10 @@ interface LineItem {
   price: string;
   quantity: number;
 }
-export const readOrders = (orders: OrderFromOrdermentumType[], supplierId: string | undefined) => {
+export const readOrders = (
+  orders: OrderFromOrdermentumType[],
+  supplierId: string | undefined
+) => {
   const t = 0;
   const data: ProductsAndOrders = {
     formattedOrders: [],
@@ -44,7 +47,7 @@ export const readOrders = (orders: OrderFromOrdermentumType[], supplierId: strin
       data.orderProductsFormatted.push({
         orderId: order.id,
         productId: item.productId,
-        amountOrdered: item.quantity,
+        amountOrdered: item.quantity
       });
     });
     data.formattedOrders.push(tempOrder);

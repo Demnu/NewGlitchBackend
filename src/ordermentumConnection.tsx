@@ -1,5 +1,7 @@
 import createClient from 'ordermentum-sdk';
 
-export const OrdermentumClient = createClient({
+const ordermentumClient = createClient({
   token: process.env.ORDERMENTUM_TOKEN || ''
 });
+
+export default ordermentumClient;

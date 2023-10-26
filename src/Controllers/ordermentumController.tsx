@@ -4,7 +4,19 @@ import saveOrdersFromOrdermentumCommand from '../CQRS/Ordermentum/Commands/saveO
 
 const router = Router();
 
-router.get('/saveProductsFromOrdermentum', saveProductsFromOrdermentumCommand);
-router.get('/saveOrdersFromOrdermentum', saveOrdersFromOrdermentumCommand);
+router.post(
+  '/saveProductsFromOrdermentum',
+  saveProductsFromOrdermentumCommand
+  /*
+  #swagger.tags = ['Ordermentum']
+  */
+);
+router.post(
+  '/saveOrdersFromOrdermentum',
+  saveOrdersFromOrdermentumCommand
+  /*
+  #swagger.tags = ['Ordermentum']
+  */
+);
 
 export default router;

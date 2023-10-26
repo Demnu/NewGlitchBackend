@@ -25,6 +25,7 @@ const app: Application = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
+
 app.use('/orders', ordersController);
 app.use('/ordermentum', ordermentumController);
 
@@ -66,11 +67,14 @@ setInterval(
 ); // 10 minutes in milliseconds
 
 app.get('/', (req, res) => {
+  /*
+    #swagger.ignore = true
+  */
   res.render('welcome');
 });
 
 app.get('/applyMigrations', async (req: Request, res: Response) => {
-  // #swagger.tags = ['Orders']
+  // #swagger.ignore = true
   try {
     const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
       max: 1

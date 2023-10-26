@@ -3,8 +3,6 @@ import OrderDto from './orderDto';
 import db from '../../../dbConnection';
 import { Product } from '../../../Domain/Entities/products';
 const listOrders = async (req: Request, res: Response) => {
-  // #swagger.tags = ['Orders']
-  // const result = await db.query.orders_products.findMany({with:{order:'true'}})
   const results = await db.query.orders.findMany({
     with: {
       order_products: { with: { product: true } }

@@ -11,51 +11,11 @@
     "http"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/applyMigrations": {
+    "/orders/listOrders": {
       "get": {
         "tags": [
           "Orders"
         ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/orders/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/orders/about": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/orders/listOrders": {
-      "get": {
         "description": "",
         "responses": {
           "default": {
@@ -65,7 +25,10 @@
       }
     },
     "/ordermentum/saveProductsFromOrdermentum": {
-      "get": {
+      "post": {
+        "tags": [
+          "Ordermentum"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -75,7 +38,10 @@
       }
     },
     "/ordermentum/saveOrdersFromOrdermentum": {
-      "get": {
+      "post": {
+        "tags": [
+          "Ordermentum"
+        ],
         "description": "",
         "responses": {
           "default": {

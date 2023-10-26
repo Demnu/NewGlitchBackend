@@ -9,7 +9,6 @@ const saveProductsFromOrdermentumCommand = async (
   req: Request,
   res: Response
 ) => {
-  // #swagger.tags = ['Orders']
   try {
     const result = await getProductsFromOrdermentum();
     res.send(result);

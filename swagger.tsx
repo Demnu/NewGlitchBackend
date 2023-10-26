@@ -14,7 +14,6 @@ const doc = {
   host: environment == 'local' ? localAddress : serverAddress
 };
 
-const endpointsFiles = ['./src/app.tsx'];
 const developmentLocation = './src/swagger_output.json';
 
 const productionLocation = './dist/src/swagger_output.json';

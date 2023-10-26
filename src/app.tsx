@@ -46,7 +46,7 @@ const startServer = async () => {
 
 startServer();
 
-// Schedule the tasks to run every 10 minutesxw
+// Schedule the tasks to run every 10 minutes
 setInterval(
   async () => {
     try {

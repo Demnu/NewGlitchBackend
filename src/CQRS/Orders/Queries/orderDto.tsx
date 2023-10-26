@@ -4,4 +4,5 @@ export default interface OrderDto {
   orderId?: string;
   customerName?: string | null;
   products?: Product[];
+  dateCreated: string;
 }

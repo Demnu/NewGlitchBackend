@@ -10,9 +10,12 @@ const listOrders = async (req: Request, res: Response) => {
   });
 
   var orderDtos: OrderDto[] = results.map((result) => {
+    // Convert UTC Date to server's local Date
+
     var orderDto: OrderDto = {
       orderId: result.id,
-      customerName: result.customerName
+      customerName: result.customerName,
+      dateCreated: new Date(result.createdAt).toLocaleString()
     };
     var products: Product[] = result.order_products
       .map((op) => op.product)
@@ -20,6 +23,14 @@ const listOrders = async (req: Request, res: Response) => {
     orderDto.products = products;
     return orderDto;
   });
+
+  // sort by descending order
+  orderDtos = orderDtos.sort((a, b) => {
+    const dateA = new Date(a.dateCreated);
+    const dateB = new Date(b.dateCreated);
+    return dateB.getTime() - dateA.getTime();
+  });
+
   res.send(orderDtos);
 };
 

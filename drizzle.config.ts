@@ -4,13 +4,13 @@ import { MigrationConfig } from "drizzle-orm/migrator";
 
 
 export default {
-  schema: "./src/db/schema",
-  out: "./src/db/migrations/",
+  schema: "./src/Domain/Entities",
+  out: "./src/Domain/Migrations",
   driver:'pg',
   dbCredentials:{connectionString: process.env.CONNECTION_STRING || ""}
 } satisfies Config;
 
 export const migrationConfig: MigrationConfig = {
-  migrationsFolder: './src/db/migrations/'
+  migrationsFolder: "./src/Domain/Migrations"
 };
 

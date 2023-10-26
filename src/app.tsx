@@ -16,7 +16,7 @@ import ordermentumController from './Controllers/ordermentumController';
 
 import db from './dbConnection';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
-import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand.tsx';
+import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
 const path = require('path');

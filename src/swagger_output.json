@@ -21,38 +21,6 @@
         }
       }
     },
-    "/getProductsFromOrdermentum": {
-      "get": {
-        "tags": [
-          "Orders"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/getOrdersFromOrdermentum": {
-      "get": {
-        "tags": [
-          "Orders"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/applyMigrations": {
       "get": {
         "tags": [
@@ -86,7 +54,27 @@
         }
       }
     },
-    "/orders/getOrders": {
+    "/orders/listOrders": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/ordermentum/saveProductsFromOrdermentum": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/ordermentum/saveOrdersFromOrdermentum": {
       "get": {
         "description": "",
         "responses": {

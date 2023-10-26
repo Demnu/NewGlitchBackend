@@ -1,13 +1,17 @@
 import 'dotenv/config';
 const swaggerAutogen = require('swagger-autogen')();
-const host = process.env.SWAGGER_HOST;
-
+const localAddress = process.env.LOCAL_ADDRESS;
+const serverAddress = process.env.SERVER_ADDRESS;
+const environment = process.env.ENVIRONMENT;
+console.log(localAddress);
+console.log(serverAddress);
+console.log(environment);
 const doc = {
   info: {
     title: 'Glitch Backend'
     // description: 'Description'
   },
-  host: host
+  host: environment == 'local' ? localAddress : serverAddress
 };
 
 const endpointsFiles = ['./src/app.tsx'];
@@ -20,4 +24,5 @@ const routes = ['./src/app.tsx'];
 root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
 swaggerAutogen(developmentLocation, routes, doc);
+
 swaggerAutogen(productionLocation, routes, doc);

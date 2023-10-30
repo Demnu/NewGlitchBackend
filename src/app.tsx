@@ -7,6 +7,7 @@ import postgres from 'postgres';
 import { migrationConfig } from '../drizzle.config';
 import ordersController from './Controllers/ordersController';
 import ordermentumController from './Controllers/ordermentumController';
+import recipesController from './Controllers/recipesController';
 
 import db from './dbConnection';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use('/orders', ordersController);
 app.use('/ordermentum', ordermentumController);
+app.use('/recipes', recipesController);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));

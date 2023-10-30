@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import readRecipesFromMongoCommand from '../CQRS/Commands/readRecipesFromMongoCommand';
+import readRecipesFromMongoCommand from '../CQRS/Mongo/Commands/readRecipesFromMongoCommand';
 
 const router = Router();
 

@@ -49,6 +49,19 @@
           }
         }
       }
+    },
+    "/recipes/listRecipes": {
+      "get": {
+        "tags": [
+          "Recipes"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   }
 }

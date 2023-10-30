@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import OrderDto from './orderDto';
 import db from '../../../dbConnection';
 import { Product } from '../../../Domain/Entities/products';
-const listOrders = async (req: Request, res: Response) => {
+const listOrdersQuery = async (req: Request, res: Response) => {
   const results = await db.query.orders.findMany({
     with: {
       order_products: { with: { product: true } }
@@ -34,4 +34,4 @@ const listOrders = async (req: Request, res: Response) => {
   res.send(orderDtos);
 };
 
-export default listOrders;
+export default listOrdersQuery;

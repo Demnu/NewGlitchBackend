@@ -11,6 +11,9 @@ import ordermentumController from './Controllers/ordermentumController';
 import db from './dbConnection';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
 import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
+import { RecipeTransformer } from './Utilities/ReadFromMongo/readAndSaveRecipesFromMongo';
+import { Recipe, recipes } from './Domain/Entities/recipes';
+import { Recipe_Beans, recipe_beans } from './Domain/Entities/recipe_beans';
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
 const path = require('path');
@@ -60,7 +63,7 @@ setInterval(
   10 * 60 * 1000
 ); // 10 minutes in milliseconds
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   /*
     #swagger.ignore = true
   */

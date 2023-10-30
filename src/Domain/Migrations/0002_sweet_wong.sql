@@ -1,0 +1,1 @@
+ALTER TABLE "recipe_beans" ALTER COLUMN "amount_ordered" SET DATA TYPE double precision;

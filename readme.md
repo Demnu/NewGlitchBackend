@@ -3,7 +3,7 @@
 
 # New and Improved Glitchhub Backend 🚀 (WIP)
 
-We're excited to bring you the revamped backend, now packed with cutting-edge features and integrations. Here's a quick run-down:
+Here's a quick run-down:
 
 ## Features:
 
@@ -17,4 +17,8 @@ We're excited to bring you the revamped backend, now packed with cutting-edge fe
 - **Docker Support**: Easily containerize and deploy the application with confidence.
 - **TypeScript Integration**: 🌟 finally....
 
+## TODO:
+- **Integration/Unit Tests**
+- **Authentication/Authorization**
+- **Complete endpoints!**
 ---

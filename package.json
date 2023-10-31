@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node swagger.tsx && ts-node-dev --respawn --transpile-only src/app.tsx",
+    "dev": "ts-node swagger.tsx && npx swagger-typescript-api -p ./src/swagger_output.json -o ./src -n myApi.ts --axios && ts-node-dev --respawn --transpile-only src/app.tsx",
     "start": "ts-node dist/src/app.js",
-    "generate": "drizzle-kit generate:pg",
+    "generate-swagger": "drizzle-kit generate:pg",
+    "generate-apiClient": "npx swagger-typescript-api -p ./src/swagger_output.json -o ./src -n myApi.ts --axios",
     "build": "tsc -p . && ts-node swagger.tsx",
     "studio": "npx drizzle-kit studio",
     "pretty": "prettier --config .prettierrc 'src/**/*.ts' --write"
@@ -33,7 +34,10 @@
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "swagger-autogen": "^2.23.6",
+    "swagger-typescript-api": "^13.0.3",
+    "swagger-ui-express": "^5.0.0"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -43,8 +47,6 @@
     "mysql2": "^3.6.2",
     "ordermentum-sdk": "^1.1.0",
     "pg": "^8.11.3",
-    "postgres": "^3.3.5",
-    "swagger-autogen": "^2.23.6",
-    "swagger-ui-express": "^5.0.0"
+    "postgres": "^3.3.5"
   }
 }

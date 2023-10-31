@@ -194,11 +194,12 @@ export class Api<
     /**
      * No description
      *
+     * @tags Orders
      * @name ListOrdersList
      * @request GET:/orders/listOrders
      */
     listOrdersList: (params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.request<void, void>({
         path: `/orders/listOrders`,
         method: 'GET',
         ...params
@@ -242,7 +243,7 @@ export class Api<
      * @request GET:/recipes/listRecipes
      */
     listRecipesList: (params: RequestParams = {}) =>
-      this.request<any, void>({
+      this.request<void, void>({
         path: `/recipes/listRecipes`,
         method: 'GET',
         ...params
@@ -255,10 +256,18 @@ export class Api<
      * @name CreateRecipeCreate
      * @request POST:/recipes/createRecipe
      */
-    createRecipeCreate: (params: RequestParams = {}) =>
-      this.request<any, void>({
+    createRecipeCreate: (
+      body: {
+        /** @example "any" */
+        recipe?: any;
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<void, void>({
         path: `/recipes/createRecipe`,
         method: 'POST',
+        body: body,
+        type: ContentType.Json,
         ...params
       })
   };

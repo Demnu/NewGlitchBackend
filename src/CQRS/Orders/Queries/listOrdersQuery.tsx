@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import OrderDto from './orderDto';
 import db from '../../../dbConnection';
 import { Product } from '../../../Domain/Entities/products';
-const listOrdersQuery = async (req: Request, res: Response) => {
+const listOrdersQuery = async () => {
   const results = await db.query.orders.findMany({
     with: {
       order_products: { with: { product: true } }
@@ -31,7 +31,7 @@ const listOrdersQuery = async (req: Request, res: Response) => {
     return dateB.getTime() - dateA.getTime();
   });
 
-  res.send(orderDtos);
+  return orderDtos;
 };
 
 export default listOrdersQuery;

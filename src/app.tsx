@@ -5,13 +5,14 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 import { migrationConfig } from '../drizzle.config';
-import ordersController from './Controllers/ordersController';
+import ordersRoutes from './Routes/ordersRoutes';
 import ordermentumController from './Controllers/ordermentumController';
-import recipesController from './Controllers/recipesController';
-
+import recipeRoutes from './Routes/recipeRoutes';
 import db from './dbConnection';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
 import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
+import { Api } from './myApi';
+import OrderDto from './CQRS/Orders/Queries/orderDto';
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
 const path = require('path');
@@ -21,13 +22,15 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 
-app.use('/orders', ordersController);
+app.use('/orders', ordersRoutes);
 app.use('/ordermentum', ordermentumController);
-app.use('/recipes', recipesController);
+app.use('/recipes', recipeRoutes);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
+
+const api = new Api();
 
 const startServer = async () => {
   try {
@@ -66,6 +69,8 @@ app.get('/', async (req, res) => {
   /*
     #swagger.ignore = true
   */
+  var orders: OrderDto[] = (await api.orders.listOrdersList()).data;
+  var t = orders[1].customerName;
   res.render('welcome');
 });
 

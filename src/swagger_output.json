@@ -64,7 +64,10 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Recieve recipes!",
+            "schema": {
+              "$ref": "#/definitions/OrderDtos"
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -140,6 +143,63 @@
                 "price": {
                   "type": "number",
                   "example": 123
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "RecipeDtos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1234
+          },
+          "productId": {
+            "type": "string",
+            "example": "Blurger"
+          },
+          "recipeName": {
+            "type": "string",
+            "example": "Yummy Blend"
+          },
+          "recipe_beans": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "beanId": {
+                  "type": "number",
+                  "example": 2
+                },
+                "recipeId": {
+                  "type": "number",
+                  "example": 3
+                },
+                "amountOrdered": {
+                  "type": "number",
+                  "example": 100
+                },
+                "bean": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "beanName": {
+                      "type": "string",
+                      "example": "Roasty bean"
+                    }
+                  }
                 }
               }
             }

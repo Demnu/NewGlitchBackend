@@ -6,6 +6,10 @@ import { Recipe } from '../Domain/Entities/recipes';
 const router = Router();
 
 const listRecipesController = async (req: Request, res: Response) => {
+  /* #swagger.responses[200] = {
+            description: 'Recieve recipes!',
+            schema: { $ref: '#/definitions/OrderDtos' }
+    } */
   try {
     const results = await listRecipesQuery();
     res.send(results);

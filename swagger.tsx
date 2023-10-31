@@ -4,6 +4,7 @@ const localAddress = process.env.LOCAL_ADDRESS;
 const serverAddress = process.env.SERVER_ADDRESS;
 const environment = process.env.ENVIRONMENT;
 import { OrderDtoJsonSchema } from './src/CQRS/Orders/Queries/orderDto';
+import { RecipeDtoJsonSchema } from './src/CQRS/Recipes/Queries/recipesDto';
 console.log();
 const doc = {
   info: {
@@ -11,8 +12,8 @@ const doc = {
     // description: 'Description'
   },
   definitions: {
-    Recipe: { RecipeName: '10100101', Count: 100101 },
-    OrderDtos: [OrderDtoJsonSchema]
+    OrderDtos: [OrderDtoJsonSchema],
+    RecipeDtos: [RecipeDtoJsonSchema]
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

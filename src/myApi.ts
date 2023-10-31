@@ -35,6 +35,31 @@ export type OrderDtos = {
   }[];
 }[];
 
+export type RecipeDtos = {
+  /** @example 1234 */
+  id?: number;
+  /** @example "Blurger" */
+  productId?: string;
+  /** @example "Yummy Blend" */
+  recipeName?: string;
+  recipe_beans?: {
+    /** @example 1 */
+    id?: number;
+    /** @example 2 */
+    beanId?: number;
+    /** @example 3 */
+    recipeId?: number;
+    /** @example 100 */
+    amountOrdered?: number;
+    bean?: {
+      /** @example 2 */
+      id?: number;
+      /** @example "Roasty bean" */
+      beanName?: string;
+    };
+  }[];
+}[];
+
 import type {
   AxiosInstance,
   AxiosRequestConfig,
@@ -269,7 +294,7 @@ export class Api<
      * @request GET:/recipes/listRecipes
      */
     listRecipesList: (params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<OrderDtos, void>({
         path: `/recipes/listRecipes`,
         method: 'GET',
         ...params

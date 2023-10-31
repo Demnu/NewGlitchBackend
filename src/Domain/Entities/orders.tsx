@@ -1,11 +1,4 @@
-import {
-  pgTable,
-  serial,
-  timestamp,
-  integer,
-  varchar,
-  date
-} from 'drizzle-orm/pg-core';
+import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { orders_products } from './orders_products';
 import { relations } from 'drizzle-orm';
 

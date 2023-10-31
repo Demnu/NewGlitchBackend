@@ -3,13 +3,16 @@ const swaggerAutogen = require('swagger-autogen')();
 const localAddress = process.env.LOCAL_ADDRESS;
 const serverAddress = process.env.SERVER_ADDRESS;
 const environment = process.env.ENVIRONMENT;
-console.log(localAddress);
-console.log(serverAddress);
-console.log(environment);
+import { OrderDtoJsonSchema } from './src/CQRS/Orders/Queries/orderDto';
+console.log();
 const doc = {
   info: {
     title: 'Glitch Backend'
     // description: 'Description'
+  },
+  definitions: {
+    Recipe: { RecipeName: '10100101', Count: 100101 },
+    OrderDtos: [OrderDtoJsonSchema]
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

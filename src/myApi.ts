@@ -9,6 +9,32 @@
  * ---------------------------------------------------------------
  */
 
+export interface Recipe {
+  /** @example "10100101" */
+  RecipeName?: string;
+  /** @example 100101 */
+  Count?: number;
+}
+
+export type OrderDtos = {
+  /** @example "123" */
+  orderId?: string;
+  /** @example "08/09/1998" */
+  dateCreated?: string;
+  /** @example "Harry" */
+  customerName?: string;
+  products?: {
+    /** @example "Haywire Blend" */
+    productName?: string;
+    /** @example "12345" */
+    id?: string;
+    /** @example true */
+    possiblyCoffee?: boolean;
+    /** @example 123 */
+    price?: number;
+  }[];
+}[];
+
 import type {
   AxiosInstance,
   AxiosRequestConfig,
@@ -199,7 +225,7 @@ export class Api<
      * @request GET:/orders/listOrders
      */
     listOrdersList: (params: RequestParams = {}) =>
-      this.request<void, void>({
+      this.request<OrderDtos, void>({
         path: `/orders/listOrders`,
         method: 'GET',
         ...params
@@ -256,18 +282,10 @@ export class Api<
      * @name CreateRecipeCreate
      * @request POST:/recipes/createRecipe
      */
-    createRecipeCreate: (
-      body: {
-        /** @example "any" */
-        recipe?: any;
-      },
-      params: RequestParams = {}
-    ) =>
+    createRecipeCreate: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/recipes/createRecipe`,
         method: 'POST',
-        body: body,
-        type: ContentType.Json,
         ...params
       })
   };

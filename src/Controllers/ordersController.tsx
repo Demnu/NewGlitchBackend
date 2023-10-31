@@ -4,6 +4,10 @@ import listOrdersQuery from '../CQRS/Orders/Queries/listOrdersQuery';
 const router = Router();
 
 const listOrdersController = async (req: Request, res: Response) => {
+  /* #swagger.responses[200] = {
+            description: 'Recieve orders!',
+            schema: { $ref: '#/definitions/OrderDtos' }
+    } */
   try {
     const results = await listOrdersQuery();
     res.send(results);

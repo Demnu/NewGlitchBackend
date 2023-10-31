@@ -26,7 +26,7 @@ const listRecipesController = async (req: Request, res: Response) => {
 
 const createRecipeController = async (req: Request, res: Response) => {
   try {
-    const recipe: Recipe = req.body.recipe;
+    const recipe = req.body as Recipe;
     const result = await createRecipeCommand(recipe);
     res.send(result);
   } catch (error) {

@@ -22,9 +22,21 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 
-app.use('/orders', ordersRoutes);
+app.use(
+  '/orders',
+  ordersRoutes
+  /*
+    #swagger.tags = ['Orders']
+  */
+);
 app.use('/ordermentum', ordermentumController);
-app.use('/recipes', recipeRoutes);
+app.use(
+  '/recipes',
+  recipeRoutes
+  /*
+    #swagger.tags = ['Recipes']
+  */
+);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -69,8 +81,6 @@ app.get('/', async (req, res) => {
   /*
     #swagger.ignore = true
   */
-  var orders: OrderDto[] = (await api.orders.listOrdersList()).data;
-  var t = orders[1].customerName;
   res.render('welcome');
 });
 

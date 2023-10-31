@@ -11,5 +11,5 @@
     "skipLibCheck": true,
   },
   "include": [ "*.tsx"],
-  "exclude": ["node_modules", "api","*.ts"]
+  "exclude": ["node_modules"]
 }

@@ -6,3 +6,17 @@ export default interface OrderDto {
   products?: Product[];
   dateCreated: string;
 }
+
+export const OrderDtoJsonSchema: OrderDto = {
+  orderId: '123',
+  dateCreated: '08/09/1998',
+  customerName: 'Harry',
+  products: [
+    {
+      productName: 'Haywire Blend',
+      id: '12345',
+      possiblyCoffee: true,
+      price: 123
+    }
+  ]
+};

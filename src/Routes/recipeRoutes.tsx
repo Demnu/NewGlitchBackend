@@ -6,20 +6,8 @@ import {
 
 const router = Router();
 
-router.get(
-  '/listRecipes',
-  listRecipesController
-  /*
-  #swagger.tags = ['Recipes']
-  */
-);
+router.get('/listRecipes', listRecipesController);
 
-router.post(
-  '/createRecipe',
-  createRecipeController
-  /*
-  #swagger.tags = ['Recipes']
-  */
-);
+router.post('/createRecipe', createRecipeController);
 
 export default router;

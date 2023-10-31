@@ -19,7 +19,10 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Recieve orders!",
+            "schema": {
+              "$ref": "#/definitions/OrderDtos"
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -75,26 +78,71 @@
           "Recipes"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "recipe": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Recipe": {
+      "type": "object",
+      "properties": {
+        "RecipeName": {
+          "type": "string",
+          "example": "10100101"
+        },
+        "Count": {
+          "type": "number",
+          "example": 100101
+        }
+      }
+    },
+    "OrderDtos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "example": "123"
+          },
+          "dateCreated": {
+            "type": "string",
+            "example": "08/09/1998"
+          },
+          "customerName": {
+            "type": "string",
+            "example": "Harry"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productName": {
+                  "type": "string",
+                  "example": "Haywire Blend"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "12345"
+                },
+                "possiblyCoffee": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "price": {
+                  "type": "number",
+                  "example": 123
+                }
+              }
+            }
           }
         }
       }

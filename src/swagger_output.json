@@ -81,6 +81,16 @@
           "Recipes"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Create a recipe!",
+            "schema": {
+              "$ref": "#/definitions/RecipeRequestDto"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -93,56 +103,136 @@
     }
   },
   "definitions": {
-    "Recipe": {
+    "OrderDtos": {
       "type": "object",
       "properties": {
-        "RecipeName": {
+        "type": {
           "type": "string",
-          "example": "10100101"
+          "example": "array"
         },
-        "Count": {
-          "type": "number",
-          "example": 100101
-        }
-      }
-    },
-    "OrderDtos": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "orderId": {
-            "type": "string",
-            "example": "123"
-          },
-          "dateCreated": {
-            "type": "string",
-            "example": "08/09/1998"
-          },
-          "customerName": {
-            "type": "string",
-            "example": "Harry"
-          },
-          "products": {
-            "type": "array",
-            "items": {
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "object"
+            },
+            "properties": {
               "type": "object",
               "properties": {
-                "productName": {
-                  "type": "string",
-                  "example": "Haywire Blend"
+                "orderId": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "123"
+                    }
+                  }
                 },
-                "id": {
-                  "type": "string",
-                  "example": "12345"
+                "dateCreated": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "08/09/1998"
+                    }
+                  }
                 },
-                "possiblyCoffee": {
-                  "type": "boolean",
-                  "example": true
+                "customerName": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Harry"
+                    }
+                  }
                 },
-                "price": {
-                  "type": "number",
-                  "example": 123
+                "products": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "array"
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "productName": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "Haywire Blend"
+                                }
+                              }
+                            },
+                            "id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "12345"
+                                }
+                              }
+                            },
+                            "possiblyCoffee": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "boolean"
+                                },
+                                "example": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "price": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 123
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -151,53 +241,262 @@
       }
     },
     "RecipeDtos": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "example": 1234
-          },
-          "productId": {
-            "type": "string",
-            "example": "Blurger"
-          },
-          "recipeName": {
-            "type": "string",
-            "example": "Yummy Blend"
-          },
-          "recipe_beans": {
-            "type": "array",
-            "items": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "array"
+        },
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "object"
+            },
+            "properties": {
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "number",
-                  "example": 1
-                },
-                "beanId": {
-                  "type": "number",
-                  "example": 2
-                },
-                "recipeId": {
-                  "type": "number",
-                  "example": 3
-                },
-                "amountOrdered": {
-                  "type": "number",
-                  "example": 100
-                },
-                "bean": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 2
-                    },
-                    "beanName": {
+                    "type": {
                       "type": "string",
-                      "example": "Roasty bean"
+                      "example": "number"
+                    },
+                    "example": {
+                      "type": "number",
+                      "example": 1234
+                    }
+                  }
+                },
+                "productId": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Blurger"
+                    }
+                  }
+                },
+                "recipeName": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Yummy Blend"
+                    }
+                  }
+                },
+                "recipe_beans": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "array"
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 1
+                                }
+                              }
+                            },
+                            "beanId": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 2
+                                }
+                              }
+                            },
+                            "recipeId": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 3
+                                }
+                              }
+                            },
+                            "amountOrdered": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 100
+                                }
+                              }
+                            },
+                            "bean": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "object"
+                                },
+                                "properties": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "example": "number"
+                                        },
+                                        "example": {
+                                          "type": "number",
+                                          "example": 2
+                                        }
+                                      }
+                                    },
+                                    "beanName": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "example": {
+                                          "type": "string",
+                                          "example": "Roasty bean"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "RecipeRequestDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "productId": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "2"
+                }
+              }
+            },
+            "recipeName": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Yummy recipe"
+                }
+              }
+            },
+            "beans": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "beanId": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 4
+                            }
+                          }
+                        },
+                        "beanAmount": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 400
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }

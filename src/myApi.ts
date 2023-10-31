@@ -9,56 +9,190 @@
  * ---------------------------------------------------------------
  */
 
-export interface Recipe {
-  /** @example "10100101" */
-  RecipeName?: string;
-  /** @example 100101 */
-  Count?: number;
+export interface OrderDtos {
+  /** @example "array" */
+  type?: string;
+  items?: {
+    /** @example "object" */
+    type?: string;
+    properties?: {
+      orderId?: {
+        /** @example "string" */
+        type?: string;
+        /** @example "123" */
+        example?: string;
+      };
+      dateCreated?: {
+        /** @example "string" */
+        type?: string;
+        /** @example "08/09/1998" */
+        example?: string;
+      };
+      customerName?: {
+        /** @example "string" */
+        type?: string;
+        /** @example "Harry" */
+        example?: string;
+      };
+      products?: {
+        /** @example "array" */
+        type?: string;
+        items?: {
+          /** @example "object" */
+          type?: string;
+          properties?: {
+            productName?: {
+              /** @example "string" */
+              type?: string;
+              /** @example "Haywire Blend" */
+              example?: string;
+            };
+            id?: {
+              /** @example "string" */
+              type?: string;
+              /** @example "12345" */
+              example?: string;
+            };
+            possiblyCoffee?: {
+              /** @example "boolean" */
+              type?: string;
+              /** @example true */
+              example?: boolean;
+            };
+            price?: {
+              /** @example "number" */
+              type?: string;
+              /** @example 123 */
+              example?: number;
+            };
+          };
+        };
+      };
+    };
+  };
 }
 
-export type OrderDtos = {
-  /** @example "123" */
-  orderId?: string;
-  /** @example "08/09/1998" */
-  dateCreated?: string;
-  /** @example "Harry" */
-  customerName?: string;
-  products?: {
-    /** @example "Haywire Blend" */
-    productName?: string;
-    /** @example "12345" */
-    id?: string;
-    /** @example true */
-    possiblyCoffee?: boolean;
-    /** @example 123 */
-    price?: number;
-  }[];
-}[];
-
-export type RecipeDtos = {
-  /** @example 1234 */
-  id?: number;
-  /** @example "Blurger" */
-  productId?: string;
-  /** @example "Yummy Blend" */
-  recipeName?: string;
-  recipe_beans?: {
-    /** @example 1 */
-    id?: number;
-    /** @example 2 */
-    beanId?: number;
-    /** @example 3 */
-    recipeId?: number;
-    /** @example 100 */
-    amountOrdered?: number;
-    bean?: {
-      /** @example 2 */
-      id?: number;
-      /** @example "Roasty bean" */
-      beanName?: string;
+export interface RecipeDtos {
+  /** @example "array" */
+  type?: string;
+  items?: {
+    /** @example "object" */
+    type?: string;
+    properties?: {
+      id?: {
+        /** @example "number" */
+        type?: string;
+        /** @example 1234 */
+        example?: number;
+      };
+      productId?: {
+        /** @example "string" */
+        type?: string;
+        /** @example "Blurger" */
+        example?: string;
+      };
+      recipeName?: {
+        /** @example "string" */
+        type?: string;
+        /** @example "Yummy Blend" */
+        example?: string;
+      };
+      recipe_beans?: {
+        /** @example "array" */
+        type?: string;
+        items?: {
+          /** @example "object" */
+          type?: string;
+          properties?: {
+            id?: {
+              /** @example "number" */
+              type?: string;
+              /** @example 1 */
+              example?: number;
+            };
+            beanId?: {
+              /** @example "number" */
+              type?: string;
+              /** @example 2 */
+              example?: number;
+            };
+            recipeId?: {
+              /** @example "number" */
+              type?: string;
+              /** @example 3 */
+              example?: number;
+            };
+            amountOrdered?: {
+              /** @example "number" */
+              type?: string;
+              /** @example 100 */
+              example?: number;
+            };
+            bean?: {
+              /** @example "object" */
+              type?: string;
+              properties?: {
+                id?: {
+                  /** @example "number" */
+                  type?: string;
+                  /** @example 2 */
+                  example?: number;
+                };
+                beanName?: {
+                  /** @example "string" */
+                  type?: string;
+                  /** @example "Roasty bean" */
+                  example?: string;
+                };
+              };
+            };
+          };
+        };
+      };
     };
-  }[];
-}[];
+  };
+}
+
+export interface RecipeRequestDto {
+  /** @example "object" */
+  type?: string;
+  properties?: {
+    productId?: {
+      /** @example "string" */
+      type?: string;
+      /** @example "2" */
+      example?: string;
+    };
+    recipeName?: {
+      /** @example "string" */
+      type?: string;
+      /** @example "Yummy recipe" */
+      example?: string;
+    };
+    beans?: {
+      /** @example "array" */
+      type?: string;
+      items?: {
+        /** @example "object" */
+        type?: string;
+        properties?: {
+          beanId?: {
+            /** @example "number" */
+            type?: string;
+            /** @example 4 */
+            example?: number;
+          };
+          beanAmount?: {
+            /** @example "number" */
+            type?: string;
+            /** @example 400 */
+            example?: number;
+          };
+        };
+      };
+    };
+  };
+}
 
 import type {
   AxiosInstance,
@@ -307,10 +441,12 @@ export class Api<
      * @name CreateRecipeCreate
      * @request POST:/recipes/createRecipe
      */
-    createRecipeCreate: (params: RequestParams = {}) =>
+    createRecipeCreate: (body: RecipeRequestDto, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/recipes/createRecipe`,
         method: 'POST',
+        body: body,
+        type: ContentType.Json,
         ...params
       })
   };

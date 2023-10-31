@@ -5,15 +5,17 @@ const serverAddress = process.env.SERVER_ADDRESS;
 const environment = process.env.ENVIRONMENT;
 import { OrderDtoJsonSchema } from './src/CQRS/Orders/Queries/orderDto';
 import { RecipeDtoJsonSchema } from './src/CQRS/Recipes/Queries/recipesDto';
+import { CreateRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/createRecipeRequestDto';
 console.log();
 const doc = {
   info: {
     title: 'Glitch Backend'
-    // description: 'Description'
   },
   definitions: {
+    // if swagger doc parameters look glitched just re-run npm run dev or npm run generate-swagger
     OrderDtos: [OrderDtoJsonSchema],
-    RecipeDtos: [RecipeDtoJsonSchema]
+    RecipeDtos: [RecipeDtoJsonSchema],
+    RecipeRequestDto: CreateRecipeRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

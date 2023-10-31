@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import listRecipesQuery from '../CQRS/Recipes/Queries/listRecipesQuery';
 import createRecipeCommand from '../CQRS/Recipes/Commands/createRecipeCommand';
 import { Recipe } from '../Domain/Entities/recipes';
+import { CreateRecipeRequestDto } from '../CQRS/Recipes/Commands/createRecipeRequestDto';
 
 const router = Router();
 
@@ -29,8 +30,13 @@ const listRecipesController = async (req: Request, res: Response) => {
 };
 
 const createRecipeController = async (req: Request, res: Response) => {
+  /*  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Create a recipe!',
+            schema: { $ref: '#/definitions/RecipeRequestDto' }
+    } */
   try {
-    const recipe = req.body as Recipe;
+    const recipe = req.body as CreateRecipeRequestDto;
     const result = await createRecipeCommand(recipe);
     res.send(result);
   } catch (error) {

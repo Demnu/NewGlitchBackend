@@ -4,11 +4,13 @@ Here's a quick run-down:
 
 ## Features:
 
+- **Postgres**: Had to go back to the tried and true. Goodbye Mongo 👋
 - **CQRS Implementation**: Efficiently handle different data access operations.
 - **Swagger Integration**: Seamless API documentation and testing.
 - **Automatic Client API Generation**: Javascript clients now have a nice type-safe way to communicate with the server.
 - **Drizzle-Orm Integration**:
-  - Straightforward database operations.
+  - Entities can be added, removed or edited easily.
+  - Drizzle studio. Browse, add, delete and update anything in the database on the fly. 🏃‍♂️
   - Integrated migrations for easier DB management.
 - **Ordermentum API Connection**: Say goodbye to manually reading orders from emails!
 - **Docker Support**: Easily containerize and deploy the application. 🐳

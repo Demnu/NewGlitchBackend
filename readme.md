@@ -12,7 +12,7 @@ Here's a quick run-down:
   - Integrated migrations for easier DB management.
 - **Ordermentum API Connection**: Say goodbye to manually reading orders from emails!
 - **Docker Support 🐳**: Easily containerize and deploy the application.
-- **TypeScript Integration 💫**: finally....
+- **TypeScript Integration 💫**: Finally....
 ## TODO:
 - Integration/Unit Tests
 - Authentication/Authorization

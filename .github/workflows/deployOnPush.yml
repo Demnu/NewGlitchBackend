@@ -4,12 +4,13 @@ on: [push]  # This will trigger the workflow on every push event to the reposito
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Specifies the runner environment.
+    runs-on: self-hosted  # This specifies that the job should run on the self-hosted runner
+    if: github.actor == 'Demnu'
 
     steps:
-    - uses: actions/checkout@v2  # Checks-out your repository under $GITHUB_WORKSPACE
-
+    - uses: actions/checkout@v2
     - name: Run script
       run: |
         chmod +x ./deploy.sh
         ./deploy.sh
+

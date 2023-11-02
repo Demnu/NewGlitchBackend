@@ -4,7 +4,7 @@ import {
 } from '../../../Domain/Entities/recipe_beans';
 import { Recipe, recipes } from '../../../Domain/Entities/recipes';
 import { RecipeTransformer } from '../../../Utilities/ReadFromMongo/readAndSaveRecipesFromMongo';
-import db from '../../../dbConnection';
+import { db } from '../../../dbConnection';
 import { Request, Response } from 'express';
 
 const readRecipesFromMongoCommand = async (req: Request, res: Response) => {

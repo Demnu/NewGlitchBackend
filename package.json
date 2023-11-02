@@ -47,6 +47,9 @@
     "mysql2": "^3.6.2",
     "ordermentum-sdk": "^1.1.0",
     "pg": "^8.11.3",
-    "postgres": "^3.3.5"
+    "postgres": "^3.3.5",
+    "prom-client": "^15.0.0",
+    "zod": "^3.22.4",
+    "zod-validation-error": "^2.1.0"
   }
 }

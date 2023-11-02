@@ -1,56 +1,36 @@
-import { Router, Request, Response } from 'express';
-import listRecipesQuery from '../CQRS/Recipes/Queries/listRecipesQuery';
-import createRecipeCommand from '../CQRS/Recipes/Commands/createRecipeCommand';
-import { Recipe } from '../Domain/Entities/recipes';
-import { CreateRecipeRequestDto } from '../CQRS/Recipes/Commands/createRecipeRequestDto';
+import { Router, Request, Response, NextFunction } from 'express';
+import { listRecipesQuery } from '../CQRS/Recipes/Queries/listRecipesQuery';
+import { createRecipeCommand } from '../CQRS/Recipes/Commands/createRecipeCommand';
+import { fromZodError } from 'zod-validation-error';
 
+import { CreateRecipeRequestDtoSchema } from '../CQRS/Recipes/Commands/createRecipeRequestDto';
+import { ZodError, z } from 'zod';
 const router = Router();
 
-const listRecipesController = async (req: Request, res: Response) => {
-  /* #swagger.responses[200] = {
-            description: 'Recieve recipes!',
-            schema: { $ref: '#/definitions/OrderDtos' }
-    } */
+const listRecipesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const results = await listRecipesQuery();
     res.send(results);
   } catch (error) {
-    // Check if the error is an instance of the Error class
-    if (error instanceof Error) {
-      res
-        .status(500)
-        .send({ message: 'Failed to create recipe', error: error.message });
-    } else {
-      res.status(500).send({
-        message: 'Failed to create recipe',
-        error: 'Unknown error occurred'
-      });
-    }
+    next(error);
   }
 };
 
-const createRecipeController = async (req: Request, res: Response) => {
-  /*  #swagger.parameters['body'] = {
-            in: 'body',
-            description: 'Create a recipe!',
-            schema: { $ref: '#/definitions/RecipeRequestDto' }
-    } */
+const createRecipeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const recipe = req.body as CreateRecipeRequestDto;
-    const result = await createRecipeCommand(recipe);
+    CreateRecipeRequestDtoSchema.parse(req.body);
+    const result = await createRecipeCommand(req.body);
     res.send(result);
   } catch (error) {
-    // Check if the error is an instance of the Error class
-    if (error instanceof Error) {
-      res
-        .status(500)
-        .send({ message: 'Failed to create recipe', error: error.message });
-    } else {
-      res.status(500).send({
-        message: 'Failed to create recipe',
-        error: 'Unknown error occurred'
-      });
-    }
+    next(error);
   }
 };
 

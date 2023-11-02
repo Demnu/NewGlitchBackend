@@ -8,10 +8,11 @@ import { migrationConfig } from '../drizzle.config';
 import ordersRoutes from './Routes/ordersRoutes';
 import ordermentumController from './Controllers/ordermentumController';
 import recipeRoutes from './Routes/recipeRoutes';
-import db from './dbConnection';
+import { db } from './dbConnection';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
 import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 import { Api } from './myApi';
+import { errorHandler } from './Middlewares/errorHandler';
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
 const path = require('path');
@@ -36,6 +37,8 @@ app.use(
     #swagger.tags = ['Recipes']
   */
 );
+
+app.use(errorHandler);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));

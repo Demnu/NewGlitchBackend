@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import saveProductsFromOrdermentumCommand from '../CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
-import saveOrdersFromOrdermentumCommand from '../CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
+import { saveProductsFromOrdermentumCommand } from '../CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
+import { saveOrdersFromOrdermentumCommand } from '../CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import ordermentumClient from '../../../ordermentumConnection';
-import db from '../../../dbConnection';
+import { db } from '../../../dbConnection';
 import { eq, inArray } from 'drizzle-orm';
 import { orders } from '../../../Domain/Entities/orders';
 import { readOrders } from '../../../Utilities/Ordermentum/readAndSaveOrders';
@@ -99,4 +99,4 @@ export async function getOrdersFromOrdermentum(): Promise<string> {
   return 'Orders saved!';
 }
 
-export default saveOrdersFromOrdermentumCommand;
+export { saveOrdersFromOrdermentumCommand };

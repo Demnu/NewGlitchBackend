@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import OrderDto from './orderDto';
-import db from '../../../dbConnection';
+import { db } from '../../../dbConnection';
 import { Product } from '../../../Domain/Entities/products';
 const listOrdersQuery = async () => {
   const results = await db.query.orders.findMany({
@@ -34,4 +34,4 @@ const listOrdersQuery = async () => {
   return orderDtos;
 };
 
-export default listOrdersQuery;
+export { listOrdersQuery };

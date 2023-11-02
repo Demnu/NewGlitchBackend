@@ -1,5 +1,5 @@
 import { arrayContained, arrayContains, eq, inArray } from 'drizzle-orm';
-import db from '../../../dbConnection';
+import { db } from '../../../dbConnection';
 import { beans } from '../../../Domain/Entities/beans';
 import {
   recipe_beans,
@@ -71,4 +71,4 @@ const areBeanIdsValid = async (
   );
 };
 
-export default createRecipeCommand;
+export { createRecipeCommand };

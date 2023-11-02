@@ -30,4 +30,4 @@ const db = drizzle(databaseClient, {
     ordersProductsRelations
   }
 });
-export default db;
+export { db };

@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import ordermentumClient from '../../../ordermentumConnection';
 import { Product } from '../../../Domain/Entities/products';
-import db from '../../../dbConnection';
+import { db } from '../../../dbConnection';
 import { products } from '../../../Domain/Entities/products';
 import { eq, inArray } from 'drizzle-orm';
 
@@ -137,4 +137,4 @@ const checkIfPossiblyCoffee = (name: string, sku: string): boolean => {
   return false;
 };
 
-export default saveProductsFromOrdermentumCommand;
+export { saveProductsFromOrdermentumCommand };

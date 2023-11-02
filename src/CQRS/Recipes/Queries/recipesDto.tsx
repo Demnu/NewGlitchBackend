@@ -3,7 +3,7 @@ import { Product } from '../../../Domain/Entities/products';
 import { Recipe_Beans } from '../../../Domain/Entities/recipe_beans';
 import { Recipe } from '../../../Domain/Entities/recipes';
 
-export default interface RecipeDto extends Recipe {
+interface RecipeDto extends Recipe {
   recipe_beans: RecipeBeans_Beans[];
 }
 
@@ -25,3 +25,5 @@ export const RecipeDtoJsonSchema: RecipeDto = {
     }
   ]
 };
+
+export { RecipeDto };

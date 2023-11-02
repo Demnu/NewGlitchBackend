@@ -9,8 +9,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run script
-      run: |
-        chmod +x ./deploy.sh
-        ./deploy.sh
 
+    - name: Set execute permissions on deploy script
+      run: chmod +x ./deploy.sh
+
+    - name: Copy .env file
+      run: cp /root/NewGlitchBackend/.env $GITHUB_WORKSPACE/.env
+
+    - name: Run deploy script
+      run: ./deploy.sh

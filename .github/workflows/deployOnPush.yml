@@ -14,7 +14,7 @@ jobs:
       run: chmod +x ./deploy.sh
 
     - name: Copy .env file
-      run: cp /root/NewGlitchBackend/.env $GITHUB_WORKSPACE/.env
+      run: cp /opt/actions-runner/.env $GITHUB_WORKSPACE/.env
 
     - name: Run deploy script
       run: ./deploy.sh

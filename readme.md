@@ -15,7 +15,7 @@ Here's a quick run-down:
 - **Ordermentum API Connection**: Say goodbye to manually reading orders from emails!
 - **Docker Support**: Easily containerize and deploy the application. 🐳
 - **TypeScript Integration**: Finally... 💫
-- **Zod Integratio**: Robust validation with Zod schemas, ensuring that  data conforms to the type before it hits the server-side logic.
+- **Zod Integration**: Robust validation with Zod schemas, ensuring that  data conforms to the type before it hits the server-side logic.
 ## TODO:
 - Integration/Unit Tests
 - Authentication/Authorization

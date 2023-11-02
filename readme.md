@@ -15,8 +15,17 @@ Here's a quick run-down:
 - **Ordermentum API Connection**: Say goodbye to manually reading orders from emails!
 - **Docker Support**: Easily containerize and deploy the application. 🐳
 - **TypeScript Integration**: Finally... 💫
+- **Zod Integratio**: Robust validation with Zod schemas, ensuring that  data conforms to the type before it hits the server-side logic.
 ## TODO:
 - Integration/Unit Tests
 - Authentication/Authorization
 - Complete endpoints!
 - Robust error handling ❌
+
+## Libraries:
+- drizzle-orm
+- swagger-autogen
+- swagger-typescript-api
+- swagger-ui-express
+- zod
+

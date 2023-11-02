@@ -1,0 +1,15 @@
+name: Deploy on push
+
+on: [push]  # This will trigger the workflow on every push event to the repository.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Specifies the runner environment.
+
+    steps:
+    - uses: actions/checkout@v2  # Checks-out your repository under $GITHUB_WORKSPACE
+
+    - name: Run script
+      run: |
+        chmod +x ./deploy.sh
+        ./deploy.sh

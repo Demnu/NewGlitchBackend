@@ -4,8 +4,12 @@ import { recipes } from './recipes';
 import { beans } from './beans';
 export const recipe_beans = pgTable('recipe_beans', {
   id: serial('id').primaryKey(),
-  recipeId: integer('recipe_id').references(() => recipes.id),
-  beanId: integer('bean_id').references(() => beans.id),
+  recipeId: integer('recipe_id')
+    .references(() => recipes.id)
+    .notNull(),
+  beanId: integer('bean_id')
+    .references(() => beans.id)
+    .notNull(),
   amountOrdered: doublePrecision('amount_ordered').notNull()
 });
 export const recipeBeansRelations = relations(recipe_beans, ({ one }) => ({

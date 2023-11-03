@@ -7,6 +7,7 @@ import {
   boolean
 } from 'drizzle-orm/pg-core';
 import { orders_products } from './orders_products';
+import { recipes } from './recipes';
 
 export const products = pgTable('products', {
   id: varchar('id').primaryKey().notNull(),
@@ -16,8 +17,9 @@ export const products = pgTable('products', {
   possiblyCoffee: boolean('possibly_coffee').notNull()
 });
 
-export const orderRelations = relations(products, ({ many }) => ({
-  order_products: many(orders_products)
+export const productRelations = relations(products, ({ many, one }) => ({
+  order_products: many(orders_products),
+  recipe: one(recipes)
 }));
 
 export type Product = typeof products.$inferInsert;

@@ -53,43 +53,36 @@ const readRecipesFromMongoCommand = async (req: Request, res: Response) => {
     return recipe;
   });
 
+  // NOTE because I have only retreived new products from ordermentum some recipes wont have a corresponding product id and will not be saved to the database
+  // add recipes and recipe_beans to database
   recipesTemp.forEach(async (recipe) => {
     if (recipe.productId != undefined) {
       const newRecipe: Recipe = {
         recipeName: recipe.recipeName,
         productId: recipe.productId
       };
-      const savedRecipe = await db.insert(recipes).values(newRecipe);
+      await db.transaction(async (tx) => {
+        const savedRecipe = await tx
+          .insert(recipes)
+          .values(newRecipe)
+          .returning({ insertedId: recipes.id });
+
+        // create recipe bean entries
+        recipe.beans.forEach(async (bean) => {
+          if (!!bean.beanId) {
+            const recipeBeanEntry: Recipe_Beans = {
+              recipeId: savedRecipe[0].insertedId,
+              beanId: bean.beanId,
+              amountOrdered: bean.amount
+            };
+            await tx.insert(recipe_beans).values(recipeBeanEntry);
+          } else {
+            tx.rollback();
+          }
+        });
+      });
     }
   });
-  // Query the database to get all saved recipes
-  const savedRecipes = await db.query.recipes.findMany();
-
-  // Map recipe names to their IDs
-  const recipeNameToIdMap = savedRecipes.reduce(
-    (acc, recipe) => {
-      if (recipe.recipeName) {
-        // Check if recipeName is not null
-        acc[recipe.recipeName] = recipe.id;
-      }
-      return acc;
-    },
-    {} as { [key: string]: number }
-  ); // Assuming recipe.id is a number
-  // Create entries in the Recipe_Beans entity
-
-  for (let recipe of recipesTemp) {
-    const recipeId = recipeNameToIdMap[recipe.recipeName];
-    for (let bean of recipe.beans) {
-      const recipeBeanEntry: Recipe_Beans = {
-        recipeId: recipeId,
-        beanId: bean.beanId,
-        amountOrdered: bean.amount
-      };
-      // Save the recipeBeanEntry to the Recipe_Beans entity
-      await db.insert(recipe_beans).values(recipeBeanEntry);
-    }
-  }
 };
 
 export default readRecipesFromMongoCommand;

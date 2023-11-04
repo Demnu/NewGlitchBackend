@@ -1,11 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { listRecipesQuery } from '../CQRS/Recipes/Queries/listRecipesQuery';
 import { createRecipeCommand } from '../CQRS/Recipes/Commands/createRecipeCommand';
-import { fromZodError } from 'zod-validation-error';
-
 import { CreateRecipeRequestDtoSchema } from '../CQRS/Recipes/Commands/createRecipeRequestDto';
-import { ZodError, z } from 'zod';
-const router = Router();
 
 const listRecipesController = async (
   req: Request,

@@ -6,8 +6,9 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 import { migrationConfig } from '../drizzle.config';
 import ordersRoutes from './Routes/ordersRoutes';
-import ordermentumController from './Controllers/ordermentumController';
 import recipeRoutes from './Routes/recipeRoutes';
+import calculationsRoutes from './Routes/calculationsRoutes';
+import ordermentumController from './Controllers/ordermentumController';
 import { db } from './dbConnection';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
 import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
@@ -35,6 +36,13 @@ app.use(
   recipeRoutes
   /*
     #swagger.tags = ['Recipes']
+  */
+);
+app.use(
+  '/calculations',
+  calculationsRoutes
+  /*
+    #swagger.tags = ['Calculations']
   */
 );
 

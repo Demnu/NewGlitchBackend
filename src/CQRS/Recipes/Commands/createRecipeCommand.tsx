@@ -1,4 +1,4 @@
-import { arrayContained, arrayContains, eq, inArray } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 import { db } from '../../../dbConnection';
 import { beans } from '../../../Domain/Entities/beans';
 import {
@@ -22,20 +22,21 @@ const createRecipeCommand = async (recipeRequest: CreateRecipeRequestDto) => {
   if (!(await areBeanIdsValid(recipeRequest))) {
     throw new Error('Invalid bean IDs provided.');
   }
+  await db.transaction(async (tx) => {
+    const result = await tx
+      .insert(recipes)
+      .values(recipe)
+      .returning({ insertedId: recipes.id });
 
-  const result = await db
-    .insert(recipes)
-    .values(recipe)
-    .returning({ insertedId: recipes.id });
+    const recipeBeans: Recipe_Beans[] = recipeRequest.beans.map((temp) => ({
+      recipeId: result[0].insertedId,
+      beanId: temp.beanId,
+      amountOrdered: temp.beanAmount
+    }));
 
-  const recipeBeans: Recipe_Beans[] = recipeRequest.beans.map((temp) => ({
-    recipeId: result[0].insertedId,
-    beanId: temp.beanId,
-    amountOrdered: temp.beanAmount
-  }));
-
-  await db.insert(recipe_beans).values(recipeBeans);
-  return result;
+    await tx.insert(recipe_beans).values(recipeBeans);
+    return result;
+  });
 };
 
 const isProductIdValid = async (

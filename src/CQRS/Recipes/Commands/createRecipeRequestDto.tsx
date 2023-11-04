@@ -1,4 +1,3 @@
-import { Recipe } from '../../../Domain/Entities/recipes';
 import { z } from 'zod';
 
 const BeanRecipeSchema = z.object({
@@ -14,7 +13,7 @@ const CreateRecipeRequestDtoSchema = z.object({
 
 type CreateRecipeRequestDto = z.infer<typeof CreateRecipeRequestDtoSchema>;
 
-export const CreateRecipeRequestDtoJsonSchema: CreateRecipeRequestDto = {
+const CreateRecipeRequestDtoJsonSchema: CreateRecipeRequestDto = {
   productId: '2',
   recipeName: 'Yummy recipe',
   beans: [
@@ -22,4 +21,8 @@ export const CreateRecipeRequestDtoJsonSchema: CreateRecipeRequestDto = {
     { beanId: 4, beanAmount: 400 }
   ]
 };
-export { CreateRecipeRequestDtoSchema, CreateRecipeRequestDto };
+export {
+  CreateRecipeRequestDto,
+  CreateRecipeRequestDtoSchema,
+  CreateRecipeRequestDtoJsonSchema
+};

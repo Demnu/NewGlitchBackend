@@ -102,7 +102,7 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Mae a calculation!",
+            "description": "Make a calculation!",
             "schema": {
               "$ref": "#/definitions/MakeCalculationRequestDto"
             }
@@ -110,7 +110,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Recieve a products tally, beans tally and the corresponding order ids!",
+            "schema": {
+              "$ref": "#/definitions/MakeCalculationResponseDto"
+            }
           }
         }
       }
@@ -154,6 +157,10 @@
                 "price": {
                   "type": "number",
                   "example": 123
+                },
+                "sku": {
+                  "type": "string",
+                  "example": "HW_B"
                 }
               }
             }
@@ -253,11 +260,80 @@
         "orderIds": {
           "type": "array",
           "example": [
-            "2b156adb-78fc-43d8-a7c8-24b018f5818f",
-            "e7dc7578-0867-4863-b682-65a7568a5bdc"
+            "a0d1b2b9-b532-477f-a9a5-f4158d49f28c",
+            "95119cbc-2430-430e-be94-1fbf2906824c"
           ],
           "items": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "MakeCalculationResponseDto": {
+      "type": "object",
+      "properties": {
+        "ordersCalculatedInformation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "orderId": {
+                "type": "string",
+                "example": "2b156adb-78fc-43d8-a7c8-24b018f5818f"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "10/12/2023"
+              },
+              "customerName": {
+                "type": "string",
+                "example": "Autumn Rooms"
+              }
+            }
+          }
+        },
+        "productsTally": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": {
+                "type": "string",
+                "example": "2"
+              },
+              "productName": {
+                "type": "string",
+                "example": "Sweet Kicks Blend 1kg"
+              },
+              "amountOrdered": {
+                "type": "number",
+                "example": 50
+              },
+              "hasRecipe": {
+                "type": "boolean",
+                "example": true
+              }
+            }
+          }
+        },
+        "beansTally": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "beanId": {
+                "type": "number",
+                "example": 2
+              },
+              "beanName": {
+                "type": "string",
+                "example": "Indonesia"
+              },
+              "amountNeededToBeRoasted": {
+                "type": "number",
+                "example": 50000
+              }
+            }
           }
         }
       }

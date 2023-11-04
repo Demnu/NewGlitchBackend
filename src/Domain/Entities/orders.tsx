@@ -4,8 +4,8 @@ import { relations } from 'drizzle-orm';
 
 export const orders = pgTable('orders', {
   id: varchar('id').primaryKey().notNull(),
-  customerName: varchar('customer_name', { length: 256 }),
-  supplierName: varchar('supplier_name', { length: 256 }),
+  customerName: varchar('customer_name', { length: 256 }).notNull(),
+  supplierName: varchar('supplier_name', { length: 256 }).notNull(),
   createdAt: timestamp('created_at', {
     mode: 'string',
     withTimezone: true
@@ -13,7 +13,7 @@ export const orders = pgTable('orders', {
   updatedAt: timestamp('updated_at', {
     mode: 'string',
     withTimezone: true
-  })
+  }).notNull()
 });
 
 export const orderRelations = relations(orders, ({ many }) => ({

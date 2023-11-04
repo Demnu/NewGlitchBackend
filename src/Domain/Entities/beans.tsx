@@ -4,7 +4,7 @@ import { relations } from 'drizzle-orm';
 
 export const beans = pgTable('beans', {
   id: serial('id').primaryKey(),
-  beanName: varchar('bean_name', { length: 256 })
+  beanName: varchar('bean_name', { length: 256 }).notNull()
 });
 
 export const beansRelations = relations(beans, ({ many }) => ({

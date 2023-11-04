@@ -9,189 +9,97 @@
  * ---------------------------------------------------------------
  */
 
-export interface OrderDtos {
-  /** @example "array" */
-  type?: string;
-  items?: {
-    /** @example "object" */
-    type?: string;
-    properties?: {
-      orderId?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "123" */
-        example?: string;
-      };
-      dateCreated?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "08/09/1998" */
-        example?: string;
-      };
-      customerName?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "Harry" */
-        example?: string;
-      };
-      products?: {
-        /** @example "array" */
-        type?: string;
-        items?: {
-          /** @example "object" */
-          type?: string;
-          properties?: {
-            productName?: {
-              /** @example "string" */
-              type?: string;
-              /** @example "Haywire Blend" */
-              example?: string;
-            };
-            id?: {
-              /** @example "string" */
-              type?: string;
-              /** @example "12345" */
-              example?: string;
-            };
-            possiblyCoffee?: {
-              /** @example "boolean" */
-              type?: string;
-              /** @example true */
-              example?: boolean;
-            };
-            price?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 123 */
-              example?: number;
-            };
-          };
-        };
-      };
-    };
-  };
-}
+export type OrderDtos = {
+  /** @example "123" */
+  orderId?: string;
+  /** @example "08/09/1998" */
+  dateCreated?: string;
+  /** @example "Harry" */
+  customerName?: string;
+  products?: {
+    /** @example "Haywire Blend" */
+    productName?: string;
+    /** @example "12345" */
+    id?: string;
+    /** @example true */
+    possiblyCoffee?: boolean;
+    /** @example 123 */
+    price?: number;
+    /** @example "HW_B" */
+    sku?: string;
+  }[];
+}[];
 
-export interface RecipeDtos {
-  /** @example "array" */
-  type?: string;
-  items?: {
-    /** @example "object" */
-    type?: string;
-    properties?: {
-      id?: {
-        /** @example "number" */
-        type?: string;
-        /** @example 1234 */
-        example?: number;
-      };
-      productId?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "Blurger" */
-        example?: string;
-      };
-      recipeName?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "Yummy Blend" */
-        example?: string;
-      };
-      recipe_beans?: {
-        /** @example "array" */
-        type?: string;
-        items?: {
-          /** @example "object" */
-          type?: string;
-          properties?: {
-            id?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 1 */
-              example?: number;
-            };
-            beanId?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 2 */
-              example?: number;
-            };
-            recipeId?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 3 */
-              example?: number;
-            };
-            amountOrdered?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 100 */
-              example?: number;
-            };
-            bean?: {
-              /** @example "object" */
-              type?: string;
-              properties?: {
-                id?: {
-                  /** @example "number" */
-                  type?: string;
-                  /** @example 2 */
-                  example?: number;
-                };
-                beanName?: {
-                  /** @example "string" */
-                  type?: string;
-                  /** @example "Roasty bean" */
-                  example?: string;
-                };
-              };
-            };
-          };
-        };
-      };
+export type RecipeDtos = {
+  /** @example 1234 */
+  id?: number;
+  /** @example "Blurger" */
+  productId?: string;
+  /** @example "Yummy Blend" */
+  recipeName?: string;
+  recipe_beans?: {
+    /** @example 1 */
+    id?: number;
+    /** @example 2 */
+    beanId?: number;
+    /** @example 3 */
+    recipeId?: number;
+    /** @example 100 */
+    amountOrdered?: number;
+    bean?: {
+      /** @example 2 */
+      id?: number;
+      /** @example "Roasty bean" */
+      beanName?: string;
     };
-  };
-}
+  }[];
+}[];
 
 export interface RecipeRequestDto {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    productId?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "2" */
-      example?: string;
-    };
-    recipeName?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "Yummy recipe" */
-      example?: string;
-    };
-    beans?: {
-      /** @example "array" */
-      type?: string;
-      items?: {
-        /** @example "object" */
-        type?: string;
-        properties?: {
-          beanId?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 4 */
-            example?: number;
-          };
-          beanAmount?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 400 */
-            example?: number;
-          };
-        };
-      };
-    };
-  };
+  /** @example "2" */
+  productId?: string;
+  /** @example "Yummy recipe" */
+  recipeName?: string;
+  beans?: {
+    /** @example 4 */
+    beanId?: number;
+    /** @example 400 */
+    beanAmount?: number;
+  }[];
+}
+
+export interface MakeCalculationRequestDto {
+  /** @example ["a0d1b2b9-b532-477f-a9a5-f4158d49f28c","95119cbc-2430-430e-be94-1fbf2906824c"] */
+  orderIds?: string[];
+}
+
+export interface MakeCalculationResponseDto {
+  ordersCalculatedInformation?: {
+    /** @example "2b156adb-78fc-43d8-a7c8-24b018f5818f" */
+    orderId?: string;
+    /** @example "10/12/2023" */
+    createdAt?: string;
+    /** @example "Autumn Rooms" */
+    customerName?: string;
+  }[];
+  productsTally?: {
+    /** @example "2" */
+    productId?: string;
+    /** @example "Sweet Kicks Blend 1kg" */
+    productName?: string;
+    /** @example 50 */
+    amountOrdered?: number;
+    /** @example true */
+    hasRecipe?: boolean;
+  }[];
+  beansTally?: {
+    /** @example 2 */
+    beanId?: number;
+    /** @example "Indonesia" */
+    beanName?: string;
+    /** @example 50000 */
+    amountNeededToBeRoasted?: number;
+  }[];
 }
 
 import type {
@@ -444,6 +352,26 @@ export class Api<
     createRecipeCreate: (body: RecipeRequestDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/recipes/createRecipe`,
+        method: 'POST',
+        body: body,
+        type: ContentType.Json,
+        ...params
+      })
+  };
+  calculations = {
+    /**
+     * No description
+     *
+     * @tags Calculations
+     * @name MakeCalculationCreate
+     * @request POST:/calculations/makeCalculation
+     */
+    makeCalculationCreate: (
+      body: MakeCalculationRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<MakeCalculationResponseDto, any>({
+        path: `/calculations/makeCalculation`,
         method: 'POST',
         body: body,
         type: ContentType.Json,

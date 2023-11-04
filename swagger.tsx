@@ -6,6 +6,8 @@ const environment = process.env.ENVIRONMENT;
 import { OrderDtoJsonSchema } from './src/CQRS/Orders/Queries/orderDto';
 import { RecipeDtoJsonSchema } from './src/CQRS/Recipes/Queries/recipesDto';
 import { CreateRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/createRecipeRequestDto';
+import { MakeCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationRequestDto';
+import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationResponseDto';
 console.log();
 const doc = {
   info: {
@@ -15,7 +17,9 @@ const doc = {
     // if swagger doc parameters look glitched just re-run npm run dev or npm run generate-swagger
     OrderDtos: [OrderDtoJsonSchema],
     RecipeDtos: [RecipeDtoJsonSchema],
-    RecipeRequestDto: CreateRecipeRequestDtoJsonSchema
+    RecipeRequestDto: CreateRecipeRequestDtoJsonSchema,
+    MakeCalculationRequestDto: MakeCalculationRequestDtoJsonSchema,
+    MakeCalculationResponseDto: MakeCalculationResponseDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

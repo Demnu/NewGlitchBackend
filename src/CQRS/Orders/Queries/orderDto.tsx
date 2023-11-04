@@ -16,7 +16,8 @@ export const OrderDtoJsonSchema: OrderDto = {
       productName: 'Haywire Blend',
       id: '12345',
       possiblyCoffee: true,
-      price: 123
+      price: 123,
+      sku: 'HW_B'
     }
   ]
 };

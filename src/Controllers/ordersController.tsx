@@ -1,7 +1,5 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { listOrdersQuery } from '../CQRS/Orders/Queries/listOrdersQuery';
-
-const router = Router();
 
 const listOrdersController = async (
   req: Request,

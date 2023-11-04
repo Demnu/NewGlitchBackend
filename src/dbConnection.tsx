@@ -1,5 +1,5 @@
 import postgres from 'postgres';
-import { products } from './Domain/Entities/products';
+import { products, productRelations } from './Domain/Entities/products';
 import { beans, beansRelations } from './Domain/Entities/beans';
 import { recipes, recipesRelations } from './Domain/Entities/recipes';
 import { orders, orderRelations } from './Domain/Entities/orders';
@@ -20,6 +20,7 @@ const db = drizzle(databaseClient, {
     beans,
     beansRelations,
     products,
+    productRelations,
     recipes,
     recipesRelations,
     recipe_beans,

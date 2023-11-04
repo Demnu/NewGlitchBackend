@@ -1,10 +1,20 @@
 import { Request, Response, Router } from 'express';
-import ordermentumClient from '../../../ordermentumConnection';
+import { ordermentumClient } from '../../../ordermentumConnection';
 import { db } from '../../../dbConnection';
-import { eq, inArray } from 'drizzle-orm';
-import { orders } from '../../../Domain/Entities/orders';
-import { readOrders } from '../../../Utilities/Ordermentum/readAndSaveOrders';
-import { orders_products } from '../../../Domain/Entities/orders_products';
+import { eq, inArray, sql } from 'drizzle-orm';
+import { Order, orders } from '../../../Domain/Entities/orders';
+import {
+  OrderFromOrdermentumType,
+  OrderExtended,
+  readOrders
+} from '../../../Utilities/Ordermentum/readAndSaveOrders';
+import {
+  orders_products,
+  Order_Products
+} from '../../../Domain/Entities/orders_products';
+import { Console } from 'console';
+import { Product, products } from '../../../Domain/Entities/products';
+import { readProductsFromFormattedOrders } from '../../../Utilities/Ordermentum/readAndSaveProducts';
 const saveOrdersFromOrdermentumCommand = async (
   req: Request,
   res: Response
@@ -18,7 +28,96 @@ const saveOrdersFromOrdermentumCommand = async (
   }
 };
 
-export async function getOrdersFromOrdermentum(): Promise<string> {
+export async function getOrdersFromOrdermentum(): Promise<string[]> {
+  // download orders using ordermentum api
+  const downloadedOrders = await downloadOrdersFromOrdermentum();
+  // format downloaded orders for database consumption
+  const formattedOrders = formatOrdersFromOrdermentum(downloadedOrders);
+
+  // save products from orders to database
+  const formattedProductsFromOrdersForDatabase =
+    readProductsFromFormattedOrders(formattedOrders);
+
+  formattedProductsFromOrdersForDatabase.forEach((product) => {
+    addProductFromOrderToDatabase(product);
+  });
+
+  // add orders to database
+  formattedOrders.forEach((order) => {
+    addOrderToDatabase(order);
+  });
+
+  const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
+
+  return orderIds;
+}
+
+const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
+  try {
+    await db.insert(products).values(productFromOrder).onConflictDoNothing();
+  } catch (error) {
+    console.error(`Error saving product`, error);
+    console.log(`${productFromOrder.id} - ${productFromOrder.productName}`);
+  }
+};
+
+const addOrderToDatabase = async (order: OrderExtended) => {
+  try {
+    await db.transaction(async (tx) => {
+      const orderForDatabase: Order = { ...order };
+      const result = await tx
+        .insert(orders)
+        .values(orderForDatabase)
+        .returning({ insertedId: orders.id })
+        .onConflictDoUpdate({
+          target: orders.id,
+          set: { updatedAt: sql`EXCLUDED."updated_at"` }
+        });
+
+      const orderProducts = order.orderProducts.map((product) => ({
+        ...product,
+        orderId: result[0].insertedId
+      }));
+
+      if (orderProducts.length > 0) {
+        // delete old order_products
+        await tx
+          .delete(orders_products)
+          .where(eq(orders_products.orderId, result[0].insertedId));
+
+        // add new order_products
+        await tx.insert(orders_products).values(orderProducts);
+      } else {
+        tx.rollback();
+        const errorMessage = `Order has no order_products`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+    });
+  } catch (error) {
+    console.error(
+      `Error saving order:: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}`,
+      error
+    );
+  }
+};
+
+interface test {
+  ordersFormatted: OrderFromOrdermentumType[];
+  suppliedId: string | undefined;
+}
+
+const formatOrdersFromOrdermentum = (
+  downloadedOrdersWithSupplierIds: test[]
+) => {
+  const formattedOrders = downloadedOrdersWithSupplierIds.flatMap((orders) => {
+    return readOrders(orders.ordersFormatted, orders.suppliedId);
+  });
+
+  return formattedOrders;
+};
+
+const downloadOrdersFromOrdermentum = async () => {
   // Set your custom pagination settings
   const customPagination = {
     pageSize: 30,
@@ -26,77 +125,54 @@ export async function getOrdersFromOrdermentum(): Promise<string> {
     filter: 'b0d7ba3e-4ab1-4c1b-85ec-1275cd6687b9'
   };
 
+  const distSupplierID = process.env.DIST_SUPPLIER_ID;
+  const flamSupplierId = process.env.FLAM_SUPPLIER_ID;
+  const glitchSupplierId = process.env.GLITCH_SUPPLIER_ID;
+
+  const data: test[] = [];
+
   // Fetch products for each supplier with the custom pagination settings
   const distResults = await ordermentumClient.orders.findAll({
     ...customPagination,
-    supplierId: process.env.DIST_SUPPLIER_ID
+    supplierId: distSupplierID
   });
   const flamResults = await ordermentumClient.orders.findAll({
     ...customPagination,
-    supplierId: process.env.FLAM_SUPPLIER_ID
+    supplierId: flamSupplierId
   });
   const glitchResults = await ordermentumClient.orders.findAll({
     ...customPagination,
-    supplierId: process.env.GLITCH_SUPPLIER_ID
+    supplierId: glitchSupplierId
   });
+  data.push(
+    { ordersFormatted: distResults.data, suppliedId: distSupplierID },
+    { ordersFormatted: flamResults.data, suppliedId: flamSupplierId },
+    { ordersFormatted: glitchResults.data, suppliedId: glitchSupplierId }
+  );
+  return data;
+};
 
-  let {
-    formattedOrders: distOrders,
-    orderProductsFormatted: distOrderProducts
-  } = readOrders(distResults.data, process.env.DIST_SUPPLIER_ID);
-
-  let {
-    formattedOrders: flamOrders,
-    orderProductsFormatted: flamOrderProducts
-  } = readOrders(flamResults.data, process.env.FLAM_SUPPLIER_ID);
-
-  let {
-    formattedOrders: glitchOrders,
-    orderProductsFormatted: glitchOrderProducts
-  } = readOrders(glitchResults.data, process.env.GLITCH_SUPPLIER_ID);
-
-  // update saved orders
-  const formattedOrders = [...distOrders, ...flamOrders, ...glitchOrders];
-
-  const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
-
-  const results = await db
-    .select()
-    .from(orders)
-    .where(inArray(orders.id, orderIds));
-
-  const orderPromises = results.map((order) => {
-    var updatedOrder = formattedOrders.find((o) => o.id == order.id);
-    if (updatedOrder) {
-      return db
-        .update(orders)
-        .set({
-          updatedAt: updatedOrder.updatedAt,
-          customerName: updatedOrder.customerName
-        })
-        .where(eq(orders.id, order.id));
-    }
-  });
-  await Promise.all(orderPromises);
-
+const updateOrders = (formattedOrders: OrderExtended[]) => {
+  // for updating Orders
+  // const results = await db
+  //   .select()
+  //   .from(orders)
+  //   .where(inArray(orders.id, orderIds));
+  // // this isnt fully working now
+  // const orderPromises = results.map((order) => {
+  //   var updatedOrder = formattedOrders.find((o) => o.id == order.id);
+  //   if (updatedOrder) {
+  //     return db
+  //       .update(orders)
+  //       .set({
+  //         updatedAt: updatedOrder.updatedAt,
+  //         customerName: updatedOrder.customerName
+  //       })
+  //       .where(eq(orders.id, order.id));
+  //   }
+  // });
+  // await Promise.all(orderPromises);
   // save unstored orders
-  await db.insert(orders).values(formattedOrders).onConflictDoNothing();
-
-  // save new order_products
-  const formattedOrdersProducts = [
-    ...distOrderProducts,
-    ...flamOrderProducts,
-    ...glitchOrderProducts
-  ];
-
-  const deletedResults = await db
-    .delete(orders_products)
-    .where(inArray(orders_products.orderId, orderIds));
-  const addOrdersProductsResults = await db
-    .insert(orders_products)
-    .values(formattedOrdersProducts);
-
-  return 'Orders saved!';
-}
+};
 
 export { saveOrdersFromOrdermentumCommand };

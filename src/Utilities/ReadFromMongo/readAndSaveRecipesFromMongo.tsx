@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import * as path from 'path';
 
 interface Bean {
   beanName: string;
@@ -21,7 +22,7 @@ export class RecipeTransformer {
   }
 
   transform(): Recipe[] {
-    const content = readFileSync(this.filePath, 'utf-8');
+    const content = readFileSync(path.join(__dirname, this.filePath), 'utf-8');
     const lines = content.trim().split('\n');
     return lines.map((line) => this.transformToDesiredFormat(JSON.parse(line)));
   }

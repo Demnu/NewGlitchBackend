@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import ordermentumClient from '../../../ordermentumConnection';
+import { ordermentumClient } from '../../../ordermentumConnection';
 import { Product } from '../../../Domain/Entities/products';
 import { db } from '../../../dbConnection';
 import { products } from '../../../Domain/Entities/products';
@@ -20,7 +20,7 @@ const saveProductsFromOrdermentumCommand = async (
 
 export async function getProductsFromOrdermentum(): Promise<string> {
   // Set your custom pagination settings
-  const customPagination = { pageSize: 500, pageNo: 1 };
+  const customPagination = { pageSize: 1000, pageNo: 1 };
 
   // Fetch products for each supplier with the custom pagination settings
   const distResults = await ordermentumClient.products.findAll({

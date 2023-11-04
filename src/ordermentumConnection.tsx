@@ -4,4 +4,4 @@ const ordermentumClient = createClient({
   token: process.env.ORDERMENTUM_TOKEN || ''
 });
 
-export default ordermentumClient;
+export { ordermentumClient };

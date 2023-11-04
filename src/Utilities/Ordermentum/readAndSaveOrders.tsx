@@ -1,12 +1,9 @@
 import { Order } from '../../Domain/Entities/orders';
 import { Order_Products } from '../../Domain/Entities/orders_products';
 import { Product } from '../../Domain/Entities/products';
-interface ProductsAndOrders {
-  formattedOrders: Order[];
-  orderProductsFormatted: Order_Products[];
-}
+import { checkIfPossiblyCoffee } from './readAndSaveProducts';
 
-interface OrderFromOrdermentumType {
+export interface OrderFromOrdermentumType {
   id: string;
   createdAt: string;
   createdBy: string;
@@ -20,39 +17,53 @@ interface OrderFromOrdermentumType {
   updatedAt: string;
 }
 
+export interface OrderExtended extends Order {
+  orderProducts: Order_Products[];
+  products: Product[];
+}
+
 interface LineItem {
   productId: string;
   name: string;
   price: string;
   quantity: number;
+  SKU: 'string';
 }
+
 export const readOrders = (
   orders: OrderFromOrdermentumType[],
   supplierId: string | undefined
 ) => {
-  const t = 0;
-  const data: ProductsAndOrders = {
-    formattedOrders: [],
-    orderProductsFormatted: []
-  };
+  const formattedOrders: OrderExtended[] = [];
+
   orders.forEach((order) => {
-    const tempOrder: Order = {
+    const tempOrder: OrderExtended = {
       id: order.id,
       customerName: order.retailerAlias,
       supplierName: getSupplierName(supplierId || ''),
       createdAt: order.createdAt,
-      updatedAt: order.updatedAt
+      updatedAt: order.updatedAt,
+      orderProducts: [],
+      products: []
     };
-    order.lineItems.forEach((item) => {
-      data.orderProductsFormatted.push({
+    const orderProducts: Order_Products[] = order.lineItems.map((item) => {
+      tempOrder.products.push({
+        id: item.productId,
+        productName: item.name,
+        price: parseFloat(item.price),
+        sku: item.SKU,
+        possiblyCoffee: checkIfPossiblyCoffee(item.name, item.SKU)
+      });
+      return {
         orderId: order.id,
         productId: item.productId,
         amountOrdered: item.quantity
-      });
+      };
     });
-    data.formattedOrders.push(tempOrder);
+    tempOrder.orderProducts = orderProducts;
+    formattedOrders.push(tempOrder);
   });
-  return data;
+  return formattedOrders;
 };
 
 const getSupplierName = (supplierId: string) => {

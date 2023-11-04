@@ -1,4 +1,5 @@
 import { Product } from '../../Domain/Entities/products';
+import { OrderExtended } from './readAndSaveOrders';
 
 interface data {
   price: string;
@@ -23,7 +24,23 @@ export const readProducts = (products: data[]) => {
   return formattedProducts;
 };
 
-const checkIfPossiblyCoffee = (name: string, sku: string): boolean => {
+export const readProductsFromFormattedOrders = (orders: OrderExtended[]) => {
+  const products: Product[] = [];
+  orders.forEach((order) => {
+    order.products.forEach((product) => {
+      products.push({
+        id: product.id,
+        productName: product.productName,
+        sku: product.sku,
+        price: product.price,
+        possiblyCoffee: checkIfPossiblyCoffee(product.productName, product.sku)
+      });
+    });
+  });
+  return products;
+};
+
+export const checkIfPossiblyCoffee = (name: string, sku: string): boolean => {
   const coffeeKeywords: string[] = [
     'BLEND',
     'Roast',

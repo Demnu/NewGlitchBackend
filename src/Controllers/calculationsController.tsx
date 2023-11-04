@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { makeCalculationCommand } from '../CQRS/Calculations/Commands/MakeCalculationCommand';
+import { makeCalculationCommand } from '../CQRS/Calculations/Commands/makeCalculationCommand';
 import { MakeCalculationRequestDtoSchema } from '../CQRS/Calculations/Commands/makeCalculationRequestDto';
 
 const makeCalculationController = async (

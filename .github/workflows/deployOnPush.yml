@@ -1,20 +1,20 @@
-name: Deploy on push
+# name: Deploy on push
 
-on: [push]  # This will trigger the workflow on every push event to the repository.
+# on: [push]  # This will trigger the workflow on every push event to the repository.
 
-jobs:
-  build:
-    runs-on: self-hosted  # This specifies that the job should run on the self-hosted runner
-    if: github.actor == 'Demnu'
+# jobs:
+#   build:
+#     runs-on: self-hosted  # This specifies that the job should run on the self-hosted runner
+#     if: github.actor == 'Demnu'
 
-    steps:
-    - uses: actions/checkout@v2
+#     steps:
+#     - uses: actions/checkout@v2
 
-    - name: Set execute permissions on deploy script
-      run: chmod +x ./deploy.sh
+#     - name: Set execute permissions on deploy script
+#       run: chmod +x ./deploy.sh
 
-    - name: Copy .env file
-      run: cp /opt/actions-runner/.env $GITHUB_WORKSPACE/.env
+#     - name: Copy .env file
+#       run: cp /opt/actions-runner/.env $GITHUB_WORKSPACE/.env
 
-    - name: Run deploy script
-      run: ./deploy.sh
+#     - name: Run deploy script
+#       run: ./deploy.sh

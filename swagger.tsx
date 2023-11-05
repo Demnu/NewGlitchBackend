@@ -23,7 +23,7 @@ const doc = {
     RecipeRequestDto: CreateRecipeRequestDtoJsonSchema,
     MakeCalculationRequestDto: MakeCalculationRequestDtoJsonSchema,
     MakeCalculationResponseDto: MakeCalculationResponseDtoJsonSchema,
-    ProductExtendedDto: ProductExtendedJsonSchema
+    ProductExtendedJsonSchema: ProductExtendedJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

@@ -114,6 +114,12 @@ const makeCalculationCommand = async (
       };
     });
 
+  // set all orders to state calculated
+  await db
+    .update(orders)
+    .set({ orderStatus: 'calculated' })
+    .where(inArray(orders.id, orderIds));
+
   return {
     ordersCalculatedInformation: ordersCalculatedInformation,
     productsTally: Array.from(productsTally.values()),

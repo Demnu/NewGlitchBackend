@@ -21,7 +21,8 @@ const listOrdersQuery = async () => {
     var orderDto: OrderDto = {
       id: order.id,
       customerName: order.customerName,
-      dateCreated: new Date(order.createdAt).toLocaleString()
+      dateCreated: new Date(order.createdAt).toLocaleString(),
+      orderStatus: order.orderStatus
     };
 
     var products: ProductExtended[] = order.order_products.map((op) => {

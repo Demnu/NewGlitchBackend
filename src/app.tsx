@@ -64,7 +64,6 @@ const api = new Api();
 
 const startServer = async () => {
   try {
-    const result = await db.query.orders.findFirst();
     console.log(`server is running on PORT ${PORT}`);
     app.listen(PORT, () => {});
   } catch (error) {

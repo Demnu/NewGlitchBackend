@@ -1,11 +1,12 @@
 import 'dotenv/config';
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen');
 const localAddress = process.env.LOCAL_ADDRESS;
 const serverAddress = process.env.SERVER_ADDRESS;
 const environment = process.env.ENVIRONMENT;
 import {
   OrderDtoJsonSchema,
-  ProductExtendedJsonSchema
+  ProductExtendedJsonSchema,
+  OrderStatusEnumJsonSchema
 } from './src/CQRS/Orders/Queries/orderDto';
 import { RecipeDtoJsonSchema } from './src/CQRS/Recipes/Queries/recipesDto';
 import { CreateRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/createRecipeRequestDto';
@@ -24,7 +25,8 @@ const doc = {
     RecipeRequestDto: CreateRecipeRequestDtoJsonSchema,
     MakeCalculationRequestDto: MakeCalculationRequestDtoJsonSchema,
     MakeCalculationResponseDto: MakeCalculationResponseDtoJsonSchema,
-    ProductExtendedJsonSchema: ProductExtendedJsonSchema
+    ProductExtendedJsonSchema: ProductExtendedJsonSchema,
+    OrderStatusEnum: OrderStatusEnumJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

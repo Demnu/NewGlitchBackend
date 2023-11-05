@@ -137,6 +137,13 @@
             "type": "string",
             "example": "Harry"
           },
+          "orderStatus": {
+            "type": "string",
+            "enum": [
+              "notCalculated",
+              "calculated"
+            ]
+          },
           "products": {
             "type": "array",
             "items": {
@@ -187,6 +194,7 @@
           "id",
           "dateCreated",
           "customerName",
+          "orderStatus",
           "products"
         ]
       }
@@ -205,6 +213,25 @@
         "customerName": {
           "type": "string",
           "example": "Harry"
+        },
+        "orderStatus": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "string"
+            },
+            "enum": {
+              "type": "array",
+              "example": [
+                "notCalculated",
+                "calculated"
+              ],
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         },
         "products": {
           "type": "array",
@@ -256,6 +283,7 @@
         "id",
         "dateCreated",
         "customerName",
+        "orderStatus",
         "products"
       ]
     },
@@ -469,6 +497,21 @@
         "sku",
         "amountOrdered",
         "hasRecipe"
+      ]
+    },
+    "OrderStatusEnum": {
+      "type": "object",
+      "properties": {
+        "orderStatus": {
+          "type": "string",
+          "enum": [
+            "notCalculated",
+            "calculated"
+          ]
+        }
+      },
+      "required": [
+        "orderStatus"
       ]
     }
   }

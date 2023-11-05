@@ -44,7 +44,8 @@ export const readOrders = (
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
       orderProducts: [],
-      products: []
+      products: [],
+      orderStatus: 'notCalculated'
     };
     const orderProducts: Order_Products[] = order.lineItems.map((item) => {
       tempOrder.products.push({

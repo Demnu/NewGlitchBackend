@@ -1,8 +1,10 @@
-import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { orders_products } from './orders_products';
 import { relations } from 'drizzle-orm';
 
-export const orders = pgTable('orders', {
+const orderStatusEnum = pgEnum('order_status', ['notCalculated', 'calculated']);
+
+const orders = pgTable('orders', {
   id: varchar('id').primaryKey().notNull(),
   customerName: varchar('customer_name', { length: 256 }).notNull(),
   supplierName: varchar('supplier_name', { length: 256 }).notNull(),
@@ -13,11 +15,14 @@ export const orders = pgTable('orders', {
   updatedAt: timestamp('updated_at', {
     mode: 'string',
     withTimezone: true
-  }).notNull()
+  }).notNull(),
+  orderStatus: orderStatusEnum('order_status').notNull()
 });
 
-export const orderRelations = relations(orders, ({ many }) => ({
+const orderRelations = relations(orders, ({ many }) => ({
   order_products: many(orders_products)
 }));
 
-export type Order = typeof orders.$inferInsert;
+type Order = typeof orders.$inferInsert;
+type OrderStatusEnum = typeof orders.$inferSelect.orderStatus;
+export { orderStatusEnum, orders, orderRelations, Order, OrderStatusEnum };

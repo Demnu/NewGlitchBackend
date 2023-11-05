@@ -1,3 +1,4 @@
+import { OrderStatusEnum } from '../../../Domain/Entities/orders';
 import { Product } from '../../../Domain/Entities/products';
 
 interface ProductExtended extends Product {
@@ -10,12 +11,23 @@ interface OrderDto {
   customerName?: string | null;
   products?: ProductExtended[];
   dateCreated: string;
+  orderStatus: OrderStatusEnum;
 }
+
+const OrderStatusEnumJsonSchema = {
+  $orderStatus: {
+    '@enum': ['notCalculated', 'calculated']
+  }
+};
 
 const OrderDtoJsonSchema = {
   $id: '123',
   $dateCreated: '08/09/1998',
   $customerName: 'Harry',
+  $orderStatus: {
+    '@enum': ['notCalculated', 'calculated']
+  },
+
   $products: [
     {
       $productName: 'Haywire Blend',
@@ -43,5 +55,6 @@ export {
   OrderDto,
   ProductExtended,
   OrderDtoJsonSchema,
-  ProductExtendedJsonSchema
+  ProductExtendedJsonSchema,
+  OrderStatusEnumJsonSchema
 };

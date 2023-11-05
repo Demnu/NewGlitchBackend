@@ -27,6 +27,8 @@ export type OrderDtos = {
     price?: number;
     /** @example "HW_B" */
     sku?: string;
+    /** @example 20 */
+    amountOrdered?: number;
   }[];
 }[];
 
@@ -100,6 +102,21 @@ export interface MakeCalculationResponseDto {
     /** @example 50000 */
     amountNeededToBeRoasted?: number;
   }[];
+}
+
+export interface ProductExtendedDto {
+  /** @example "Haywire Blend" */
+  productName?: string;
+  /** @example "12345" */
+  id?: string;
+  /** @example true */
+  possiblyCoffee?: boolean;
+  /** @example 123 */
+  price?: number;
+  /** @example "HW_B" */
+  sku?: string;
+  /** @example 20 */
+  amountOrdered?: number;
 }
 
 import type {

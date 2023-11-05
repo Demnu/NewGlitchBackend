@@ -161,6 +161,10 @@
                 "sku": {
                   "type": "string",
                   "example": "HW_B"
+                },
+                "amountOrdered": {
+                  "type": "number",
+                  "example": 20
                 }
               }
             }
@@ -335,6 +339,35 @@
               }
             }
           }
+        }
+      }
+    },
+    "ProductExtendedDto": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string",
+          "example": "Haywire Blend"
+        },
+        "id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "possiblyCoffee": {
+          "type": "boolean",
+          "example": true
+        },
+        "price": {
+          "type": "number",
+          "example": 123
+        },
+        "sku": {
+          "type": "string",
+          "example": "HW_B"
+        },
+        "amountOrdered": {
+          "type": "number",
+          "example": 20
         }
       }
     }

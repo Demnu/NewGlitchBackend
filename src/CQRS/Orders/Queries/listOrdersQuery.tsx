@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import OrderDto from './orderDto';
+import { OrderDto, ProductExtended } from './orderDto';
 import { db } from '../../../dbConnection';
 import { Product } from '../../../Domain/Entities/products';
 const listOrdersQuery = async () => {
@@ -9,17 +9,30 @@ const listOrdersQuery = async () => {
     }
   });
 
-  var orderDtos: OrderDto[] = results.map((result) => {
+  var orderDtos: OrderDto[] = results.map((order) => {
     // Convert UTC Date to server's local Date
 
     var orderDto: OrderDto = {
-      orderId: result.id,
-      customerName: result.customerName,
-      dateCreated: new Date(result.createdAt).toLocaleString()
+      orderId: order.id,
+      customerName: order.customerName,
+      dateCreated: new Date(order.createdAt).toLocaleString()
     };
-    var products: Product[] = result.order_products
-      .map((op) => op.product)
-      .filter((product) => product !== null) as Product[];
+
+    var products: ProductExtended[] = order.order_products.map((op) => {
+      const product = op.product;
+      return {
+        id: product.id,
+        amountOrdered: op.amountOrdered,
+        sku: product.sku,
+        price: product.price,
+        productName: product.productName,
+        possiblyCoffee: product.possiblyCoffee
+      };
+    });
+    // var products: Product[] = order.order_products
+    //   .map((op) => op.product)
+    //   .filter((product) => product !== null) as Product[];
+
     orderDto.products = products;
     return orderDto;
   });

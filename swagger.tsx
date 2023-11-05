@@ -3,7 +3,10 @@ const swaggerAutogen = require('swagger-autogen')();
 const localAddress = process.env.LOCAL_ADDRESS;
 const serverAddress = process.env.SERVER_ADDRESS;
 const environment = process.env.ENVIRONMENT;
-import { OrderDtoJsonSchema } from './src/CQRS/Orders/Queries/orderDto';
+import {
+  OrderDtoJsonSchema,
+  ProductExtendedJsonSchema
+} from './src/CQRS/Orders/Queries/orderDto';
 import { RecipeDtoJsonSchema } from './src/CQRS/Recipes/Queries/recipesDto';
 import { CreateRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/createRecipeRequestDto';
 import { MakeCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationRequestDto';
@@ -19,7 +22,8 @@ const doc = {
     RecipeDtos: [RecipeDtoJsonSchema],
     RecipeRequestDto: CreateRecipeRequestDtoJsonSchema,
     MakeCalculationRequestDto: MakeCalculationRequestDtoJsonSchema,
-    MakeCalculationResponseDto: MakeCalculationResponseDtoJsonSchema
+    MakeCalculationResponseDto: MakeCalculationResponseDtoJsonSchema,
+    ProductExtendedDto: ProductExtendedJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

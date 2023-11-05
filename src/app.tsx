@@ -14,11 +14,19 @@ import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProd
 import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 import { Api } from './myApi';
 import { errorHandler } from './Middlewares/errorHandler';
+import cors from 'cors';
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
 const path = require('path');
-
 const app: Application = express();
+
+const allowedOrigins = ['http://localhost:5173'];
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+app.use(cors(options));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());

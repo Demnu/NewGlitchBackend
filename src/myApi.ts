@@ -11,7 +11,7 @@
 
 export type OrderDtos = {
   /** @example "123" */
-  orderId: string;
+  id: string;
   /** @example "08/09/1998" */
   dateCreated: string;
   /** @example "Harry" */
@@ -29,8 +29,35 @@ export type OrderDtos = {
     sku: string;
     /** @example 20 */
     amountOrdered: number;
+    /** @example true */
+    hasRecipe: boolean;
   }[];
 }[];
+
+export interface OrderDto {
+  /** @example "123" */
+  id: string;
+  /** @example "08/09/1998" */
+  dateCreated: string;
+  /** @example "Harry" */
+  customerName: string;
+  products: {
+    /** @example "Haywire Blend" */
+    productName: string;
+    /** @example "12345" */
+    id: string;
+    /** @example true */
+    possiblyCoffee: boolean;
+    /** @example 123 */
+    price: number;
+    /** @example "HW_B" */
+    sku: string;
+    /** @example 20 */
+    amountOrdered: number;
+    /** @example true */
+    hasRecipe: boolean;
+  }[];
+}
 
 export type RecipeDtos = {
   /** @example 1234 */
@@ -104,24 +131,22 @@ export interface MakeCalculationResponseDto {
   }[];
 }
 
-export interface ProductExtendedDto {
-  ProductExtendedJsonSchema?: {
-    /** @example "Haywire Blend" */
-    productName: string;
-    /** @example "12345" */
-    id: string;
-    /** @example true */
-    possiblyCoffee: boolean;
-    /** @example 123 */
-    price: number;
-    /** @example "HW_B" */
-    sku: string;
-    /** @example 20 */
-    amountOrdered: number;
-  };
+export interface ProductExtendedJsonSchema {
+  /** @example "Haywire Blend" */
+  productName: string;
+  /** @example "12345" */
+  id: string;
+  /** @example true */
+  possiblyCoffee: boolean;
+  /** @example 123 */
+  price: number;
+  /** @example "HW_B" */
+  sku: string;
+  /** @example 20 */
+  amountOrdered: number;
+  /** @example true */
+  hasRecipe: boolean;
 }
-
-export type ProductExtendedDtoTyped = ProductExtendedDto;
 
 import type {
   AxiosInstance,

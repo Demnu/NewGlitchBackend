@@ -2,17 +2,18 @@ import { Product } from '../../../Domain/Entities/products';
 
 interface ProductExtended extends Product {
   amountOrdered: number;
+  hasRecipe: boolean;
 }
 
 interface OrderDto {
-  orderId?: string;
+  id?: string;
   customerName?: string | null;
   products?: ProductExtended[];
   dateCreated: string;
 }
 
 const OrderDtoJsonSchema = {
-  $orderId: '123',
+  $id: '123',
   $dateCreated: '08/09/1998',
   $customerName: 'Harry',
   $products: [
@@ -22,7 +23,8 @@ const OrderDtoJsonSchema = {
       $possiblyCoffee: true,
       $price: 123,
       $sku: 'HW_B',
-      $amountOrdered: 20
+      $amountOrdered: 20,
+      $hasRecipe: true
     }
   ]
 };
@@ -33,7 +35,8 @@ const ProductExtendedJsonSchema = {
   $possiblyCoffee: true,
   $price: 123,
   $sku: 'HW_B',
-  $amountOrdered: 20
+  $amountOrdered: 20,
+  $hasRecipe: true
 };
 
 export {

@@ -125,7 +125,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "orderId": {
+          "id": {
             "type": "string",
             "example": "123"
           },
@@ -165,6 +165,10 @@
                 "amountOrdered": {
                   "type": "number",
                   "example": 20
+                },
+                "hasRecipe": {
+                  "type": "boolean",
+                  "example": true
                 }
               },
               "required": [
@@ -173,18 +177,87 @@
                 "possiblyCoffee",
                 "price",
                 "sku",
-                "amountOrdered"
+                "amountOrdered",
+                "hasRecipe"
               ]
             }
           }
         },
         "required": [
-          "orderId",
+          "id",
           "dateCreated",
           "customerName",
           "products"
         ]
       }
+    },
+    "OrderDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "123"
+        },
+        "dateCreated": {
+          "type": "string",
+          "example": "08/09/1998"
+        },
+        "customerName": {
+          "type": "string",
+          "example": "Harry"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productName": {
+                "type": "string",
+                "example": "Haywire Blend"
+              },
+              "id": {
+                "type": "string",
+                "example": "12345"
+              },
+              "possiblyCoffee": {
+                "type": "boolean",
+                "example": true
+              },
+              "price": {
+                "type": "number",
+                "example": 123
+              },
+              "sku": {
+                "type": "string",
+                "example": "HW_B"
+              },
+              "amountOrdered": {
+                "type": "number",
+                "example": 20
+              },
+              "hasRecipe": {
+                "type": "boolean",
+                "example": true
+              }
+            },
+            "required": [
+              "productName",
+              "id",
+              "possiblyCoffee",
+              "price",
+              "sku",
+              "amountOrdered",
+              "hasRecipe"
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "dateCreated",
+        "customerName",
+        "products"
+      ]
     },
     "RecipeDtos": {
       "type": "array",
@@ -356,50 +429,47 @@
         }
       }
     },
-    "ProductExtendedDto": {
+    "ProductExtendedJsonSchema": {
       "type": "object",
       "properties": {
-        "ProductExtendedJsonSchema": {
-          "type": "object",
-          "properties": {
-            "productName": {
-              "type": "string",
-              "example": "Haywire Blend"
-            },
-            "id": {
-              "type": "string",
-              "example": "12345"
-            },
-            "possiblyCoffee": {
-              "type": "boolean",
-              "example": true
-            },
-            "price": {
-              "type": "number",
-              "example": 123
-            },
-            "sku": {
-              "type": "string",
-              "example": "HW_B"
-            },
-            "amountOrdered": {
-              "type": "number",
-              "example": 20
-            }
-          },
-          "required": [
-            "productName",
-            "id",
-            "possiblyCoffee",
-            "price",
-            "sku",
-            "amountOrdered"
-          ]
+        "productName": {
+          "type": "string",
+          "example": "Haywire Blend"
+        },
+        "id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "possiblyCoffee": {
+          "type": "boolean",
+          "example": true
+        },
+        "price": {
+          "type": "number",
+          "example": 123
+        },
+        "sku": {
+          "type": "string",
+          "example": "HW_B"
+        },
+        "amountOrdered": {
+          "type": "number",
+          "example": 20
+        },
+        "hasRecipe": {
+          "type": "boolean",
+          "example": true
         }
-      }
-    },
-    "ProductExtendedDtoTyped": {
-      "$ref": "#/definitions/ProductExtendedDto"
+      },
+      "required": [
+        "productName",
+        "id",
+        "possiblyCoffee",
+        "price",
+        "sku",
+        "amountOrdered",
+        "hasRecipe"
+      ]
     }
   }
 }

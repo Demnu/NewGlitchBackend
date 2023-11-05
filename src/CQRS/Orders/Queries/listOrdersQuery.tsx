@@ -5,7 +5,13 @@ import { Product } from '../../../Domain/Entities/products';
 const listOrdersQuery = async () => {
   const results = await db.query.orders.findMany({
     with: {
-      order_products: { with: { product: true } }
+      order_products: {
+        with: {
+          product: {
+            with: { recipe: true }
+          }
+        }
+      }
     }
   });
 
@@ -13,7 +19,7 @@ const listOrdersQuery = async () => {
     // Convert UTC Date to server's local Date
 
     var orderDto: OrderDto = {
-      orderId: order.id,
+      id: order.id,
       customerName: order.customerName,
       dateCreated: new Date(order.createdAt).toLocaleString()
     };
@@ -26,14 +32,17 @@ const listOrdersQuery = async () => {
         sku: product.sku,
         price: product.price,
         productName: product.productName,
-        possiblyCoffee: product.possiblyCoffee
+        possiblyCoffee: product.possiblyCoffee,
+        hasRecipe: product.recipe != null
       };
     });
     // var products: Product[] = order.order_products
     //   .map((op) => op.product)
     //   .filter((product) => product !== null) as Product[];
 
-    orderDto.products = products;
+    orderDto.products = products.sort((a, b) =>
+      a.productName.localeCompare(b.productName)
+    );
     return orderDto;
   });
 

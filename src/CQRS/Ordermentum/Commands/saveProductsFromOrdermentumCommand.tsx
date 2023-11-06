@@ -4,6 +4,7 @@ import { Product } from '../../../Domain/Entities/products';
 import { db } from '../../../dbConnection';
 import { products } from '../../../Domain/Entities/products';
 import { eq, inArray } from 'drizzle-orm';
+import { createLog } from '../../../Utilities/Logs/makeLog';
 
 const saveProductsFromOrdermentumCommand = async (
   req: Request,
@@ -71,6 +72,11 @@ export async function getProductsFromOrdermentum(): Promise<string> {
 
   // save unstored orders
   await db.insert(products).values(formattedProducts).onConflictDoNothing();
+  createLog(
+    'informational',
+    `Products successfully retreived from ordermentum and saved to database`,
+    __filename
+  );
   return 'Products saved!';
 }
 

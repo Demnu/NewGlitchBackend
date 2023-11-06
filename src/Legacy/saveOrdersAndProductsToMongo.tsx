@@ -1,3 +1,4 @@
+import { createLog } from '../Utilities/Logs/makeLog';
 import { OrderExtended } from '../Utilities/Ordermentum/formatOrdersFromOrdermentum';
 import { OrderMongo } from './MongoModels/ordersMongoSchema';
 import { ProductMongo } from './MongoModels/productMongoSchema';
@@ -52,10 +53,12 @@ const saveOrdersAndProductsToMongo = async (orders: OrderExtended[]) => {
 const addOrderToMongo = async (order: OrderMongoType) => {
   try {
     await OrderMongo.create(order);
-    console.log(
+    createLog(
+      'informational',
       `Order: ${order.orderID}, ${order.customerName}, ${new Date(
         order.date
-      ).toLocaleDateString()} saved to mongoDB!`
+      ).toLocaleDateString()} saved to mongoDB!`,
+      __filename
     );
   } catch (error: any) {
     // console.log(
@@ -70,7 +73,11 @@ const addOrderToMongo = async (order: OrderMongoType) => {
 const addProductToMongo = async (product: string) => {
   try {
     await ProductMongo.create({ id: product });
-    console.log(`Product: ${product} saved to mongoDB`);
+    createLog(
+      'informational',
+      `Product: ${product} saved to mongoDB`,
+      __filename
+    );
   } catch (error) {
     // console.log(`Error! Product: ${product} not saved to mongoDB`, error);
   }

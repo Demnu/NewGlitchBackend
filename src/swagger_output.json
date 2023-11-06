@@ -121,220 +121,646 @@
   },
   "definitions": {
     "OrderDtos": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "123"
-          },
-          "dateCreated": {
-            "type": "string",
-            "example": "08/09/1998"
-          },
-          "customerName": {
-            "type": "string",
-            "example": "Harry"
-          },
-          "orderStatus": {
-            "type": "string",
-            "enum": [
-              "notCalculated",
-              "calculated"
-            ]
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "productName": {
-                  "type": "string",
-                  "example": "Haywire Blend"
-                },
-                "id": {
-                  "type": "string",
-                  "example": "12345"
-                },
-                "possiblyCoffee": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "price": {
-                  "type": "number",
-                  "example": 123
-                },
-                "sku": {
-                  "type": "string",
-                  "example": "HW_B"
-                },
-                "amountOrdered": {
-                  "type": "number",
-                  "example": 20
-                },
-                "hasRecipe": {
-                  "type": "boolean",
-                  "example": true
-                }
-              },
-              "required": [
-                "productName",
-                "id",
-                "possiblyCoffee",
-                "price",
-                "sku",
-                "amountOrdered",
-                "hasRecipe"
-              ]
-            }
-          }
-        },
-        "required": [
-          "id",
-          "dateCreated",
-          "customerName",
-          "orderStatus",
-          "products"
-        ]
-      }
-    },
-    "OrderDto": {
       "type": "object",
       "properties": {
-        "id": {
+        "type": {
           "type": "string",
-          "example": "123"
+          "example": "array"
         },
-        "dateCreated": {
-          "type": "string",
-          "example": "08/09/1998"
-        },
-        "customerName": {
-          "type": "string",
-          "example": "Harry"
-        },
-        "orderStatus": {
+        "items": {
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
-              "example": "string"
+              "example": "object"
             },
-            "enum": {
+            "properties": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "123"
+                    }
+                  }
+                },
+                "dateCreated": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "08/09/1998"
+                    }
+                  }
+                },
+                "customerName": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Harry"
+                    }
+                  }
+                },
+                "orderStatus": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "enum": {
+                      "type": "array",
+                      "example": [
+                        "notCalculated",
+                        "calculated"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "products": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "array"
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "productName": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "Haywire Blend"
+                                }
+                              }
+                            },
+                            "id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "12345"
+                                }
+                              }
+                            },
+                            "possiblyCoffee": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "boolean"
+                                },
+                                "example": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "price": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 123
+                                }
+                              }
+                            },
+                            "sku": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "HW_B"
+                                }
+                              }
+                            },
+                            "amountOrdered": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 20
+                                }
+                              }
+                            },
+                            "hasRecipe": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "boolean"
+                                },
+                                "example": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "required": {
+                          "type": "array",
+                          "example": [
+                            "productName",
+                            "id",
+                            "possiblyCoffee",
+                            "price",
+                            "sku",
+                            "amountOrdered",
+                            "hasRecipe"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": {
               "type": "array",
               "example": [
-                "notCalculated",
-                "calculated"
+                "id",
+                "dateCreated",
+                "customerName",
+                "orderStatus",
+                "products"
               ],
               "items": {
                 "type": "string"
               }
             }
           }
+        }
+      }
+    },
+    "OrderDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
         },
-        "products": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "productName": {
-                "type": "string",
-                "example": "Haywire Blend"
-              },
-              "id": {
-                "type": "string",
-                "example": "12345"
-              },
-              "possiblyCoffee": {
-                "type": "boolean",
-                "example": true
-              },
-              "price": {
-                "type": "number",
-                "example": 123
-              },
-              "sku": {
-                "type": "string",
-                "example": "HW_B"
-              },
-              "amountOrdered": {
-                "type": "number",
-                "example": 20
-              },
-              "hasRecipe": {
-                "type": "boolean",
-                "example": true
+        "properties": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "123"
+                }
               }
             },
-            "required": [
-              "productName",
-              "id",
-              "possiblyCoffee",
-              "price",
-              "sku",
-              "amountOrdered",
-              "hasRecipe"
-            ]
+            "dateCreated": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "08/09/1998"
+                }
+              }
+            },
+            "customerName": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Harry"
+                }
+              }
+            },
+            "orderStatus": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "string"
+                        }
+                      }
+                    },
+                    "enum": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "array"
+                        },
+                        "example": {
+                          "type": "array",
+                          "example": [
+                            "notCalculated",
+                            "calculated"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "products": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "productName": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Haywire Blend"
+                            }
+                          }
+                        },
+                        "id": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "12345"
+                            }
+                          }
+                        },
+                        "possiblyCoffee": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "boolean"
+                            },
+                            "example": {
+                              "type": "boolean",
+                              "example": true
+                            }
+                          }
+                        },
+                        "price": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 123
+                            }
+                          }
+                        },
+                        "sku": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "HW_B"
+                            }
+                          }
+                        },
+                        "amountOrdered": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 20
+                            }
+                          }
+                        },
+                        "hasRecipe": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "boolean"
+                            },
+                            "example": {
+                              "type": "boolean",
+                              "example": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": {
+                      "type": "array",
+                      "example": [
+                        "productName",
+                        "id",
+                        "possiblyCoffee",
+                        "price",
+                        "sku",
+                        "amountOrdered",
+                        "hasRecipe"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "id",
+            "dateCreated",
+            "customerName",
+            "orderStatus",
+            "products"
+          ],
+          "items": {
+            "type": "string"
           }
         }
-      },
-      "required": [
-        "id",
-        "dateCreated",
-        "customerName",
-        "orderStatus",
-        "products"
-      ]
+      }
     },
     "RecipeDtos": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "example": 1234
-          },
-          "productId": {
-            "type": "string",
-            "example": "Blurger"
-          },
-          "recipeName": {
-            "type": "string",
-            "example": "Yummy Blend"
-          },
-          "recipe_beans": {
-            "type": "array",
-            "items": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "array"
+        },
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "object"
+            },
+            "properties": {
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "number",
-                  "example": 1
-                },
-                "beanId": {
-                  "type": "number",
-                  "example": 2
-                },
-                "recipeId": {
-                  "type": "number",
-                  "example": 3
-                },
-                "amountOrdered": {
-                  "type": "number",
-                  "example": 100
-                },
-                "bean": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 2
-                    },
-                    "beanName": {
+                    "type": {
                       "type": "string",
-                      "example": "Roasty bean"
+                      "example": "number"
+                    },
+                    "example": {
+                      "type": "number",
+                      "example": 1234
+                    }
+                  }
+                },
+                "productId": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Blurger"
+                    }
+                  }
+                },
+                "recipeName": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Yummy Blend"
+                    }
+                  }
+                },
+                "recipe_beans": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "array"
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 1
+                                }
+                              }
+                            },
+                            "beanId": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 2
+                                }
+                              }
+                            },
+                            "recipeId": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 3
+                                }
+                              }
+                            },
+                            "amountOrdered": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 100
+                                }
+                              }
+                            },
+                            "bean": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "object"
+                                },
+                                "properties": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "example": "number"
+                                        },
+                                        "example": {
+                                          "type": "number",
+                                          "example": 2
+                                        }
+                                      }
+                                    },
+                                    "beanName": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "example": "string"
+                                        },
+                                        "example": {
+                                          "type": "string",
+                                          "example": "Roasty bean"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -347,26 +773,86 @@
     "RecipeRequestDto": {
       "type": "object",
       "properties": {
-        "productId": {
+        "type": {
           "type": "string",
-          "example": "2"
+          "example": "object"
         },
-        "recipeName": {
-          "type": "string",
-          "example": "Yummy recipe"
-        },
-        "beans": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "beanId": {
-                "type": "number",
-                "example": 4
-              },
-              "beanAmount": {
-                "type": "number",
-                "example": 400
+        "properties": {
+          "type": "object",
+          "properties": {
+            "productId": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "2"
+                }
+              }
+            },
+            "recipeName": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Yummy recipe"
+                }
+              }
+            },
+            "beans": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "beanId": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 4
+                            }
+                          }
+                        },
+                        "beanAmount": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 400
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -376,14 +862,41 @@
     "MakeCalculationRequestDto": {
       "type": "object",
       "properties": {
-        "orderIds": {
-          "type": "array",
-          "example": [
-            "a0d1b2b9-b532-477f-a9a5-f4158d49f28c",
-            "95119cbc-2430-430e-be94-1fbf2906824c"
-          ],
-          "items": {
-            "type": "string"
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "orderIds": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "example": {
+                  "type": "array",
+                  "example": [
+                    "a0d1b2b9-b532-477f-a9a5-f4158d49f28c",
+                    "95119cbc-2430-430e-be94-1fbf2906824c"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -391,66 +904,210 @@
     "MakeCalculationResponseDto": {
       "type": "object",
       "properties": {
-        "ordersCalculatedInformation": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "orderId": {
-                "type": "string",
-                "example": "2b156adb-78fc-43d8-a7c8-24b018f5818f"
-              },
-              "createdAt": {
-                "type": "string",
-                "example": "10/12/2023"
-              },
-              "customerName": {
-                "type": "string",
-                "example": "Autumn Rooms"
-              }
-            }
-          }
+        "type": {
+          "type": "string",
+          "example": "object"
         },
-        "productsTally": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "productId": {
-                "type": "string",
-                "example": "2"
-              },
-              "productName": {
-                "type": "string",
-                "example": "Sweet Kicks Blend 1kg"
-              },
-              "amountOrdered": {
-                "type": "number",
-                "example": 50
-              },
-              "hasRecipe": {
-                "type": "boolean",
-                "example": true
+        "properties": {
+          "type": "object",
+          "properties": {
+            "ordersCalculatedInformation": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "orderId": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "2b156adb-78fc-43d8-a7c8-24b018f5818f"
+                            }
+                          }
+                        },
+                        "createdAt": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "10/12/2023"
+                            }
+                          }
+                        },
+                        "customerName": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Autumn Rooms"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
-            }
-          }
-        },
-        "beansTally": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "beanId": {
-                "type": "number",
-                "example": 2
-              },
-              "beanName": {
-                "type": "string",
-                "example": "Indonesia"
-              },
-              "amountNeededToBeRoasted": {
-                "type": "number",
-                "example": 50000
+            },
+            "productsTally": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "2"
+                            }
+                          }
+                        },
+                        "productName": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Sweet Kicks Blend 1kg"
+                            }
+                          }
+                        },
+                        "amountOrdered": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 50
+                            }
+                          }
+                        },
+                        "hasRecipe": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "boolean"
+                            },
+                            "example": {
+                              "type": "boolean",
+                              "example": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "beansTally": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "beanId": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 2
+                            }
+                          }
+                        },
+                        "beanName": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Indonesia"
+                            }
+                          }
+                        },
+                        "amountNeededToBeRoasted": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "example": {
+                              "type": "number",
+                              "example": 50000
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -460,59 +1117,164 @@
     "ProductExtendedJsonSchema": {
       "type": "object",
       "properties": {
-        "productName": {
+        "type": {
           "type": "string",
-          "example": "Haywire Blend"
+          "example": "object"
         },
-        "id": {
-          "type": "string",
-          "example": "12345"
+        "properties": {
+          "type": "object",
+          "properties": {
+            "productName": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Haywire Blend"
+                }
+              }
+            },
+            "id": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "12345"
+                }
+              }
+            },
+            "possiblyCoffee": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "boolean"
+                },
+                "example": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            },
+            "price": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 123
+                }
+              }
+            },
+            "sku": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "HW_B"
+                }
+              }
+            },
+            "amountOrdered": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 20
+                }
+              }
+            },
+            "hasRecipe": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "boolean"
+                },
+                "example": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
         },
-        "possiblyCoffee": {
-          "type": "boolean",
-          "example": true
-        },
-        "price": {
-          "type": "number",
-          "example": 123
-        },
-        "sku": {
-          "type": "string",
-          "example": "HW_B"
-        },
-        "amountOrdered": {
-          "type": "number",
-          "example": 20
-        },
-        "hasRecipe": {
-          "type": "boolean",
-          "example": true
+        "required": {
+          "type": "array",
+          "example": [
+            "productName",
+            "id",
+            "possiblyCoffee",
+            "price",
+            "sku",
+            "amountOrdered",
+            "hasRecipe"
+          ],
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "productName",
-        "id",
-        "possiblyCoffee",
-        "price",
-        "sku",
-        "amountOrdered",
-        "hasRecipe"
-      ]
+      }
     },
     "OrderStatusEnum": {
       "type": "object",
       "properties": {
-        "orderStatus": {
+        "type": {
           "type": "string",
-          "enum": [
-            "notCalculated",
-            "calculated"
-          ]
+          "example": "object"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "orderStatus": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "notCalculated",
+                    "calculated"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "orderStatus"
+          ],
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "orderStatus"
-      ]
+      }
     }
   }
 }

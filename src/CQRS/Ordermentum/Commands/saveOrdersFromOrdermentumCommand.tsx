@@ -12,6 +12,7 @@ import { orders_products } from '../../../Domain/Entities/orders_products';
 import { Product, products } from '../../../Domain/Entities/products';
 import { readProductsFromFormattedOrders } from '../../../Utilities/Ordermentum/readAndSaveProducts';
 import { saveOrdersAndProductsToMongo } from '../../../Legacy/saveOrdersAndProductsToMongo';
+import { createLog } from '../../../Utilities/Logs/makeLog';
 const saveOrdersFromOrdermentumCommand = async (
   req: Request,
   res: Response
@@ -105,15 +106,20 @@ const addOrderToDatabase = async (order: OrderExtended) => {
       error
     );
   }
+  createLog(
+    'informational',
+    `Orders successfully retreived from ordermentum and saved to database`,
+    __filename
+  );
 };
 
-interface test {
+interface DownloadedOrdermentumOrders {
   ordersFormatted: OrderFromOrdermentumType[];
   suppliedId: string | undefined;
 }
 
 const formatOrdersFromOrdermentum = (
-  downloadedOrdersWithSupplierIds: test[]
+  downloadedOrdersWithSupplierIds: DownloadedOrdermentumOrders[]
 ) => {
   const formattedOrders = downloadedOrdersWithSupplierIds.flatMap((orders) => {
     return readOrders(orders.ordersFormatted, orders.suppliedId);
@@ -134,7 +140,7 @@ const downloadOrdersFromOrdermentum = async () => {
   const flamSupplierId = process.env.FLAM_SUPPLIER_ID;
   const glitchSupplierId = process.env.GLITCH_SUPPLIER_ID;
 
-  const data: test[] = [];
+  const data: DownloadedOrdermentumOrders[] = [];
 
   // Fetch products for each supplier with the custom pagination settings
   const distResults = await ordermentumClient.orders.findAll({

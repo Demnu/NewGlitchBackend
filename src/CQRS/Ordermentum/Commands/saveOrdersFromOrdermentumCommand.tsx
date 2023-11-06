@@ -148,32 +148,41 @@ const downloadOrdersFromOrdermentum = async () => {
 
   const data: DownloadedOrdermentumOrders[] = [];
 
-  // Fetch products for each supplier with the custom pagination settings
-  const distResults = await ordermentumClient.orders.findAll({
-    ...customPagination,
-    supplierId: distSupplierID
-  });
-  const flamResults = await ordermentumClient.orders.findAll({
-    ...customPagination,
-    supplierId: flamSupplierId
-  });
-  const glitchResults = await ordermentumClient.orders.findAll({
-    ...customPagination,
-    supplierId: glitchSupplierId
-  });
-  const peaResults = await ordermentumClient.orders.findAll({
-    ...customPagination,
-    supplierId: peaSupplierId
-  });
-  data.push(
-    { ordersFormatted: distResults.data, suppliedId: distSupplierID },
-    { ordersFormatted: flamResults.data, suppliedId: flamSupplierId },
-    { ordersFormatted: glitchResults.data, suppliedId: glitchSupplierId },
-    {
-      ordersFormatted: peaResults.data,
-      suppliedId: peaSupplierId
-    }
-  );
+  try {
+    // Fetch products for each supplier with the custom pagination settings
+    const distResults = await ordermentumClient.orders.findAll({
+      ...customPagination,
+      supplierId: distSupplierID
+    });
+    const flamResults = await ordermentumClient.orders.findAll({
+      ...customPagination,
+      supplierId: flamSupplierId
+    });
+    const glitchResults = await ordermentumClient.orders.findAll({
+      ...customPagination,
+      supplierId: glitchSupplierId
+    });
+    const peaResults = await ordermentumClient.orders.findAll({
+      ...customPagination,
+      supplierId: peaSupplierId
+    });
+    data.push(
+      { ordersFormatted: distResults.data, suppliedId: distSupplierID },
+      { ordersFormatted: flamResults.data, suppliedId: flamSupplierId },
+      { ordersFormatted: glitchResults.data, suppliedId: glitchSupplierId },
+      {
+        ordersFormatted: peaResults.data,
+        suppliedId: peaSupplierId
+      }
+    );
+  } catch (error) {
+    createLog(
+      'critical',
+      `Critical! Could not fetch orders from ordermentum. Error: ${error}`,
+      __filename
+    );
+  }
+
   return data;
 };
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node swagger.tsx && npx swagger-typescript-api -p ./src/swagger_output.json -o ./src -n myApi.ts --axios && ts-node-dev --respawn --transpile-only src/app.tsx",
+    "dev": "ts-node swagger.tsx && npx swagger-typescript-api -p ./src/swagger_output.json -o ./src -n myApi.ts --axios && npx swagger-typescript-api -p ./src/swagger_output.json -o ../GlitchFrontEndTypescript -n myApi.ts --axios && ts-node-dev --respawn --transpile-only src/app.tsx",
     "start": "ts-node dist/src/app.js",
     "generate-migration": "npx drizzle-kit generate:pg",
     "generate-swagger": "ts-node swagger.tsx ",

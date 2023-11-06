@@ -51,11 +51,7 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
   });
 
   const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
-  createLog(
-    'informational',
-    `Orders successfully retreived from ordermentum and saved to database`,
-    __filename
-  );
+
   return orderIds;
 }
 

@@ -15,6 +15,7 @@ import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrders
 import { Api } from './myApi';
 import { errorHandler } from './Middlewares/errorHandler';
 import cors from 'cors';
+import { createLog } from './Utilities/Logs/makeLog';
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
@@ -86,16 +87,32 @@ setInterval(
   async () => {
     try {
       await getProductsFromOrdermentum();
-      console.log('Products fetched and saved successfully.');
+      createLog(
+        'informational',
+        `Products successfully retreived from ordermentum and saved to database`,
+        __filename
+      );
     } catch (error) {
-      console.error('Failed to fetch and save products:', error);
+      createLog(
+        'error',
+        `Error! Products unsuccessfully retreived from ordermentum and saved to database`,
+        __filename
+      );
     }
 
     try {
       await getOrdersFromOrdermentum();
-      console.log('Orders fetched and saved successfully.');
+      createLog(
+        'informational',
+        `Orders successfully retreived from ordermentum and saved to database`,
+        __filename
+      );
     } catch (error) {
-      console.error('Failed to fetch and save orders:', error);
+      createLog(
+        'error',
+        `Error! Orders unsuccessfully retreived from ordermentum and saved to database`,
+        __filename
+      );
     }
   },
   10 * 60 * 1000

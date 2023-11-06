@@ -440,13 +440,13 @@ export class Api<
      * No description
      *
      * @tags Logs
-     * @name LogsCreate
-     * @request POST:/logs/
+     * @name LogsList
+     * @request GET:/logs/
      */
-    logsCreate: (params: RequestParams = {}) =>
+    logsList: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/logs/`,
-        method: 'POST',
+        method: 'GET',
         ...params
       })
   };

@@ -72,11 +72,6 @@ export async function getProductsFromOrdermentum(): Promise<string> {
 
   // save unstored orders
   await db.insert(products).values(formattedProducts).onConflictDoNothing();
-  createLog(
-    'informational',
-    `Products successfully retreived from ordermentum and saved to database`,
-    __filename
-  );
   return 'Products saved!';
 }
 

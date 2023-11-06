@@ -119,7 +119,7 @@
       }
     },
     "/logs/": {
-      "post": {
+      "get": {
         "tags": [
           "Logs"
         ],

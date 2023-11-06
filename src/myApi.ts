@@ -9,500 +9,154 @@
  * ---------------------------------------------------------------
  */
 
-export interface OrderDtos {
-  /** @example "array" */
-  type?: string;
-  items?: {
-    /** @example "object" */
-    type?: string;
-    properties?: {
-      id?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "123" */
-        example?: string;
-      };
-      dateCreated?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "08/09/1998" */
-        example?: string;
-      };
-      customerName?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "Harry" */
-        example?: string;
-      };
-      orderStatus?: {
-        /** @example "string" */
-        type?: string;
-        /** @example ["notCalculated","calculated"] */
-        enum?: string[];
-      };
-      products?: {
-        /** @example "array" */
-        type?: string;
-        items?: {
-          /** @example "object" */
-          type?: string;
-          properties?: {
-            productName?: {
-              /** @example "string" */
-              type?: string;
-              /** @example "Haywire Blend" */
-              example?: string;
-            };
-            id?: {
-              /** @example "string" */
-              type?: string;
-              /** @example "12345" */
-              example?: string;
-            };
-            possiblyCoffee?: {
-              /** @example "boolean" */
-              type?: string;
-              /** @example true */
-              example?: boolean;
-            };
-            price?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 123 */
-              example?: number;
-            };
-            sku?: {
-              /** @example "string" */
-              type?: string;
-              /** @example "HW_B" */
-              example?: string;
-            };
-            amountOrdered?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 20 */
-              example?: number;
-            };
-            hasRecipe?: {
-              /** @example "boolean" */
-              type?: string;
-              /** @example true */
-              example?: boolean;
-            };
-          };
-          /** @example ["productName","id","possiblyCoffee","price","sku","amountOrdered","hasRecipe"] */
-          required?: string[];
-        };
-      };
-    };
-    /** @example ["id","dateCreated","customerName","orderStatus","products"] */
-    required?: string[];
-  };
-}
+export type OrderDtos = {
+  /** @example "123" */
+  id: string;
+  /** @example "08/09/1998" */
+  dateCreated: string;
+  /** @example "Harry" */
+  customerName: string;
+  orderStatus: 'notCalculated' | 'calculated';
+  products: {
+    /** @example "Haywire Blend" */
+    productName: string;
+    /** @example "12345" */
+    id: string;
+    /** @example true */
+    possiblyCoffee: boolean;
+    /** @example 123 */
+    price: number;
+    /** @example "HW_B" */
+    sku: string;
+    /** @example 20 */
+    amountOrdered: number;
+    /** @example true */
+    hasRecipe: boolean;
+  }[];
+}[];
 
 export interface OrderDto {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    id?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "123" */
-      example?: string;
-    };
-    dateCreated?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "08/09/1998" */
-      example?: string;
-    };
-    customerName?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "Harry" */
-      example?: string;
-    };
-    orderStatus?: {
-      /** @example "object" */
-      type?: string;
-      properties?: {
-        type?: {
-          /** @example "string" */
-          type?: string;
-          /** @example "string" */
-          example?: string;
-        };
-        enum?: {
-          /** @example "array" */
-          type?: string;
-          /** @example ["notCalculated","calculated"] */
-          example?: string[];
-          items?: {
-            /** @example "string" */
-            type?: string;
-          };
-        };
-      };
-    };
-    products?: {
-      /** @example "array" */
-      type?: string;
-      items?: {
-        /** @example "object" */
-        type?: string;
-        properties?: {
-          productName?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "Haywire Blend" */
-            example?: string;
-          };
-          id?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "12345" */
-            example?: string;
-          };
-          possiblyCoffee?: {
-            /** @example "boolean" */
-            type?: string;
-            /** @example true */
-            example?: boolean;
-          };
-          price?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 123 */
-            example?: number;
-          };
-          sku?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "HW_B" */
-            example?: string;
-          };
-          amountOrdered?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 20 */
-            example?: number;
-          };
-          hasRecipe?: {
-            /** @example "boolean" */
-            type?: string;
-            /** @example true */
-            example?: boolean;
-          };
-        };
-        /** @example ["productName","id","possiblyCoffee","price","sku","amountOrdered","hasRecipe"] */
-        required?: string[];
-      };
-    };
+  /** @example "123" */
+  id: string;
+  /** @example "08/09/1998" */
+  dateCreated: string;
+  /** @example "Harry" */
+  customerName: string;
+  orderStatus: {
+    /** @example "string" */
+    type?: string;
+    /** @example ["notCalculated","calculated"] */
+    enum?: string[];
   };
-  /** @example ["id","dateCreated","customerName","orderStatus","products"] */
-  required?: string[];
+  products: {
+    /** @example "Haywire Blend" */
+    productName: string;
+    /** @example "12345" */
+    id: string;
+    /** @example true */
+    possiblyCoffee: boolean;
+    /** @example 123 */
+    price: number;
+    /** @example "HW_B" */
+    sku: string;
+    /** @example 20 */
+    amountOrdered: number;
+    /** @example true */
+    hasRecipe: boolean;
+  }[];
 }
 
-export interface RecipeDtos {
-  /** @example "array" */
-  type?: string;
-  items?: {
-    /** @example "object" */
-    type?: string;
-    properties?: {
-      id?: {
-        /** @example "number" */
-        type?: string;
-        /** @example 1234 */
-        example?: number;
-      };
-      productId?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "Blurger" */
-        example?: string;
-      };
-      recipeName?: {
-        /** @example "string" */
-        type?: string;
-        /** @example "Yummy Blend" */
-        example?: string;
-      };
-      recipe_beans?: {
-        /** @example "array" */
-        type?: string;
-        items?: {
-          /** @example "object" */
-          type?: string;
-          properties?: {
-            id?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 1 */
-              example?: number;
-            };
-            beanId?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 2 */
-              example?: number;
-            };
-            recipeId?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 3 */
-              example?: number;
-            };
-            amountOrdered?: {
-              /** @example "number" */
-              type?: string;
-              /** @example 100 */
-              example?: number;
-            };
-            bean?: {
-              /** @example "object" */
-              type?: string;
-              properties?: {
-                id?: {
-                  /** @example "number" */
-                  type?: string;
-                  /** @example 2 */
-                  example?: number;
-                };
-                beanName?: {
-                  /** @example "string" */
-                  type?: string;
-                  /** @example "Roasty bean" */
-                  example?: string;
-                };
-              };
-            };
-          };
-        };
-      };
+export type RecipeDtos = {
+  /** @example 1234 */
+  id?: number;
+  /** @example "Blurger" */
+  productId?: string;
+  /** @example "Yummy Blend" */
+  recipeName?: string;
+  recipe_beans?: {
+    /** @example 1 */
+    id?: number;
+    /** @example 2 */
+    beanId?: number;
+    /** @example 3 */
+    recipeId?: number;
+    /** @example 100 */
+    amountOrdered?: number;
+    bean?: {
+      /** @example 2 */
+      id?: number;
+      /** @example "Roasty bean" */
+      beanName?: string;
     };
-  };
-}
+  }[];
+}[];
 
 export interface RecipeRequestDto {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    productId?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "2" */
-      example?: string;
-    };
-    recipeName?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "Yummy recipe" */
-      example?: string;
-    };
-    beans?: {
-      /** @example "array" */
-      type?: string;
-      items?: {
-        /** @example "object" */
-        type?: string;
-        properties?: {
-          beanId?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 4 */
-            example?: number;
-          };
-          beanAmount?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 400 */
-            example?: number;
-          };
-        };
-      };
-    };
-  };
+  /** @example "2" */
+  productId?: string;
+  /** @example "Yummy recipe" */
+  recipeName?: string;
+  beans?: {
+    /** @example 4 */
+    beanId?: number;
+    /** @example 400 */
+    beanAmount?: number;
+  }[];
 }
 
 export interface MakeCalculationRequestDto {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    orderIds?: {
-      /** @example "array" */
-      type?: string;
-      /** @example ["a0d1b2b9-b532-477f-a9a5-f4158d49f28c","95119cbc-2430-430e-be94-1fbf2906824c"] */
-      example?: string[];
-      items?: {
-        /** @example "string" */
-        type?: string;
-      };
-    };
-  };
+  /** @example ["a0d1b2b9-b532-477f-a9a5-f4158d49f28c","95119cbc-2430-430e-be94-1fbf2906824c"] */
+  orderIds?: string[];
 }
 
 export interface MakeCalculationResponseDto {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    ordersCalculatedInformation?: {
-      /** @example "array" */
-      type?: string;
-      items?: {
-        /** @example "object" */
-        type?: string;
-        properties?: {
-          orderId?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "2b156adb-78fc-43d8-a7c8-24b018f5818f" */
-            example?: string;
-          };
-          createdAt?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "10/12/2023" */
-            example?: string;
-          };
-          customerName?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "Autumn Rooms" */
-            example?: string;
-          };
-        };
-      };
-    };
-    productsTally?: {
-      /** @example "array" */
-      type?: string;
-      items?: {
-        /** @example "object" */
-        type?: string;
-        properties?: {
-          productId?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "2" */
-            example?: string;
-          };
-          productName?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "Sweet Kicks Blend 1kg" */
-            example?: string;
-          };
-          amountOrdered?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 50 */
-            example?: number;
-          };
-          hasRecipe?: {
-            /** @example "boolean" */
-            type?: string;
-            /** @example true */
-            example?: boolean;
-          };
-        };
-      };
-    };
-    beansTally?: {
-      /** @example "array" */
-      type?: string;
-      items?: {
-        /** @example "object" */
-        type?: string;
-        properties?: {
-          beanId?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 2 */
-            example?: number;
-          };
-          beanName?: {
-            /** @example "string" */
-            type?: string;
-            /** @example "Indonesia" */
-            example?: string;
-          };
-          amountNeededToBeRoasted?: {
-            /** @example "number" */
-            type?: string;
-            /** @example 50000 */
-            example?: number;
-          };
-        };
-      };
-    };
-  };
+  ordersCalculatedInformation?: {
+    /** @example "2b156adb-78fc-43d8-a7c8-24b018f5818f" */
+    orderId?: string;
+    /** @example "10/12/2023" */
+    createdAt?: string;
+    /** @example "Autumn Rooms" */
+    customerName?: string;
+  }[];
+  productsTally?: {
+    /** @example "2" */
+    productId?: string;
+    /** @example "Sweet Kicks Blend 1kg" */
+    productName?: string;
+    /** @example 50 */
+    amountOrdered?: number;
+    /** @example true */
+    hasRecipe?: boolean;
+  }[];
+  beansTally?: {
+    /** @example 2 */
+    beanId?: number;
+    /** @example "Indonesia" */
+    beanName?: string;
+    /** @example 50000 */
+    amountNeededToBeRoasted?: number;
+  }[];
 }
 
 export interface ProductExtendedJsonSchema {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    productName?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "Haywire Blend" */
-      example?: string;
-    };
-    id?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "12345" */
-      example?: string;
-    };
-    possiblyCoffee?: {
-      /** @example "boolean" */
-      type?: string;
-      /** @example true */
-      example?: boolean;
-    };
-    price?: {
-      /** @example "number" */
-      type?: string;
-      /** @example 123 */
-      example?: number;
-    };
-    sku?: {
-      /** @example "string" */
-      type?: string;
-      /** @example "HW_B" */
-      example?: string;
-    };
-    amountOrdered?: {
-      /** @example "number" */
-      type?: string;
-      /** @example 20 */
-      example?: number;
-    };
-    hasRecipe?: {
-      /** @example "boolean" */
-      type?: string;
-      /** @example true */
-      example?: boolean;
-    };
-  };
-  /** @example ["productName","id","possiblyCoffee","price","sku","amountOrdered","hasRecipe"] */
-  required?: string[];
+  /** @example "Haywire Blend" */
+  productName: string;
+  /** @example "12345" */
+  id: string;
+  /** @example true */
+  possiblyCoffee: boolean;
+  /** @example 123 */
+  price: number;
+  /** @example "HW_B" */
+  sku: string;
+  /** @example 20 */
+  amountOrdered: number;
+  /** @example true */
+  hasRecipe: boolean;
 }
 
 export interface OrderStatusEnum {
-  /** @example "object" */
-  type?: string;
-  properties?: {
-    orderStatus?: {
-      /** @example "string" */
-      type?: string;
-      /** @example ["notCalculated","calculated"] */
-      enum?: string[];
-    };
-  };
-  /** @example ["orderStatus"] */
-  required?: string[];
+  orderStatus: 'notCalculated' | 'calculated';
 }
 
 import type {
@@ -778,6 +432,21 @@ export class Api<
         method: 'POST',
         body: body,
         type: ContentType.Json,
+        ...params
+      })
+  };
+  logs = {
+    /**
+     * No description
+     *
+     * @tags Logs
+     * @name LogsCreate
+     * @request POST:/logs/
+     */
+    logsCreate: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/logs/`,
+        method: 'POST',
         ...params
       })
   };

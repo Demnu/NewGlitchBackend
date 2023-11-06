@@ -9,6 +9,7 @@ import ordersRoutes from './Routes/ordersRoutes';
 import recipeRoutes from './Routes/recipeRoutes';
 import calculationsRoutes from './Routes/calculationsRoutes';
 import ordermentumController from './Controllers/ordermentumController';
+import logsRoutes from './Routes/logsRoutes';
 import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
 import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 import { Api } from './myApi';
@@ -50,6 +51,13 @@ app.use(
   calculationsRoutes
   /*
     #swagger.tags = ['Calculations']
+  */
+);
+app.use(
+  '/logs',
+  logsRoutes
+  /*
+    #swagger.tags = ['Logs']
   */
 );
 

@@ -32,17 +32,29 @@ const listLogsQuery = async () => {
     orderBy: [desc(logs.id)]
   });
 
-  const formattedLogs = logsList.map((log) => {
+  let formattedLogs = '<div style="font-family: monospace;">';
+
+  logsList.forEach((log) => {
     const logColor = getLogLevelColor(log.logLevel);
-    return (
-      `Date: ${log.createdAt}<br>` +
-      `Level: <span style="color: ${logColor};">${log.logLevel}</span><br>` +
-      `Message: ${log.message}<br>` +
-      `Source: ${log.sourceFile}<br>`
-    );
+
+    // Format the date in a more readable way
+    const date = new Date(log.createdAt);
+    const formattedDate = date.toLocaleString('en-AU', {
+      timeZone: 'Australia/Sydney'
+    });
+
+    formattedLogs += `
+      <div style="margin-bottom: 10px;">
+        <div><strong>Date:</strong> ${formattedDate}</div>
+        <div><strong>Level:</strong> <span style="color: ${logColor};">${log.logLevel.toUpperCase()}</span></div>
+        <div><strong>Message:</strong> ${log.message}</div>
+        <div><strong>Source:</strong> ${log.sourceFile}</div>
+      </div>`;
   });
 
-  return formattedLogs.join('<br><br>');
+  formattedLogs += '</div>';
+
+  return formattedLogs;
 };
 
 export { listLogsQuery };

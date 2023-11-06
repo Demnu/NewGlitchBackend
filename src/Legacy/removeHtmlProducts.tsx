@@ -6,7 +6,7 @@ import { mongoDb } from './mongoConnection';
 import 'dotenv/config';
 
 interface OrderProductsMongoType {
-  id: string;
+  name: string;
   amount: number;
 }
 
@@ -19,35 +19,26 @@ interface OrderMongoType {
   supplierName: string;
 }
 
-const saveOrdersAndProductsToMongo = async (orders: OrderExtended[]) => {
+const removeHtmlProducts = async () => {
   const db = await mongoDb(process.env.MONGO_URI || '');
 
-  // add orders
-  orders.forEach((order) => {
-    const orderProducts: OrderProductsMongoType[] = order.orderProducts.map(
-      (op) => {
-        const product = order.products.find((p) => p.id === op.productId);
-        return {
-          amount: op.amountOrdered,
-          id: product?.productName || 'ERROR'
-        };
-      }
-    );
-    const mongoOrder: OrderMongoType = {
-      orderID: order.invoiceNumber ?? order.id,
-      date: new Date(order.createdAt),
-      products: orderProducts,
-      customerID: '',
-      customerName: order.customerName,
-      supplierName: order.supplierName
-    };
+  // Async/Await approach
+  try {
+    const invalidProducts = await ProductMongo.find({
+      id: { $regex: '<style|style="border-bottom', $options: 'i' }
+    }).lean();
 
-    // add products
-    addOrderToMongo(mongoOrder);
-    order.products.forEach((p) => {
-      addProductToMongo(p.productName);
-    });
-  });
+    invalidProducts.forEach((p) => removeProductFromMongo(p.id));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const removeProductFromMongo = async (idToBeRemoved: string) => {
+  try {
+    await ProductMongo.deleteOne({ id: idToBeRemoved });
+    console.log(`Product: ${idToBeRemoved} removed`);
+  } catch (error) {}
 };
 
 const addOrderToMongo = async (order: OrderMongoType) => {
@@ -71,9 +62,6 @@ const addOrderToMongo = async (order: OrderMongoType) => {
 };
 
 const addProductToMongo = async (product: string) => {
-  if (product.includes('Straight Up Blend 1kg Wholesale (sgl)')) {
-    const t = 0;
-  }
   try {
     await ProductMongo.create({ id: product });
     createLog(
@@ -82,8 +70,8 @@ const addProductToMongo = async (product: string) => {
       __filename
     );
   } catch (error) {
-    console.log(`Error! Product: ${product} not saved to mongoDB`, error);
+    // console.log(`Error! Product: ${product} not saved to mongoDB`, error);
   }
 };
 
-export { saveOrdersAndProductsToMongo };
+export { removeHtmlProducts };

@@ -21,8 +21,12 @@ const saveOrdersFromOrdermentumCommand = async (
     const result = await getOrdersFromOrdermentum();
     res.send(result);
   } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).send('Failed to get products from Ordermentum');
+    createLog(
+      'critical',
+      `Critical! Could not fetch orders from ordermentum. Error: ${error}`,
+      __filename
+    );
+    res.status(500).send('Failed to get orders from Ordermentum');
   }
 };
 
@@ -60,6 +64,7 @@ const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
     await db.insert(products).values(productFromOrder).onConflictDoNothing();
   } catch (error) {
     console.error(`Error saving product`, error);
+
     console.log(`${productFromOrder.id} - ${productFromOrder.productName}`);
   }
 };
@@ -96,14 +101,19 @@ const addOrderToDatabase = async (order: OrderExtended) => {
       } else {
         tx.rollback();
         const errorMessage = `Order has no order_products`;
-        console.error(errorMessage);
+        createLog(
+          'error',
+          `Error! Order: ${order.invoiceNumber} has no products associated with it. Order was not saved.`,
+          __filename
+        );
         throw new Error(errorMessage);
       }
     });
   } catch (error) {
-    console.error(
-      `Error saving order:: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}`,
-      error
+    createLog(
+      'error',
+      `Error saving order:: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}. Error: ${error}`,
+      __filename
     );
   }
 };

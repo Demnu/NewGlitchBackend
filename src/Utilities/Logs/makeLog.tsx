@@ -13,7 +13,11 @@ const createLog = async (
     sourceFile: source_file,
     createdAt: new Date().toUTCString()
   };
-  await db.insert(logs).values(log);
+  try {
+    await db.insert(logs).values(log);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export { createLog };

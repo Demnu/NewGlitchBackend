@@ -10,12 +10,11 @@ import recipeRoutes from './Routes/recipeRoutes';
 import calculationsRoutes from './Routes/calculationsRoutes';
 import ordermentumController from './Controllers/ordermentumController';
 import logsRoutes from './Routes/logsRoutes';
-import { getProductsFromOrdermentum } from './CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
-import { getOrdersFromOrdermentum } from './CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 import { Api } from './myApi';
 import { errorHandler } from './Middlewares/errorHandler';
 import cors from 'cors';
 import { createLog } from './Utilities/Logs/makeLog';
+import { performScheduledTasks } from './Utilities/performScheduledTasks';
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
@@ -31,7 +30,8 @@ app.use(cors(options));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
-
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   '/orders',
   ordersRoutes
@@ -61,11 +61,27 @@ app.use(
     #swagger.tags = ['Logs']
   */
 );
+app.get('/applyMigrations', async (req: Request, res: Response) => {
+  // #swagger.ignore = true
+  try {
+    const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
+      max: 1
+    });
+    await migrate(drizzle(migrationClient), migrationConfig);
+    res.send('Migration successfull');
+  } catch (error) {
+    console.log(error);
+    res.send('Migration unsuccessfull');
+  }
+});
+app.get('/', async (req, res) => {
+  /*
+    #swagger.ignore = true
+  */
+  res.render('welcome');
+});
 
 app.use(errorHandler);
-
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
 
 const api = new Api();
@@ -81,60 +97,6 @@ const startServer = async () => {
 };
 
 startServer();
-
-// Schedule the tasks to run every 10 minutes
-setInterval(
-  async () => {
-    try {
-      await getProductsFromOrdermentum();
-      createLog(
-        'informational',
-        `Products successfully retreived from ordermentum and saved to database`,
-        __filename
-      );
-    } catch (error) {
-      createLog(
-        'error',
-        `Error! Products unsuccessfully retreived from ordermentum and saved to database`,
-        __filename
-      );
-    }
-
-    try {
-      await getOrdersFromOrdermentum();
-      createLog(
-        'informational',
-        `Orders successfully retreived from ordermentum and saved to database`,
-        __filename
-      );
-    } catch (error) {
-      createLog(
-        'error',
-        `Error! Orders unsuccessfully retreived from ordermentum and saved to database`,
-        __filename
-      );
-    }
-  },
-  10 * 60 * 1000
-); // 10 minutes in milliseconds
-
-app.get('/', async (req, res) => {
-  /*
-    #swagger.ignore = true
-  */
-  res.render('welcome');
-});
-
-app.get('/applyMigrations', async (req: Request, res: Response) => {
-  // #swagger.ignore = true
-  try {
-    const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
-      max: 1
-    });
-    await migrate(drizzle(migrationClient), migrationConfig);
-    res.send('Migration successfull');
-  } catch (error) {
-    console.log(error);
-    res.send('Migration unsuccessfull');
-  }
-});
+performScheduledTasks();
+// run scheduled tasks every 10 minutes
+setInterval(performScheduledTasks, 10 * 60 * 1000);

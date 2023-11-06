@@ -1,9 +1,9 @@
 import { desc } from 'drizzle-orm';
 import { db } from '../../../dbConnection';
-import { logs } from '../../../Domain/Entities/logs';
+import { LogLevelEnum, logs } from '../../../Domain/Entities/logs';
 
 // Function to map log levels to colors
-const getLogLevelColor = (level) => {
+const getLogLevelColor = (level: LogLevelEnum) => {
   switch (level) {
     case 'emergency':
       return 'red';

@@ -21,7 +21,7 @@ const swaggerFile = require('./swagger_output.json');
 const path = require('path');
 const app: Application = express();
 
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173', 'http://170.64.169.119:5173'];
 const options: cors.CorsOptions = {
   origin: allowedOrigins
 };

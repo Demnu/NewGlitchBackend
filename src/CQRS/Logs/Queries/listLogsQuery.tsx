@@ -1,17 +1,45 @@
+import { desc } from 'drizzle-orm';
 import { db } from '../../../dbConnection';
+import { logs } from '../../../Domain/Entities/logs';
+
+// Function to map log levels to colors
+const getLogLevelColor = (level) => {
+  switch (level) {
+    case 'emergency':
+      return 'red';
+    case 'alert':
+      return 'orange';
+    case 'critical':
+      return 'orangered';
+    case 'error':
+      return 'tomato';
+    case 'warning':
+      return 'yellow';
+    case 'notice':
+      return 'lightblue';
+    case 'informational':
+      return 'blue';
+    case 'debug':
+      return 'grey';
+    default:
+      return 'black'; // Default color
+  }
+};
 
 const listLogsQuery = async () => {
-  const logs = await db.query.logs.findMany({ limit: 200 });
-
-  // Sorts in descending order by createdAt
-  const orderedLogs = logs.sort((a, b) => {
-    const dateA = new Date(a.createdAt);
-    const dateB = new Date(b.createdAt);
-    return dateB.getTime() - dateA.getTime();
+  const logsList = await db.query.logs.findMany({
+    limit: 400,
+    orderBy: [desc(logs.id)]
   });
 
-  const formattedLogs = orderedLogs.map((log) => {
-    return `Date: ${log.createdAt}, Level: ${log.logLevel}, Message: ${log.message}, Source: ${log.sourceFile}`;
+  const formattedLogs = logsList.map((log) => {
+    const logColor = getLogLevelColor(log.logLevel);
+    return (
+      `Date: ${log.createdAt}<br>` +
+      `Level: <span style="color: ${logColor};">${log.logLevel}</span><br>` +
+      `Message: ${log.message}<br>` +
+      `Source: ${log.sourceFile}<br>`
+    );
   });
 
   return formattedLogs.join('<br><br>');

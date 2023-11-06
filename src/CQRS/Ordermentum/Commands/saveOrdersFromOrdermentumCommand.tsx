@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { ordermentumClient } from '../../../ordermentumConnection';
 import { db } from '../../../dbConnection';
-import { eq, inArray, sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { Order, orders } from '../../../Domain/Entities/orders';
 import {
   OrderFromOrdermentumType,
@@ -51,7 +51,11 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
   });
 
   const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
-
+  createLog(
+    'informational',
+    `Orders successfully retreived from ordermentum and saved to database`,
+    __filename
+  );
   return orderIds;
 }
 
@@ -106,11 +110,6 @@ const addOrderToDatabase = async (order: OrderExtended) => {
       error
     );
   }
-  createLog(
-    'informational',
-    `Orders successfully retreived from ordermentum and saved to database`,
-    __filename
-  );
 };
 
 interface DownloadedOrdermentumOrders {
@@ -139,6 +138,7 @@ const downloadOrdersFromOrdermentum = async () => {
   const distSupplierID = process.env.DIST_SUPPLIER_ID;
   const flamSupplierId = process.env.FLAM_SUPPLIER_ID;
   const glitchSupplierId = process.env.GLITCH_SUPPLIER_ID;
+  const peaSupplierId = process.env.PEA_SUPPLIER_ID;
 
   const data: DownloadedOrdermentumOrders[] = [];
 
@@ -155,10 +155,18 @@ const downloadOrdersFromOrdermentum = async () => {
     ...customPagination,
     supplierId: glitchSupplierId
   });
+  const peaResults = await ordermentumClient.orders.findAll({
+    ...customPagination,
+    supplierId: peaSupplierId
+  });
   data.push(
     { ordersFormatted: distResults.data, suppliedId: distSupplierID },
     { ordersFormatted: flamResults.data, suppliedId: flamSupplierId },
-    { ordersFormatted: glitchResults.data, suppliedId: glitchSupplierId }
+    { ordersFormatted: glitchResults.data, suppliedId: glitchSupplierId },
+    {
+      ordersFormatted: peaResults.data,
+      suppliedId: peaSupplierId
+    }
   );
   return data;
 };

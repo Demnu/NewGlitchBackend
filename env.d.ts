@@ -7,6 +7,7 @@ declare namespace NodeJS {
       DIST_SUPPLIER_ID:string;
       FLAM_SUPPLIER_ID:string;
       GLITCH_SUPPLIER_ID:string;
+      PEA_SUPPLIER_ID:string;
       LOCAL_ADDRESS:string;
       SERVER_ADDRESS:string;
       ENVIRONMENT:string;

@@ -1,7 +1,7 @@
 import { db } from '../../../dbConnection';
 
 const listLogsQuery = async () => {
-  const logs = await db.query.logs.findMany();
+  const logs = await db.query.logs.findMany({ limit: 200 });
 
   // Sorts in descending order by createdAt
   const orderedLogs = logs.sort((a, b) => {

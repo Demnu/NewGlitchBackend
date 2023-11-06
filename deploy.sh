@@ -1,12 +1,16 @@
 #!/bin/bash
+# Make sure to move the deploy script outside the NewGlitchBackend directory
 
-# Navigate to your git repository directory
-#cd /path/to/your/git/repo
+# Update and restart the backend service
+echo "Updating and restarting the backend service..."
 
-# Pull the latest changes from Git
-git pull origin master
+# Navigate to the backend git repository directory
+cd NewGlitchBackend/ || exit
 
-# Stop the running docker containers and remove containers, networks, volumes, and images created by `up`.
+# Pull the latest changes from Git for the backend
+git pull
+
+# Stop the running docker containers, and remove containers, networks, volumes, and images created by `up`.
 docker-compose down
 
 # Build the Docker images according to your docker-compose.yml or Dockerfile
@@ -15,5 +19,22 @@ docker-compose build
 # Start up the Docker containers in detached mode
 docker-compose up -d
 
-# Note: Make sure that your docker-compose.yml file is in the git repository directory
-# or update the paths in the script accordingly.
+# Update and restart the front-end service
+echo "Updating and restarting the front-end service..."
+
+# Navigate to the front-end app directory
+cd ../GlitchFrontEndTypescript || exit
+
+# Stop the PM2 process with the name "glitchFrontEndDev"
+pm2 stop glitchFrontEndDev
+
+# Delete the PM2 process
+pm2 delete glitchFrontEndDev
+
+# Pull the latest changes from Git for the front-end
+git pull
+
+# Start the application using PM2 and the npm 'dev' script
+pm2 start npm --name "glitchFrontEndDev" -- run dev
+
+echo "Update and restart process completed."

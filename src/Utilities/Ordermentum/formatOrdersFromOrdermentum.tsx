@@ -15,6 +15,7 @@ export interface OrderFromOrdermentumType {
   totalCharge: number;
   lineItems: LineItem[];
   updatedAt: string;
+  invoiceNumber: string;
 }
 
 export interface OrderExtended extends Order {
@@ -43,6 +44,7 @@ export const readOrders = (
       supplierName: getSupplierName(supplierId || ''),
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
+      invoiceNumber: order.invoiceNumber,
       orderProducts: [],
       products: [],
       orderStatus: 'notCalculated'

@@ -10,6 +10,6 @@ declare namespace NodeJS {
       LOCAL_ADDRESS:string;
       SERVER_ADDRESS:string;
       ENVIRONMENT:string;
-    }
+      MONGO_URI: string}
   }
   

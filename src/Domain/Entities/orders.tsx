@@ -16,7 +16,8 @@ const orders = pgTable('orders', {
     mode: 'string',
     withTimezone: true
   }).notNull(),
-  orderStatus: orderStatusEnum('order_status').notNull()
+  orderStatus: orderStatusEnum('order_status').notNull(),
+  invoiceNumber: varchar('invoice_number', { length: 256 })
 });
 
 const orderRelations = relations(orders, ({ many }) => ({

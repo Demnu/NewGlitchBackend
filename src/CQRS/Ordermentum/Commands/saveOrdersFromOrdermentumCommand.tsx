@@ -7,14 +7,11 @@ import {
   OrderFromOrdermentumType,
   OrderExtended,
   readOrders
-} from '../../../Utilities/Ordermentum/readAndSaveOrders';
-import {
-  orders_products,
-  Order_Products
-} from '../../../Domain/Entities/orders_products';
-import { Console } from 'console';
+} from '../../../Utilities/Ordermentum/formatOrdersFromOrdermentum';
+import { orders_products } from '../../../Domain/Entities/orders_products';
 import { Product, products } from '../../../Domain/Entities/products';
 import { readProductsFromFormattedOrders } from '../../../Utilities/Ordermentum/readAndSaveProducts';
+import { saveOrdersAndProductsToMongo } from '../../../Legacy/saveOrdersAndProductsToMongo';
 const saveOrdersFromOrdermentumCommand = async (
   req: Request,
   res: Response
@@ -33,6 +30,11 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
   const downloadedOrders = await downloadOrdersFromOrdermentum();
   // format downloaded orders for database consumption
   const formattedOrders = formatOrdersFromOrdermentum(downloadedOrders);
+
+  // legacy remove when migrated to new backend
+  // **************************************************
+  await saveOrdersAndProductsToMongo(formattedOrders);
+  // **************************************************
 
   // save products from orders to database
   const formattedProductsFromOrdersForDatabase =
@@ -71,7 +73,10 @@ const addOrderToDatabase = async (order: OrderExtended) => {
         .returning({ insertedId: orders.id })
         .onConflictDoUpdate({
           target: orders.id,
-          set: { updatedAt: sql`EXCLUDED."updated_at"` }
+          set: {
+            updatedAt: sql`EXCLUDED."updated_at"`,
+            invoiceNumber: sql`EXCLUDED."invoice_number"`
+          }
         });
 
       const orderProducts = order.orderProducts.map((product) => ({
@@ -120,7 +125,7 @@ const formatOrdersFromOrdermentum = (
 const downloadOrdersFromOrdermentum = async () => {
   // Set your custom pagination settings
   const customPagination = {
-    pageSize: 30,
+    pageSize: 40,
     pageNo: 1,
     filter: 'b0d7ba3e-4ab1-4c1b-85ec-1275cd6687b9'
   };

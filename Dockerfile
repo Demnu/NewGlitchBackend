@@ -1,6 +1,9 @@
 # Use an official Node runtime as the parent image
 FROM node:16
 
+# Set the timezone
+ENV TZ=Australia/Sydney
+
 # Set the working directory inside the container
 WORKDIR /src/app
 

@@ -9,7 +9,7 @@
     "start": "ts-node dist/src/app.js",
     "generate-migration": "npx drizzle-kit generate:pg",
     "generate-swagger": "ts-node swagger.tsx ",
-    "generate-apiClient": "npx swagger-typescript-api -p ./src/swagger_output.json -o ./src -n myApi.ts --axios",
+    "generate-apiClient": "npx swagger-typescript-api -p ./src/swagger_output.json -o ./src -n myApi.ts --axios && npx swagger-typescript-api -p ./src/swagger_output.json -o ../GlitchFrontEndTypescript -n glitchHubApi.ts --axios",
     "build": "tsc -p . && ts-node swagger.tsx",
     "studio": "npx drizzle-kit studio",
     "pretty": "prettier --config .prettierrc 'src/**/*.ts' --write"

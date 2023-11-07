@@ -33,6 +33,9 @@ cd NewGlitchBackend/ || exit
 # Pull the latest changes from Git for the backend
 git pull
 
+# Generate api client for frontend
+npm run generate-apiClient
+
 # Stop the running docker containers, and remove containers, networks, volumes, and images created by `up`.
 docker-compose down
 

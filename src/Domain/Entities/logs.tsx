@@ -5,8 +5,6 @@ import {
   varchar,
   timestamp
 } from 'drizzle-orm/pg-core';
-import { recipe_beans } from './recipe_beans';
-import { relations } from 'drizzle-orm';
 
 const logLevelEnum = pgEnum('log_level', [
   'emergency',
@@ -26,8 +24,8 @@ const logs = pgTable('logs', {
     mode: 'string',
     withTimezone: true
   }).notNull(),
-  message: varchar('message', { length: 256 }).notNull(),
-  sourceFile: varchar('source_file', { length: 256 }).notNull()
+  message: varchar('message', { length: 1000 }).notNull(),
+  sourceFile: varchar('source_file', { length: 400 }).notNull()
 });
 
 type Log = typeof logs.$inferInsert;

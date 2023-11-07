@@ -26,6 +26,7 @@ const allowedOrigins = ['http://localhost:5173', 'http://170.64.169.119:5173'];
 const options: cors.CorsOptions = {
   origin: allowedOrigins
 };
+
 app.use(cors(options));
 
 app.set('view engine', 'ejs');

@@ -1,29 +1,5 @@
 #!/bin/bash
 
-# Function to handle errors
-error_handling() {
-  echo "An error occurred. Stopping all services..."
-
-  # Navigate to the backend directory and stop all Docker containers
-  cd NewGlitchBackend/
-  docker-compose down
-
-  # Navigate to the front-end directory and stop the PM2 process
-  cd ../GlitchFrontEndTypescript
-  pm2 stop glitchFrontEndDev
-  pm2 delete glitchFrontEndDev
-
-  # Send a notification about the failure
-  # Replace this with your preferred method to notify the team
-  echo "Deployment script failed"
-
-  echo "All services have been stopped. An admin has been notified."
-  exit 1
-}
-
-# Trap any error
-trap 'error_handling' ERR
-
 # Update and restart the backend service
 echo "Updating and restarting the backend service..."
 

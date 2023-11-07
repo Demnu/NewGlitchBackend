@@ -62,7 +62,7 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
       `Orders successfully retrieved from ordermentum and saved to database`,
       __filename
     );
-    noErrors = false;
+    noErrors = true;
   } else {
     createLog(
       'error',

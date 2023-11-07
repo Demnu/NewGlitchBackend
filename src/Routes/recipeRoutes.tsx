@@ -10,7 +10,7 @@ router.get(
   '/listRecipes',
   listRecipesController /* #swagger.responses[200] = {
   description: 'Recieve recipes!',
-  schema: { $ref: '#/definitions/OrderDtos' }
+  schema: { $ref: '#/definitions/RecipeDtos' }
 } */
 );
 

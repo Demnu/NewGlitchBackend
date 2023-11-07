@@ -11,19 +11,19 @@ interface RecipeBeans_Beans extends Recipe_Beans {
   bean: Bean;
 }
 
-export const RecipeDtoJsonSchema: RecipeDto = {
-  id: 1234,
-  productId: 'Blurger',
-  recipeName: 'Yummy Blend',
-  recipe_beans: [
+const RecipeDtoJsonSchema = {
+  $id: 1234,
+  $productId: 'Blurger',
+  $recipeName: 'Yummy Blend',
+  $recipe_beans: [
     {
-      id: 1,
-      beanId: 2,
-      recipeId: 3,
-      amountOrdered: 100,
-      bean: { id: 2, beanName: 'Roasty bean' }
+      $id: 1,
+      $beanId: 2,
+      $recipeId: 3,
+      $amountOrdered: 100,
+      $bean: { $id: 2, $beanName: 'Roasty bean' }
     }
   ]
 };
 
-export { RecipeDto };
+export { RecipeDto, RecipeDtoJsonSchema };

@@ -21,6 +21,7 @@ const doc = {
     // if swagger doc parameters look glitched just re-run npm run dev or npm run generate-swagger
     OrderDtos: [OrderDtoJsonSchema],
     OrderDto: OrderDtoJsonSchema,
+    RecipeDto: RecipeDtoJsonSchema,
     RecipeDtos: [RecipeDtoJsonSchema],
     RecipeRequestDto: CreateRecipeRequestDtoJsonSchema,
     MakeCalculationRequestDto: MakeCalculationRequestDtoJsonSchema,

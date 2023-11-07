@@ -8,6 +8,7 @@ interface ProductExtended extends Product {
 
 interface OrderDto {
   id?: string;
+  invoiceNumber: string;
   customerName?: string | null;
   products?: ProductExtended[];
   dateCreated: string;
@@ -22,6 +23,7 @@ const OrderStatusEnumJsonSchema = {
 
 const OrderDtoJsonSchema = {
   $id: '123',
+  $invoiceNumber: 'A1000',
   $dateCreated: '08/09/1998',
   $customerName: 'Harry',
   $orderStatus: {

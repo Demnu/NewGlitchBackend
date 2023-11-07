@@ -63,7 +63,7 @@
           "200": {
             "description": "Recieve recipes!",
             "schema": {
-              "$ref": "#/definitions/OrderDtos"
+              "$ref": "#/definitions/RecipeDtos"
             }
           }
         }
@@ -142,6 +142,10 @@
             "type": "string",
             "example": "123"
           },
+          "invoiceNumber": {
+            "type": "string",
+            "example": "A1000"
+          },
           "dateCreated": {
             "type": "string",
             "example": "08/09/1998"
@@ -205,6 +209,7 @@
         },
         "required": [
           "id",
+          "invoiceNumber",
           "dateCreated",
           "customerName",
           "orderStatus",
@@ -218,6 +223,10 @@
         "id": {
           "type": "string",
           "example": "123"
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "example": "A1000"
         },
         "dateCreated": {
           "type": "string",
@@ -294,10 +303,82 @@
       },
       "required": [
         "id",
+        "invoiceNumber",
         "dateCreated",
         "customerName",
         "orderStatus",
         "products"
+      ]
+    },
+    "RecipeDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1234
+        },
+        "productId": {
+          "type": "string",
+          "example": "Blurger"
+        },
+        "recipeName": {
+          "type": "string",
+          "example": "Yummy Blend"
+        },
+        "recipe_beans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "beanId": {
+                "type": "number",
+                "example": 2
+              },
+              "recipeId": {
+                "type": "number",
+                "example": 3
+              },
+              "amountOrdered": {
+                "type": "number",
+                "example": 100
+              },
+              "bean": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "beanName": {
+                    "type": "string",
+                    "example": "Roasty bean"
+                  }
+                },
+                "required": [
+                  "id",
+                  "beanName"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "beanId",
+              "recipeId",
+              "amountOrdered",
+              "bean"
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "productId",
+        "recipeName",
+        "recipe_beans"
       ]
     },
     "RecipeDtos": {
@@ -349,12 +430,29 @@
                       "type": "string",
                       "example": "Roasty bean"
                     }
-                  }
+                  },
+                  "required": [
+                    "id",
+                    "beanName"
+                  ]
                 }
-              }
+              },
+              "required": [
+                "id",
+                "beanId",
+                "recipeId",
+                "amountOrdered",
+                "bean"
+              ]
             }
           }
-        }
+        },
+        "required": [
+          "id",
+          "productId",
+          "recipeName",
+          "recipe_beans"
+        ]
       }
     },
     "RecipeRequestDto": {

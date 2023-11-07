@@ -20,11 +20,6 @@ const performScheduledTasks = async () => {
 
   try {
     await getOrdersFromOrdermentum();
-    createLog(
-      'informational',
-      `Orders successfully retrieved from ordermentum and saved to database`,
-      __filename
-    );
   } catch (error) {
     createLog(
       'error',

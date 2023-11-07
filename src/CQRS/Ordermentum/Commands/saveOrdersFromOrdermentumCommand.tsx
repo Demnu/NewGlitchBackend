@@ -13,6 +13,7 @@ import { Product, products } from '../../../Domain/Entities/products';
 import { readProductsFromFormattedOrders } from '../../../Utilities/Ordermentum/readAndSaveProducts';
 import { saveOrdersAndProductsToMongo } from '../../../Legacy/saveOrdersAndProductsToMongo';
 import { createLog } from '../../../Utilities/Logs/makeLog';
+let noErrors = true;
 const saveOrdersFromOrdermentumCommand = async (
   req: Request,
   res: Response
@@ -55,6 +56,20 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
   });
 
   const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
+  if (noErrors) {
+    createLog(
+      'informational',
+      `Orders successfully retrieved from ordermentum and saved to database`,
+      __filename
+    );
+    noErrors = false;
+  } else {
+    createLog(
+      'error',
+      `Error! There were issues retrieving and saving orders from Ordermentum`,
+      __filename
+    );
+  }
 
   return orderIds;
 }
@@ -63,8 +78,8 @@ const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
   try {
     await db.insert(products).values(productFromOrder).onConflictDoNothing();
   } catch (error) {
+    noErrors = false;
     console.error(`Error saving product`, error);
-
     console.log(`${productFromOrder.id} - ${productFromOrder.productName}`);
   }
 };
@@ -110,6 +125,7 @@ const addOrderToDatabase = async (order: OrderExtended) => {
       }
     });
   } catch (error) {
+    noErrors = false;
     createLog(
       'error',
       `Error saving order:: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}. Error: ${error}`,
@@ -176,6 +192,7 @@ const downloadOrdersFromOrdermentum = async () => {
       }
     );
   } catch (error) {
+    noErrors = false;
     createLog(
       'critical',
       `Critical! Could not fetch orders from ordermentum. Error: ${error}`,

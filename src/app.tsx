@@ -8,6 +8,7 @@ import { migrationConfig } from '../drizzle.config';
 import ordersRoutes from './Routes/ordersRoutes';
 import recipeRoutes from './Routes/recipeRoutes';
 import calculationsRoutes from './Routes/calculationsRoutes';
+import beansRoutes from './Routes/beansRoutes';
 import ordermentumController from './Controllers/ordermentumController';
 import logsRoutes from './Routes/logsRoutes';
 import { Api } from './myApi';
@@ -52,6 +53,13 @@ app.use(
   calculationsRoutes
   /*
     #swagger.tags = ['Calculations']
+  */
+);
+app.use(
+  '/beans',
+  beansRoutes
+  /*
+    #swagger.tags = ['Beans']
   */
 );
 app.use(

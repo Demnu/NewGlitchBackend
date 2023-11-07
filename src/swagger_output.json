@@ -118,6 +118,22 @@
         }
       }
     },
+    "/beans/listBeans": {
+      "get": {
+        "tags": [
+          "Beans"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Recieve beans!",
+            "schema": {
+              "$ref": "#/definitions/BeanDtos"
+            }
+          }
+        }
+      }
+    },
     "/logs/": {
       "get": {
         "tags": [
@@ -460,20 +476,39 @@
       "properties": {
         "productId": {
           "type": "string",
-          "example": "2"
+          "example": "270551eb-4b20-43c1-9258-f474bb9745bc"
         },
         "recipeName": {
           "type": "string",
           "example": "Yummy recipe"
         },
-        "beans": {
+        "existingBeans": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
               "beanId": {
                 "type": "number",
-                "example": 4
+                "example": 3
+              },
+              "beanAmount": {
+                "type": "number",
+                "example": 200
+              }
+            },
+            "required": [
+              "beanAmount"
+            ]
+          }
+        },
+        "newBeans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "beanName": {
+                "type": "string",
+                "example": "New Bean"
               },
               "beanAmount": {
                 "type": "number",
@@ -482,7 +517,13 @@
             }
           }
         }
-      }
+      },
+      "required": [
+        "productId",
+        "recipeName",
+        "existingBeans",
+        "newBeans"
+      ]
     },
     "MakeCalculationRequestDto": {
       "type": "object",
@@ -623,6 +664,43 @@
       },
       "required": [
         "orderStatus"
+      ]
+    },
+    "BeanDtos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "12345"
+          },
+          "beanName": {
+            "type": "string",
+            "example": "Popoyan"
+          }
+        },
+        "required": [
+          "id",
+          "beanName"
+        ]
+      }
+    },
+    "BeanDtop": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "beanName": {
+          "type": "string",
+          "example": "Popoyan"
+        }
+      },
+      "required": [
+        "id",
+        "beanName"
       ]
     }
   }

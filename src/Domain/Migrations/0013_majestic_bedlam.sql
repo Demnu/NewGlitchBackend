@@ -1,0 +1,1 @@
+ALTER TABLE "beans" ADD CONSTRAINT "beans_bean_name_unique" UNIQUE("bean_name");

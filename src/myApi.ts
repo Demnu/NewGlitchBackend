@@ -121,13 +121,19 @@ export type RecipeDtos = {
 }[];
 
 export interface RecipeRequestDto {
-  /** @example "2" */
-  productId?: string;
+  /** @example "270551eb-4b20-43c1-9258-f474bb9745bc" */
+  productId: string;
   /** @example "Yummy recipe" */
-  recipeName?: string;
-  beans?: {
-    /** @example 4 */
+  recipeName: string;
+  existingBeans: {
+    /** @example 3 */
     beanId?: number;
+    /** @example 200 */
+    beanAmount: number;
+  }[];
+  newBeans: {
+    /** @example "New Bean" */
+    beanName?: string;
     /** @example 400 */
     beanAmount?: number;
   }[];
@@ -186,6 +192,20 @@ export interface ProductExtendedJsonSchema {
 
 export interface OrderStatusEnum {
   orderStatus: 'notCalculated' | 'calculated';
+}
+
+export type BeanDtos = {
+  /** @example "12345" */
+  id: string;
+  /** @example "Popoyan" */
+  beanName: string;
+}[];
+
+export interface BeanDtop {
+  /** @example "12345" */
+  id: string;
+  /** @example "Popoyan" */
+  beanName: string;
 }
 
 import type {
@@ -461,6 +481,21 @@ export class Api<
         method: 'POST',
         body: body,
         type: ContentType.Json,
+        ...params
+      })
+  };
+  beans = {
+    /**
+     * No description
+     *
+     * @tags Beans
+     * @name ListBeansList
+     * @request GET:/beans/listBeans
+     */
+    listBeansList: (params: RequestParams = {}) =>
+      this.request<BeanDtos, any>({
+        path: `/beans/listBeans`,
+        method: 'GET',
         ...params
       })
   };

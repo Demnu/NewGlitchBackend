@@ -27,8 +27,8 @@ const performScheduledTasks = async () => {
     );
   } catch (error) {
     createLog(
-      'error',
-      `Error! Orders unsuccessfully retrieved from ordermentum and saved to database`,
+      'critical',
+      `Error! Orders unsuccessfully retrieved from ordermentum and saved to database ${error}`,
       __filename
     );
   }

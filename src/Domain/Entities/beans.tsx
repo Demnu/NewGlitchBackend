@@ -12,7 +12,7 @@ const beansRelations = relations(beans, ({ many }) => ({
 }));
 
 const BeanJsonSchema = {
-  $id: '12345',
+  $id: 12345,
   $beanName: 'Popoyan'
 };
 export type Bean = typeof beans.$inferInsert;

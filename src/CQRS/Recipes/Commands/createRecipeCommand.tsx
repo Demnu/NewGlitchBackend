@@ -96,15 +96,17 @@ const areBeanIdsValid = async (
   const hasDuplicates = beanIds.length !== new Set(beanIds).size;
   if (hasDuplicates) return false;
 
-  const existingBeanIds = await db
-    .select({ id: beans.id })
-    .from(beans)
-    .where(inArray(beans.id, beanIds));
-
+  if (beanIds.length > 0) {
+    const existingBeanIds = await db
+      .select({ id: beans.id })
+      .from(beans)
+      .where(inArray(beans.id, beanIds));
+    return beanIds.every((id) =>
+      existingBeanIds.find((result) => id === result.id)
+    );
+  }
+  return true;
   // Check if all requested beanIds exist in the database
-  return beanIds.every((id) =>
-    existingBeanIds.find((result) => id === result.id)
-  );
 };
 
 const areBeanNamesValid = async (recipeRequest: CreateRecipeRequestDto) => {

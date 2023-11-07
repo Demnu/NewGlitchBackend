@@ -17,7 +17,7 @@ const performScheduledTasks = async () => {
   //       __filename
   //     );
   //   }
-  createLog('informational', `Starting to read orders!`, __filename);
+
   try {
     await getOrdersFromOrdermentum();
     createLog(
@@ -27,13 +27,11 @@ const performScheduledTasks = async () => {
     );
   } catch (error) {
     createLog(
-      'critical',
-      `Error! Orders unsuccessfully retrieved from ordermentum and saved to database ${error}`,
+      'error',
+      `Error! Orders unsuccessfully retrieved from ordermentum and saved to database`,
       __filename
     );
   }
-
-  createLog('informational', `done reading orders!`, __filename);
 };
 
 export { performScheduledTasks };

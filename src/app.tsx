@@ -55,6 +55,15 @@ app.get('/', async (req, res) => {
   */
   res.render('welcome');
 });
+app.use(
+  '/logs',
+  logsRoutes
+  /*
+    #swagger.tags = ['Logs']
+  */
+);
+
+// any endpoint past here will get logged
 app.use(requestLoggerMiddleware);
 app.use(
   '/orders',
@@ -83,13 +92,6 @@ app.use(
   beansRoutes
   /*
     #swagger.tags = ['Beans']
-  */
-);
-app.use(
-  '/logs',
-  logsRoutes
-  /*
-    #swagger.tags = ['Logs']
   */
 );
 

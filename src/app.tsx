@@ -16,6 +16,7 @@ import { errorHandler } from './Middlewares/errorHandler';
 import cors from 'cors';
 import { createLog } from './Utilities/Logs/makeLog';
 import { performScheduledTasks } from './Utilities/performScheduledTasks';
+import { requestLoggerMiddleware } from './Middlewares/requestLoggerMiddleware';
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
@@ -34,6 +35,27 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/applyMigrations', async (req: Request, res: Response) => {
+  // #swagger.ignore = true
+  try {
+    const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
+      max: 1
+    });
+    await migrate(drizzle(migrationClient), migrationConfig);
+    res.send('Migration successfull');
+  } catch (error) {
+    console.log(error);
+    res.send('Migration unsuccessfull');
+  }
+});
+app.get('/', async (req, res) => {
+  /*
+    #swagger.ignore = true
+  */
+  res.render('welcome');
+});
+app.use(requestLoggerMiddleware);
 app.use(
   '/orders',
   ordersRoutes
@@ -70,25 +92,6 @@ app.use(
     #swagger.tags = ['Logs']
   */
 );
-app.get('/applyMigrations', async (req: Request, res: Response) => {
-  // #swagger.ignore = true
-  try {
-    const migrationClient = postgres(process.env.CONNECTION_STRING || '', {
-      max: 1
-    });
-    await migrate(drizzle(migrationClient), migrationConfig);
-    res.send('Migration successfull');
-  } catch (error) {
-    console.log(error);
-    res.send('Migration unsuccessfull');
-  }
-});
-app.get('/', async (req, res) => {
-  /*
-    #swagger.ignore = true
-  */
-  res.render('welcome');
-});
 
 app.use(errorHandler);
 const PORT = process.env.PORT;

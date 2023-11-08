@@ -152,7 +152,7 @@ const formatOrdersFromOrdermentum = (
 const downloadOrdersFromOrdermentum = async () => {
   // Set your custom pagination settings
   const customPagination = {
-    pageSize: 30,
+    pageSize: 25,
     pageNo: 1,
     filter: 'b0d7ba3e-4ab1-4c1b-85ec-1275cd6687b9'
   };

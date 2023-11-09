@@ -7,13 +7,15 @@ const requestLoggerMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  // Extract the IP from the request
-  const ip = req.ip;
+  // Extract the IP from the request and remove the IPv4-mapped IPv6 prefix if present
+  const ip = req.ip.replace(/^::ffff:/, '');
+  const startTime = process.hrtime();
+
   // Log the start of the request
   await createLog(
     'informational',
     `Received a request from ${ip} to ${req.path}`,
-    'requestLoggerMiddleware'
+    __filename
   );
 
   // Wait until the response has finished
@@ -23,10 +25,15 @@ const requestLoggerMiddleware = async (
     const success =
       status >= 200 && status < 400 ? 'successful' : 'unsuccessful';
 
-    // Log the result of the request
+    const [seconds, nanoseconds] = process.hrtime(startTime);
+    const responseTimeMs = seconds * 1000 + nanoseconds / 1e6;
+
+    // Log the response time
     await createLog(
       success ? 'informational' : 'error',
-      `Request from ${ip} to ${req.path} was ${success}`,
+      `Request from ${ip} to ${
+        req.path
+      } was ${success}. Response time: ${responseTimeMs.toFixed(2)} ms`,
       __filename
     );
   });

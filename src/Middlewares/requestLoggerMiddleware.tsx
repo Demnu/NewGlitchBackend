@@ -15,11 +15,11 @@ const requestLoggerMiddleware = async (
   const startTime = process.hrtime();
 
   // Log the start of the request
-  await createLog(
-    'informational',
-    `Received a request from ${ip} to ${req.path}`,
-    __filename
-  );
+  // await createLog(
+  //   'informational',
+  //   `Received a request from ${ip} to ${req.path}`,
+  //   __filename
+  // );
 
   // Wait until the response has finished
   res.on('finish', async () => {

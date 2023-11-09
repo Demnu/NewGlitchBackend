@@ -2,6 +2,9 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import { logLevelEnum } from '../Domain/Entities/logs';
 import { createLog } from '../Utilities/Logs/makeLog';
 
+// Define the threshold for a response time that is considered too high (in milliseconds)
+const RESPONSE_TIME_THRESHOLD_MS = 1000; // Example: 1000ms or 1 second
+
 const requestLoggerMiddleware = async (
   req: Request,
   res: Response,
@@ -36,6 +39,19 @@ const requestLoggerMiddleware = async (
       } was ${success}. Response time: ${responseTimeMs.toFixed(2)} ms`,
       __filename
     );
+
+    // Check if the response time exceeds the threshold and log a warning if it does
+    if (responseTimeMs > RESPONSE_TIME_THRESHOLD_MS) {
+      await createLog(
+        'warning',
+        `Request from ${ip} to ${
+          req.path
+        } had a high response time: ${responseTimeMs.toFixed(
+          2
+        )} ms exceeding the threshold of ${RESPONSE_TIME_THRESHOLD_MS} ms`,
+        __filename
+      );
+    }
   });
 
   next();

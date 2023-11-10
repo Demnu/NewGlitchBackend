@@ -10,37 +10,40 @@ const requestLoggerMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  // Extract the IP from the request and remove the IPv4-mapped IPv6 prefix if present
   const ip = req.ip.replace(/^::ffff:/, '');
   const startTime = process.hrtime();
+  const body = req.body;
+  const queryParams = req.query;
 
-  // Log the start of the request
+  // Log the start of the request with body and query params
   // await createLog(
   //   'informational',
-  //   `Received a request from ${ip} to ${req.path}`,
+  //   `Received a request from ${ip} to ${req.path}. Body: ${JSON.stringify(body)}, Query Params: ${JSON.stringify(queryParams)}`,
   //   __filename
   // );
 
-  // Wait until the response has finished
   res.on('finish', async () => {
-    // Determine if the response was successful based on the status code
     const status = res.statusCode;
-    const success =
-      status >= 200 && status < 400 ? 'successful' : 'unsuccessful';
+    const isSuccess = status >= 200 && status < 400 && status < 500;
 
     const [seconds, nanoseconds] = process.hrtime(startTime);
     const responseTimeMs = seconds * 1000 + nanoseconds / 1e6;
 
-    // Log the response time
-    await createLog(
-      success ? 'informational' : 'error',
-      `Request from ${ip} to ${
-        req.path
-      } was ${success}. Response time: ${responseTimeMs.toFixed(2)} ms`,
-      __filename
-    );
+    // Log the response time with body and query params
+    if (isSuccess) {
+      await createLog(
+        'informational',
+        `Request from ${ip} to ${
+          req.path
+        } was successful. Response time: ${responseTimeMs.toFixed(
+          2
+        )} ms. Body: ${JSON.stringify(body)}, Query Params: ${JSON.stringify(
+          queryParams
+        )}`,
+        __filename
+      );
+    }
 
-    // Check if the response time exceeds the threshold and log a warning if it does
     if (responseTimeMs > RESPONSE_TIME_THRESHOLD_MS) {
       await createLog(
         'warning',
@@ -48,7 +51,9 @@ const requestLoggerMiddleware = async (
           req.path
         } had a high response time: ${responseTimeMs.toFixed(
           2
-        )} ms exceeding the threshold of ${RESPONSE_TIME_THRESHOLD_MS} ms`,
+        )} ms, exceeding the threshold of ${RESPONSE_TIME_THRESHOLD_MS} ms. Body: ${JSON.stringify(
+          body
+        )}, Query Params: ${JSON.stringify(queryParams)}`,
         __filename
       );
     }

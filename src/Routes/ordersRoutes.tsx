@@ -3,18 +3,19 @@ import { listOrdersController } from '../Controllers/ordersController';
 
 const router = Router();
 
-//TODO change to GET request when https://github.com/swagger-autogen/swagger-autogen/issues/235 is solved
-router.post(
+// Change this to a GET request when the related issue is resolved
+router.get(
   '/listOrders',
-
-  listOrdersController /* #swagger.responses[200] = {
-    description: 'Recieve orders!',
-    schema: { $ref: '#/definitions/OrderDtos' },
-      #swagger.parameters['body'] = {
+  listOrdersController
+  /*  #swagger.parameters['body'] = {
             in: 'body',
-            description: 'Enter optional filters!',
+            description: 'Create a recipe!',
             schema: { $ref: '#/definitions/ListOrdersRequestDto' }
-} */
+    } */
+  /* #swagger.responses[200] = {
+    description: 'Recieve orders!',
+    schema: { $ref: '#/definitions/OrderDtos' }
+  } */
 );
 
 export default router;

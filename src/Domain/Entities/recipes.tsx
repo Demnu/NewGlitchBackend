@@ -8,7 +8,8 @@ export const recipes = pgTable('recipes', {
   productId: varchar('product_id')
     .references(() => products.id)
     .notNull(),
-  recipeName: varchar('product_name', { length: 256 }).notNull()
+  recipeName: varchar('product_name', { length: 256 }).notNull(),
+  blendName: varchar('blend_name', { length: 256 })
 });
 
 export const recipesRelations = relations(recipes, ({ one, many }) => ({

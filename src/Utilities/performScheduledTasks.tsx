@@ -1,5 +1,6 @@
 import { getOrdersFromOrdermentum } from '../CQRS/Ordermentum/Commands/saveOrdersFromOrdermentumCommand';
 import { getProductsFromOrdermentum } from '../CQRS/Ordermentum/Commands/saveProductsFromOrdermentumCommand';
+import { removeHtmlProducts } from '../Legacy/removeHtmlProducts';
 import { createLog } from './Logs/makeLog';
 
 const performScheduledTasks = async () => {
@@ -17,6 +18,7 @@ const performScheduledTasks = async () => {
   //       __filename
   //     );
   //   }
+  await removeHtmlProducts();
 
   try {
     await getOrdersFromOrdermentum();

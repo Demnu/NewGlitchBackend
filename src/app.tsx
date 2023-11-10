@@ -17,6 +17,7 @@ import cors from 'cors';
 import { createLog } from './Utilities/Logs/makeLog';
 import { performScheduledTasks } from './Utilities/performScheduledTasks';
 import { requestLoggerMiddleware } from './Middlewares/requestLoggerMiddleware';
+import { getRecipesFromMongo } from './Legacy/getRecipesFromMongo';
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
@@ -53,6 +54,13 @@ app.get('/', async (req, res) => {
   /*
     #swagger.ignore = true
   */
+  res.render('welcome');
+});
+app.post('/getRecipesFromMongo', async (req, res) => {
+  /*
+    #swagger.ignore = true
+  */
+  await getRecipesFromMongo();
   res.render('welcome');
 });
 app.use(

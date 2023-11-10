@@ -11,6 +11,19 @@
     "http"
   ],
   "paths": {
+    "/logs/": {
+      "get": {
+        "tags": [
+          "Logs"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/orders/listOrders": {
       "get": {
         "tags": [
@@ -130,19 +143,6 @@
             "schema": {
               "$ref": "#/definitions/BeanDtos"
             }
-          }
-        }
-      }
-    },
-    "/logs/": {
-      "get": {
-        "tags": [
-          "Logs"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -497,6 +497,7 @@
               }
             },
             "required": [
+              "beanId",
               "beanAmount"
             ]
           }
@@ -514,7 +515,11 @@
                 "type": "number",
                 "example": 400
               }
-            }
+            },
+            "required": [
+              "beanName",
+              "beanAmount"
+            ]
           }
         }
       },
@@ -672,8 +677,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "example": "12345"
+            "type": "number",
+            "example": 12345
           },
           "beanName": {
             "type": "string",
@@ -690,8 +695,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "example": "12345"
+          "type": "number",
+          "example": 12345
         },
         "beanName": {
           "type": "string",

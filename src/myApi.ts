@@ -127,15 +127,15 @@ export interface RecipeRequestDto {
   recipeName: string;
   existingBeans: {
     /** @example 3 */
-    beanId?: number;
+    beanId: number;
     /** @example 200 */
     beanAmount: number;
   }[];
   newBeans: {
     /** @example "New Bean" */
-    beanName?: string;
+    beanName: string;
     /** @example 400 */
-    beanAmount?: number;
+    beanAmount: number;
   }[];
 }
 
@@ -195,15 +195,15 @@ export interface OrderStatusEnum {
 }
 
 export type BeanDtos = {
-  /** @example "12345" */
-  id: string;
+  /** @example 12345 */
+  id: number;
   /** @example "Popoyan" */
   beanName: string;
 }[];
 
 export interface BeanDtop {
-  /** @example "12345" */
-  id: string;
+  /** @example 12345 */
+  id: number;
   /** @example "Popoyan" */
   beanName: string;
 }
@@ -389,6 +389,21 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown
 > extends HttpClient<SecurityDataType> {
+  logs = {
+    /**
+     * No description
+     *
+     * @tags Logs
+     * @name LogsList
+     * @request GET:/logs/
+     */
+    logsList: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/logs/`,
+        method: 'GET',
+        ...params
+      })
+  };
   orders = {
     /**
      * No description
@@ -495,21 +510,6 @@ export class Api<
     listBeansList: (params: RequestParams = {}) =>
       this.request<BeanDtos, any>({
         path: `/beans/listBeans`,
-        method: 'GET',
-        ...params
-      })
-  };
-  logs = {
-    /**
-     * No description
-     *
-     * @tags Logs
-     * @name LogsList
-     * @request GET:/logs/
-     */
-    logsList: (params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/logs/`,
         method: 'GET',
         ...params
       })

@@ -13,6 +13,7 @@ import { CreateRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/cr
 import { MakeCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationRequestDto';
 import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationResponseDto';
 import { BeanJsonSchema } from './src/Domain/Entities/beans';
+import { ListOrdersRequestDtoJsonSchema } from './src/CQRS/Orders/Queries/listOrdersRequestDto';
 console.log();
 const doc = {
   info: {
@@ -22,6 +23,7 @@ const doc = {
     // if swagger doc parameters look glitched just re-run npm run dev or npm run generate-swagger
     OrderDtos: [OrderDtoJsonSchema],
     OrderDto: OrderDtoJsonSchema,
+    ListOrdersRequestDto: ListOrdersRequestDtoJsonSchema,
     RecipeDto: RecipeDtoJsonSchema,
     RecipeDtos: [RecipeDtoJsonSchema],
     RecipeRequestDto: CreateRecipeRequestDtoJsonSchema,
@@ -30,7 +32,7 @@ const doc = {
     ProductExtendedJsonSchema: ProductExtendedJsonSchema,
     OrderStatusEnum: OrderStatusEnumJsonSchema,
     BeanDtos: [BeanJsonSchema],
-    BeanDtop: BeanJsonSchema
+    BeanDto: BeanJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

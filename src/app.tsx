@@ -14,7 +14,6 @@ import logsRoutes from './Routes/logsRoutes';
 import { Api } from './myApi';
 import { errorHandler } from './Middlewares/errorHandler';
 import cors from 'cors';
-import { createLog } from './Utilities/Logs/makeLog';
 import { performScheduledTasks } from './Utilities/performScheduledTasks';
 import { requestLoggerMiddleware } from './Middlewares/requestLoggerMiddleware';
 import { getRecipesFromMongo } from './Legacy/getRecipesFromMongo';

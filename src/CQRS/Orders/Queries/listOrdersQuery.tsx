@@ -2,8 +2,27 @@ import { Request, Response, Router } from 'express';
 import { OrderDto, ProductExtended } from './orderDto';
 import { db } from '../../../dbConnection';
 import { Product } from '../../../Domain/Entities/products';
-const listOrdersQuery = async () => {
+import { ListOrdersRequestDto } from './listOrdersRequestDto';
+import dayjs from 'dayjs';
+import { orders } from '../../../Domain/Entities/orders';
+import { gte, lte } from 'drizzle-orm';
+const listOrdersQuery = async (listOrdersRequest: ListOrdersRequestDto) => {
+  if (!(await areDatesValid(listOrdersRequest))) {
+    throw new Error('dateTo must be a later date than dateFrom');
+  }
+  const dateFrom = listOrdersRequest.dateFrom
+    ? new Date(listOrdersRequest.dateFrom)
+    : dayjs().subtract(2, 'day').toDate();
+  const dateTo = listOrdersRequest.dateTo
+    ? new Date(listOrdersRequest.dateTo)
+    : dayjs().toDate();
+
+  // Convert dates to ISO strings for querying
+  const isoDateFrom = dateFrom.toISOString();
+  const isoDateTo = dateTo.toISOString();
+
   const results = await db.query.orders.findMany({
+    where: gte(orders.createdAt, isoDateFrom),
     with: {
       order_products: {
         with: {
@@ -56,6 +75,19 @@ const listOrdersQuery = async () => {
   });
 
   return orderDtos;
+};
+
+const areDatesValid = async (
+  listOrdersRequest: ListOrdersRequestDto
+): Promise<boolean> => {
+  const dateTo = listOrdersRequest.dateTo;
+  const dateFrom = listOrdersRequest.dateFrom;
+
+  // check if dateTo is before dateFrom
+  if (!!dateTo && !!dateFrom && dateTo < dateFrom) {
+    return false;
+  }
+  return true;
 };
 
 export { listOrdersQuery };

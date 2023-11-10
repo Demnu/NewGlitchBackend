@@ -78,8 +78,8 @@ const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
   try {
     await db.insert(products).values(productFromOrder).onConflictDoNothing();
   } catch (error) {
-    noErrors = false;
-    console.error(`Error saving product`, error);
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.error(`Error saving product: ${errorMsg}`);
     console.log(`${productFromOrder.id} - ${productFromOrder.productName}`);
   }
 };
@@ -128,7 +128,7 @@ const addOrderToDatabase = async (order: OrderExtended) => {
     noErrors = false;
     createLog(
       'error',
-      `Error saving order:: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}. Error: ${error}`,
+      `Error saving order: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}. Error: ${errorMsg}`,
       __filename
     );
   }
@@ -192,10 +192,11 @@ const downloadOrdersFromOrdermentum = async () => {
       }
     );
   } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
     noErrors = false;
     createLog(
       'critical',
-      `Critical! Could not fetch orders from ordermentum. Error: ${error}`,
+      `Critical! Could not fetch orders from ordermentum. Error: ${errorMsg}`,
       __filename
     );
   }

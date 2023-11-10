@@ -7,8 +7,8 @@ const ListOrdersRequestDtoSchema = z.object({
 
 type ListOrdersRequestDto = z.infer<typeof ListOrdersRequestDtoSchema>;
 const ListOrdersRequestDtoJsonSchema = {
-  $dateTo: new Date().toISOString(),
-  $dateFrom: new Date().toISOString()
+  dateTo: new Date().toISOString(),
+  dateFrom: new Date().toISOString()
 };
 export {
   ListOrdersRequestDto,

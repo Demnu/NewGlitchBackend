@@ -125,6 +125,7 @@ const addOrderToDatabase = async (order: OrderExtended) => {
       }
     });
   } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
     noErrors = false;
     createLog(
       'error',

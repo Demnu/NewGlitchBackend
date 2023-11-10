@@ -4,12 +4,12 @@ import { listOrdersController } from '../Controllers/ordersController';
 const router = Router();
 
 // Change this to a GET request when the related issue is resolved
-router.get(
+router.post(
   '/listOrders',
   listOrdersController
   /*  #swagger.parameters['body'] = {
             in: 'body',
-            description: 'Create a recipe!',
+            description: 'Add filters for orders!',
             schema: { $ref: '#/definitions/ListOrdersRequestDto' }
     } */
   /* #swagger.responses[200] = {

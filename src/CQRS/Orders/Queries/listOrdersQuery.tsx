@@ -5,24 +5,20 @@ import { Product } from '../../../Domain/Entities/products';
 import { ListOrdersRequestDto } from './listOrdersRequestDto';
 import dayjs from 'dayjs';
 import { orders } from '../../../Domain/Entities/orders';
-import { gte, lte } from 'drizzle-orm';
+import { and, gte, lte } from 'drizzle-orm';
 const listOrdersQuery = async (listOrdersRequest: ListOrdersRequestDto) => {
   if (!(await areDatesValid(listOrdersRequest))) {
     throw new Error('dateTo must be a later date than dateFrom');
   }
   const dateFrom = listOrdersRequest.dateFrom
-    ? new Date(listOrdersRequest.dateFrom)
-    : dayjs().subtract(2, 'day').toDate();
+    ? new Date(listOrdersRequest.dateFrom).toISOString()
+    : dayjs().subtract(2, 'day').toDate().toISOString();
   const dateTo = listOrdersRequest.dateTo
-    ? new Date(listOrdersRequest.dateTo)
-    : dayjs().toDate();
-
-  // Convert dates to ISO strings for querying
-  const isoDateFrom = dateFrom.toISOString();
-  const isoDateTo = dateTo.toISOString();
+    ? new Date(listOrdersRequest.dateTo).toISOString()
+    : dayjs().toDate().toISOString();
 
   const results = await db.query.orders.findMany({
-    where: gte(orders.createdAt, isoDateFrom),
+    where: and(gte(orders.createdAt, dateFrom), lte(orders.createdAt, dateTo)),
     with: {
       order_products: {
         with: {

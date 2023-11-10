@@ -11,7 +11,6 @@ import calculationsRoutes from './Routes/calculationsRoutes';
 import beansRoutes from './Routes/beansRoutes';
 import ordermentumController from './Controllers/ordermentumController';
 import logsRoutes from './Routes/logsRoutes';
-import { Api } from './myApi';
 import { errorHandler } from './Middlewares/errorHandler';
 import cors from 'cors';
 import { performScheduledTasks } from './Utilities/performScheduledTasks';
@@ -104,8 +103,6 @@ app.use(
 
 app.use(errorHandler);
 const PORT = process.env.PORT;
-
-const api = new Api();
 
 const startServer = async () => {
   try {

@@ -35,6 +35,7 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
   // download orders using ordermentum api
   const downloadedOrders = await downloadOrdersFromOrdermentum();
   // format downloaded orders for database consumption
+
   const formattedOrders = formatOrdersFromOrdermentum(downloadedOrders);
 
   // legacy remove when migrated to new backend
@@ -46,9 +47,10 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
   const formattedProductsFromOrdersForDatabase =
     readProductsFromFormattedOrders(formattedOrders);
 
-  formattedProductsFromOrdersForDatabase.forEach((product) => {
-    addProductFromOrderToDatabase(product);
-  });
+  // try to add each product
+  for (let product of formattedProductsFromOrdersForDatabase) {
+    await addProductFromOrderToDatabase(product);
+  }
 
   // add orders to database
   formattedOrders.forEach((order) => {

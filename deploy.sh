@@ -36,6 +36,8 @@ pm2 delete glitchFrontEndDev
 # Pull the latest changes from Git for the front-end
 git pull
 
+npm install
+
 # Start the application using PM2 and the npm 'dev' script
 pm2 start npm --name "glitchFrontEndDev" -- run dev
 

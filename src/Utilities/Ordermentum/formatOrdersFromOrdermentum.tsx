@@ -29,6 +29,11 @@ interface LineItem {
   price: string;
   quantity: number;
   SKU: 'string';
+  variant: VariantType;
+}
+interface VariantType {
+  id: string;
+  name: string;
 }
 
 export const readOrders = (
@@ -49,17 +54,20 @@ export const readOrders = (
       products: [],
       orderStatus: 'notCalculated'
     };
+    const products = order.lineItems.map((item) => ({
+      id: item.variant.id,
+      productName: item.variant.name,
+      price: parseFloat(item.price),
+      sku: item.SKU,
+      possiblyCoffee: checkIfPossiblyCoffee(item.name, item.SKU)
+    }));
+
+    tempOrder.products = products;
+
     const orderProducts: Order_Products[] = order.lineItems.map((item) => {
-      tempOrder.products.push({
-        id: item.productId,
-        productName: item.name,
-        price: parseFloat(item.price),
-        sku: item.SKU,
-        possiblyCoffee: checkIfPossiblyCoffee(item.name, item.SKU)
-      });
       return {
         orderId: order.id,
-        productId: item.productId,
+        productId: item.variant.id,
         amountOrdered: item.quantity
       };
     });

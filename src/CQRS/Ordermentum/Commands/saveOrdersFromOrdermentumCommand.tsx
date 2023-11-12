@@ -71,6 +71,18 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
       await addProductFromOrderToDatabase(product);
     }
 
+    createLog(
+      'informational',
+      `Success!  Saving orders from Ordermentum: [${filteredOrders
+        .map((o) => o.invoiceNumber)
+        .join(', ')}]`,
+      __filename
+    );
+    // add orders to database
+    filteredOrders.forEach((order) => {
+      addOrderToDatabase(order);
+    });
+
     // legacy remove when migrated to new backend
     // **************************************************
     if (process.env.ENVIRONMENT != 'local') {
@@ -83,18 +95,6 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
       }
     }
     // **************************************************
-
-    createLog(
-      'informational',
-      `Success!  Saving orders from Ordermentum: [${filteredOrders
-        .map((o) => o.invoiceNumber)
-        .join(', ')}]`,
-      __filename
-    );
-    // add orders to database
-    filteredOrders.forEach((order) => {
-      addOrderToDatabase(order);
-    });
 
     const orderIds = filteredOrders.map((formattedOrder) => formattedOrder.id);
 

@@ -92,7 +92,7 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
     // **************************************************
     if (process.env.ENVIRONMENT != 'local') {
       try {
-        await saveOrdersAndProductsToMongo(filteredOrders, filteredProducts);
+        await saveOrdersAndProductsToMongo(formattedOrders, filteredProducts);
       } catch (error) {
         throw new Error(
           `Error saving orders and products to mongo. Error: ${error}`

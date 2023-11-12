@@ -60,7 +60,7 @@ app.get('/getRecipesFromMongo', async (req, res) => {
     #swagger.ignore = true
   */
   await getRecipesFromMongo();
-  res.render('welcome');
+  res.send('Saved recipes from mongo');
 });
 app.use(
   '/logs',

@@ -54,7 +54,13 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
     // legacy remove when migrated to new backend
     // **************************************************
     if (process.env.ENVIRONMENT != 'local') {
-      await saveOrdersAndProductsToMongo(formattedOrders);
+      try {
+        await saveOrdersAndProductsToMongo(formattedOrders);
+      } catch (error) {
+        throw new Error(
+          `Error saving orders and products to mongo. Error: ${error}`
+        );
+      }
     }
     // **************************************************
 

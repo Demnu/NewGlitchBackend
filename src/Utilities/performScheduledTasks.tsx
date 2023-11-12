@@ -18,10 +18,10 @@ const performScheduledTasks = async () => {
   //       __filename
   //     );
   //   }
-  await removeHtmlProducts();
+  // await removeHtmlProducts();
 
   try {
-    await getOrdersFromOrdermentum();
+    getOrdersFromOrdermentum();
   } catch (error) {
     createLog(
       'error',

@@ -21,9 +21,14 @@ interface OrderMongoType {
 
 const saveOrdersAndProductsToMongo = async (orders: OrderExtended[]) => {
   const db = await mongoDb(process.env.MONGO_URI || '');
+  const orderIds = orders.map((o) => o.id);
+  const ordersMongo = await OrderMongo.find({ _id: { $in: orderIds } }).lean();
+  const filteredOrders = orders.filter(
+    (o) => !ordersMongo.some((om) => om.orderID === o.id)
+  );
 
   // add orders
-  orders.forEach((order) => {
+  filteredOrders.forEach((order) => {
     const orderProducts: OrderProductsMongoType[] = order.orderProducts.map(
       (op) => {
         const product = order.products.find((p) => p.id === op.productId);
@@ -61,12 +66,12 @@ const addOrderToMongo = async (order: OrderMongoType) => {
       __filename
     );
   } catch (error: any) {
-    // console.log(
-    //   `Error! Order: ${order.customerName}, ${new Date(
-    //     order.date
-    //   ).toLocaleDateString()} not saved to mongoDB!`,
-    //   error
-    // );
+    console.log(
+      `Error! Order: ${order.customerName}, ${new Date(
+        order.date
+      ).toLocaleDateString()} not saved to mongoDB!`,
+      error
+    );
   }
 };
 

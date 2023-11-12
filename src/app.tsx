@@ -52,6 +52,7 @@ app.get('/', async (req, res) => {
   /*
     #swagger.ignore = true
   */
+  // await getRecipesFromMongo();
   res.render('welcome');
 });
 app.post('/getRecipesFromMongo', async (req, res) => {

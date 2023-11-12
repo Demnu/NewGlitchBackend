@@ -21,13 +21,9 @@ const performScheduledTasks = async () => {
   // await removeHtmlProducts();
 
   try {
-    getOrdersFromOrdermentum();
+    await getOrdersFromOrdermentum();
   } catch (error) {
-    createLog(
-      'error',
-      `Error! Orders unsuccessfully retrieved from ordermentum and saved to database`,
-      __filename
-    );
+    console.error(error);
   }
 };
 

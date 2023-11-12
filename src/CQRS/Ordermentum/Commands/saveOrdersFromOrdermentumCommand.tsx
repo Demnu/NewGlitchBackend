@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { ordermentumClient } from '../../../ordermentumConnection';
 import { db } from '../../../dbConnection';
-import { eq, sql } from 'drizzle-orm';
+import { eq, inArray, sql } from 'drizzle-orm';
 import { Order, orders } from '../../../Domain/Entities/orders';
 import {
   OrderFromOrdermentumType,
@@ -13,7 +13,6 @@ import { Product, products } from '../../../Domain/Entities/products';
 import { readProductsFromFormattedOrders } from '../../../Utilities/Ordermentum/readAndSaveProducts';
 import { saveOrdersAndProductsToMongo } from '../../../Legacy/saveOrdersAndProductsToMongo';
 import { createLog } from '../../../Utilities/Logs/makeLog';
-let noErrors = true;
 const saveOrdersFromOrdermentumCommand = async (
   req: Request,
   res: Response
@@ -32,50 +31,76 @@ const saveOrdersFromOrdermentumCommand = async (
 };
 
 export async function getOrdersFromOrdermentum(): Promise<string[]> {
-  // download orders using ordermentum api
-  const downloadedOrders = await downloadOrdersFromOrdermentum();
-  // format downloaded orders for database consumption
+  try {
+    // download orders using ordermentum api
+    const downloadedOrders = await downloadOrdersFromOrdermentum();
+    // format downloaded orders for database consumption
 
-  const formattedOrders = formatOrdersFromOrdermentum(downloadedOrders);
+    const formattedOrders = formatOrdersFromOrdermentum(downloadedOrders);
 
-  // legacy remove when migrated to new backend
-  // **************************************************
-  if (process.env.ENVIRONMENT != 'local') {
-    await saveOrdersAndProductsToMongo(formattedOrders);
-  }
-  // **************************************************
+    // filter orders, should move into downloadOrdersFromOrdermentum at some point
+    const ordersDb = await db.query.orders.findMany({
+      columns: { id: true },
+      where: inArray(
+        orders.id,
+        formattedOrders.map((o) => o.id)
+      )
+    });
 
-  // save products from orders to database
-  const formattedProductsFromOrdersForDatabase =
-    readProductsFromFormattedOrders(formattedOrders);
+    const filteredOrders = formattedOrders.filter(
+      (o) => !ordersDb.some((od) => od.id === o.id)
+    );
 
-  // try to add each product
-  for (let product of formattedProductsFromOrdersForDatabase) {
-    await addProductFromOrderToDatabase(product);
-  }
+    // legacy remove when migrated to new backend
+    // **************************************************
+    if (process.env.ENVIRONMENT != 'local') {
+      await saveOrdersAndProductsToMongo(formattedOrders);
+    }
+    // **************************************************
 
-  // add orders to database
-  formattedOrders.forEach((order) => {
-    addOrderToDatabase(order);
-  });
+    // save products from orders to database
+    const formattedProductsFromOrdersForDatabase =
+      readProductsFromFormattedOrders(filteredOrders);
 
-  const orderIds = formattedOrders.map((formattedOrder) => formattedOrder.id);
-  if (noErrors) {
+    const productsDb = await db.query.products.findMany({
+      columns: { id: true },
+      where: inArray(
+        products.id,
+        formattedProductsFromOrdersForDatabase.map((p) => p.id)
+      )
+    });
+    const filteredProducts = formattedProductsFromOrdersForDatabase.filter(
+      (p) => !productsDb.some((pd) => pd.id === p.id)
+    );
+
+    // try to add each product
+    for (let product of filteredProducts) {
+      await addProductFromOrderToDatabase(product);
+    }
+
     createLog(
       'informational',
-      `Orders successfully retrieved from ordermentum and saved to database`,
+      `Success!  Saving orders from Ordermentum: [${filteredOrders
+        .map((o) => o.invoiceNumber)
+        .join(', ')}]`,
       __filename
     );
-    noErrors = true;
-  } else {
-    createLog(
-      'error',
-      `Error! There were issues retrieving and saving orders from Ordermentum`,
-      __filename
-    );
-  }
+    // add orders to database
+    filteredOrders.forEach((order) => {
+      addOrderToDatabase(order);
+    });
 
-  return orderIds;
+    const orderIds = filteredOrders.map((formattedOrder) => formattedOrder.id);
+
+    return orderIds;
+  } catch (error) {
+    createLog(
+      'critical',
+      `Critical! Could not fetch orders from ordermentum. Error: ${error}`,
+      __filename
+    );
+    throw error;
+  }
 }
 
 const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
@@ -83,8 +108,9 @@ const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
     await db.insert(products).values(productFromOrder).onConflictDoNothing();
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    console.error(`Error saving product: ${errorMsg}`);
-    console.log(`${productFromOrder.id} - ${productFromOrder.productName}`);
+    throw new Error(
+      `Error saving product ${productFromOrder.productName}: ${errorMsg}`
+    );
   }
 };
 
@@ -118,24 +144,17 @@ const addOrderToDatabase = async (order: OrderExtended) => {
         // add new order_products
         await tx.insert(orders_products).values(orderProducts);
       } else {
+        const errMsg = `Error! Order: ${order.invoiceNumber} has no products associated with it. Order was not saved.`;
+        createLog('warning', errMsg, __filename);
         tx.rollback();
-        const errorMessage = `Order has no order_products`;
-        createLog(
-          'error',
-          `Error! Order: ${order.invoiceNumber} has no products associated with it. Order was not saved.`,
-          __filename
-        );
-        throw new Error(errorMessage);
+        throw new Error(errMsg);
       }
     });
   } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    noErrors = false;
-    createLog(
-      'error',
-      `Error saving order: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}. Error: ${errorMsg}`,
-      __filename
-    );
+    let errorMsg = error instanceof Error ? error.message : String(error);
+    errorMsg = `Error saving order: ${order.id}, ${order.customerName}, ${order.createdAt}, ${order.updatedAt}. Error: ${errorMsg}`;
+
+    throw new Error(errorMsg);
   }
 };
 
@@ -198,11 +217,8 @@ const downloadOrdersFromOrdermentum = async () => {
     );
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    noErrors = false;
-    createLog(
-      'critical',
-      `Critical! Could not fetch orders from ordermentum. Error: ${errorMsg}`,
-      __filename
+    throw new Error(
+      `Critical! Could not fetch orders from ordermentum. Error: ${errorMsg}`
     );
   }
 

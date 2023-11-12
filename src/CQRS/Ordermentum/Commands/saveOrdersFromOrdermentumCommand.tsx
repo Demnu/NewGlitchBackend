@@ -51,19 +51,6 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
       (o) => !ordersDb.some((od) => od.id === o.id)
     );
 
-    // legacy remove when migrated to new backend
-    // **************************************************
-    if (process.env.ENVIRONMENT != 'local') {
-      try {
-        await saveOrdersAndProductsToMongo(formattedOrders);
-      } catch (error) {
-        throw new Error(
-          `Error saving orders and products to mongo. Error: ${error}`
-        );
-      }
-    }
-    // **************************************************
-
     // save products from orders to database
     const formattedProductsFromOrdersForDatabase =
       readProductsFromFormattedOrders(filteredOrders);
@@ -83,6 +70,19 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
     for (let product of filteredProducts) {
       await addProductFromOrderToDatabase(product);
     }
+
+    // legacy remove when migrated to new backend
+    // **************************************************
+    if (process.env.ENVIRONMENT != 'local') {
+      try {
+        await saveOrdersAndProductsToMongo(filteredOrders, filteredProducts);
+      } catch (error) {
+        throw new Error(
+          `Error saving orders and products to mongo. Error: ${error}`
+        );
+      }
+    }
+    // **************************************************
 
     createLog(
       'informational',

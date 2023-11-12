@@ -1,3 +1,4 @@
+import { Product } from '../Domain/Entities/products';
 import { createLog } from '../Utilities/Logs/makeLog';
 import { OrderExtended } from '../Utilities/Ordermentum/formatOrdersFromOrdermentum';
 import { OrderMongo } from './MongoModels/ordersMongoSchema';
@@ -19,7 +20,10 @@ interface OrderMongoType {
   supplierName: string;
 }
 
-const saveOrdersAndProductsToMongo = async (orders: OrderExtended[]) => {
+const saveOrdersAndProductsToMongo = async (
+  orders: OrderExtended[],
+  products: Product[]
+) => {
   const db = await mongoDb(process.env.MONGO_URI || '');
   const orderIds = orders.map((o) => o.id);
   const ordersMongo = await OrderMongo.find({ _id: { $in: orderIds } }).lean();
@@ -49,7 +53,7 @@ const saveOrdersAndProductsToMongo = async (orders: OrderExtended[]) => {
 
     // add products
     addOrderToMongo(mongoOrder);
-    order.products.forEach((p) => {
+    products.forEach((p) => {
       addProductToMongo(p.productName);
     });
   });
@@ -76,9 +80,6 @@ const addOrderToMongo = async (order: OrderMongoType) => {
 };
 
 const addProductToMongo = async (product: string) => {
-  if (product.includes('Straight Up Blend 1kg Wholesale (sgl)')) {
-    const t = 0;
-  }
   try {
     await ProductMongo.create({ id: product });
     createLog(

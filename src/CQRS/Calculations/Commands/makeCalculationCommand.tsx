@@ -108,7 +108,8 @@ const makeCalculationCommand = async (
   const ordersCalculatedInformation: OrdersCalculatedInfo[] =
     existingOrderIds.map((order) => {
       return {
-        orderId: order.id,
+        id: order.id,
+        invoiceNumber: order.invoiceNumber,
         createdAt: order.createdAt,
         customerName: order.customerName
       };
@@ -142,7 +143,7 @@ const addProductAmount = (
   } else {
     // Product does not exist, add new entry
     productTally.set(productId, {
-      productId: productId,
+      id: productId,
       productName: productName,
       amountOrdered: amountToAdd,
       hasRecipe: false
@@ -165,7 +166,7 @@ const addBeanAmount = (
   } else {
     // Product does not exist, add new entry
     beanTally.set(beanId, {
-      beanId: beanId,
+      id: beanId,
       beanName: beanName,
       amountNeededToBeRoasted: amountNeededToBeRoasted
     });

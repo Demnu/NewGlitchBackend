@@ -14,7 +14,7 @@ import { MakeCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Com
 import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationResponseDto';
 import { BeanJsonSchema } from './src/Domain/Entities/beans';
 import { ListOrdersRequestDtoJsonSchema } from './src/CQRS/Orders/Queries/listOrdersRequestDto';
-console.log();
+
 const doc = {
   info: {
     title: 'Glitch Backend'

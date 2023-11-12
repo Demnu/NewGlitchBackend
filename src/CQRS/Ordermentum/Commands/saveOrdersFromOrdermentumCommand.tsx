@@ -54,13 +54,13 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
     );
 
     // save products from orders to database
+    let productsDb: { id: string }[] = [];
     const formattedProductsFromOrdersForDatabase =
       readProductsFromFormattedOrders(filteredOrders);
     const filteredProducts = formattedProductsFromOrdersForDatabase.filter(
       (p) => !productsDb.some((pd) => pd.id === p.id)
     );
 
-    let productsDb: { id: string }[] = [];
     if (filteredProducts.length > 0) {
       productsDb = await db.query.products.findMany({
         columns: { id: true },

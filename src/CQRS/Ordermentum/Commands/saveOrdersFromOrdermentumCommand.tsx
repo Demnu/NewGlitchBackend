@@ -39,14 +39,16 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
     const formattedOrders = formatOrdersFromOrdermentum(downloadedOrders);
 
     // filter orders, should move into downloadOrdersFromOrdermentum at some point
-    const ordersDb = await db.query.orders.findMany({
-      columns: { id: true },
-      where: inArray(
-        orders.id,
-        formattedOrders.map((o) => o.id)
-      )
-    });
-
+    let ordersDb: { id: string }[] = [];
+    if (formattedOrders.length > 0) {
+      ordersDb = await db.query.orders.findMany({
+        columns: { id: true },
+        where: inArray(
+          orders.id,
+          formattedOrders.map((o) => o.id)
+        )
+      });
+    }
     const filteredOrders = formattedOrders.filter(
       (o) => !ordersDb.some((od) => od.id === o.id)
     );
@@ -54,17 +56,20 @@ export async function getOrdersFromOrdermentum(): Promise<string[]> {
     // save products from orders to database
     const formattedProductsFromOrdersForDatabase =
       readProductsFromFormattedOrders(filteredOrders);
-
-    const productsDb = await db.query.products.findMany({
-      columns: { id: true },
-      where: inArray(
-        products.id,
-        formattedProductsFromOrdersForDatabase.map((p) => p.id)
-      )
-    });
     const filteredProducts = formattedProductsFromOrdersForDatabase.filter(
       (p) => !productsDb.some((pd) => pd.id === p.id)
     );
+
+    let productsDb: { id: string }[] = [];
+    if (filteredProducts.length > 0) {
+      productsDb = await db.query.products.findMany({
+        columns: { id: true },
+        where: inArray(
+          products.id,
+          formattedProductsFromOrdersForDatabase.map((p) => p.id)
+        )
+      });
+    }
 
     // try to add each product
     for (let product of filteredProducts) {

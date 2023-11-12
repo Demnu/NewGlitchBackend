@@ -26,7 +26,9 @@ const saveOrdersAndProductsToMongo = async (
 ) => {
   const db = await mongoDb(process.env.MONGO_URI || '');
   const orderIds = orders.map((o) => o.id);
-  const ordersMongo = await OrderMongo.find({ _id: { $in: orderIds } }).lean();
+  const ordersMongo = await OrderMongo.find({
+    orderID: { $in: orderIds }
+  }).lean();
   const filteredOrders = orders.filter(
     (o) => !ordersMongo.some((om) => om.orderID === o.id)
   );

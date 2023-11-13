@@ -11,7 +11,7 @@ const saveCalculationCommand = async (
 ): Promise<string> => {
   const calculation: Calculation = {
     author: calulationRequest.author,
-    createdAt: calulationRequest.createdAt.toISOString(),
+    createdAt: new Date().toISOString(),
     calculationName: calulationRequest.calculationName,
     ordersCalculatedInfo: JSON.stringify(
       calulationRequest.ordersCalculatedInformation

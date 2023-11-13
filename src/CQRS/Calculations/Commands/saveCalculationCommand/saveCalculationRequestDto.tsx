@@ -22,7 +22,6 @@ const OrdersCalculatedInfoSchema = z.object({
 // Combine them into a single schema
 const SaveCalculationRequestDtoSchema = z.object({
   author: z.string(),
-  createdAt: z.coerce.date(),
   calculationName: z.string(),
   ordersCalculatedInformation: z.array(OrdersCalculatedInfoSchema),
   productsTally: z.array(ProductTallySchema),
@@ -39,7 +38,6 @@ type SaveCalculationRequestDto = z.infer<
 
 const SaveCalculationRequestDtoJsonSchema = {
   $author: 'Harry',
-  $createdAt: new Date().toISOString(),
   $calculationName: 'Calculation 2/8 - 9/8',
 
   $ordersCalculatedInformation: [

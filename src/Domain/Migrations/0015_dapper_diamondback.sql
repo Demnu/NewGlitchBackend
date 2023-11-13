@@ -1,0 +1,1 @@
+ALTER TABLE "orders" ALTER COLUMN "invoice_number" SET NOT NULL;

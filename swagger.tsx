@@ -10,8 +10,9 @@ import {
 } from './src/CQRS/Orders/Queries/orderDto';
 import { RecipeDtoJsonSchema } from './src/CQRS/Recipes/Queries/recipesDto';
 import { CreateRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/createRecipeRequestDto';
-import { MakeCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationRequestDto';
-import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationResponseDto';
+import { MakeCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationCommand/makeCalculationRequestDto';
+import { SaveCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Commands/saveCalculationCommand/saveCalculationRequestDto';
+import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationCommand/makeCalculationResponseDto';
 import { BeanJsonSchema } from './src/Domain/Entities/beans';
 import { ListOrdersRequestDtoJsonSchema } from './src/CQRS/Orders/Queries/listOrdersRequestDto';
 
@@ -32,7 +33,8 @@ const doc = {
     ProductExtendedJsonSchema: ProductExtendedJsonSchema,
     OrderStatusEnum: OrderStatusEnumJsonSchema,
     BeanDtos: [BeanJsonSchema],
-    BeanDto: BeanJsonSchema
+    BeanDto: BeanJsonSchema,
+    SaveCalculationRequestDto: SaveCalculationRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

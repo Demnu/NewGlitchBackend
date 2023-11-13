@@ -1,4 +1,4 @@
-import { Recipe } from '../../../Domain/Entities/recipes';
+import { Recipe } from '../../../../Domain/Entities/recipes';
 import { z } from 'zod';
 
 const MakeCalculationRequestDtoSchema = z.object({

@@ -4,6 +4,7 @@ import { MakeCalculationRequestDtoSchema } from '../CQRS/Calculations/Commands/m
 import { saveCalculationCommand } from '../CQRS/Calculations/Commands/saveCalculationCommand/saveCalculationCommand';
 import { MakeCalculationResponseDtoSchema } from '../CQRS/Calculations/Commands/makeCalculationCommand/makeCalculationResponseDto';
 import { SaveCalculationRequestDtoSchema } from '../CQRS/Calculations/Commands/saveCalculationCommand/saveCalculationRequestDto';
+import { listCalculationsQuery } from '../CQRS/Calculations/Commands/Queries/listCalculationsQuery/listCalculationsQuery';
 
 const makeCalculationController = async (
   req: Request,
@@ -33,4 +34,21 @@ const saveCalculationController = async (
   }
 };
 
-export { makeCalculationController, saveCalculationController };
+const listCalculationsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await listCalculationsQuery();
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  makeCalculationController,
+  saveCalculationController,
+  listCalculationsController
+};

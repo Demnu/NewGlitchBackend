@@ -15,6 +15,7 @@ import { SaveCalculationRequestDtoJsonSchema } from './src/CQRS/Calculations/Com
 import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/makeCalculationCommand/makeCalculationResponseDto';
 import { BeanJsonSchema } from './src/Domain/Entities/beans';
 import { ListOrdersRequestDtoJsonSchema } from './src/CQRS/Orders/Queries/listOrdersRequestDto';
+import { ListCalculationsResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/Queries/listCalculationsQuery/listCalculationsResponseDto';
 
 const doc = {
   info: {
@@ -34,7 +35,11 @@ const doc = {
     OrderStatusEnum: OrderStatusEnumJsonSchema,
     BeanDtos: [BeanJsonSchema],
     BeanDto: BeanJsonSchema,
-    SaveCalculationRequestDto: SaveCalculationRequestDtoJsonSchema
+    SaveCalculationRequestDto: SaveCalculationRequestDtoJsonSchema,
+    UnsavedCalculations: [MakeCalculationResponseDtoJsonSchema],
+    UnsavedCalculation: MakeCalculationResponseDtoJsonSchema,
+    SavedCalculations: [ListCalculationsResponseDtoJsonSchema],
+    SavedCalculation: ListCalculationsResponseDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

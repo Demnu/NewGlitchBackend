@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import {
+  listCalculationsController,
   makeCalculationController,
   saveCalculationController
 } from '../Controllers/calculationsController';
+import { listCalculationsQuery } from '../CQRS/Calculations/Commands/Queries/listCalculationsQuery/listCalculationsQuery';
 
 const router = Router();
 
@@ -31,6 +33,16 @@ router.post(
   description: 'Save a calculation you have just made!',
             schema: { $ref: '#/definitions/SaveCalculationRequestDto' }
     } */
+);
+
+router.get(
+  '/listCalculations',
+  listCalculationsController
+  /*  
+  #swagger.responses[200] = {
+  description: 'Recieve calculations!',
+  schema: { $ref: '#/definitions/Calculations' }
+} */
 );
 
 export default router;

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import {
   createRecipeController,
-  listRecipesController
+  listRecipesController,
+  markAsNotRecipeController
 } from '../Controllers/recipesController';
 
 const router = Router();
@@ -21,6 +22,16 @@ router.post(
             in: 'body',
             description: 'Create a recipe!',
             schema: { $ref: '#/definitions/RecipeRequestDto' }
+    } */
+);
+
+router.post(
+  '/markProductAsNotRecipe',
+  markAsNotRecipeController
+  /*  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Create a recipe!',
+            schema: { $ref: '#/definitions/MarkAsNotRecipeRequestDto' }
     } */
 );
 

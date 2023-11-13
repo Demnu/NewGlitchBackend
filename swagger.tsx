@@ -16,6 +16,7 @@ import { MakeCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Co
 import { BeanJsonSchema } from './src/Domain/Entities/beans';
 import { ListOrdersRequestDtoJsonSchema } from './src/CQRS/Orders/Queries/listOrdersRequestDto';
 import { ListCalculationsResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/Queries/listCalculationsQuery/listCalculationsResponseDto';
+import { MarkAsNotRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/markAsNotRecipeCommand/markAsNotRecipeRequestDto';
 
 const doc = {
   info: {
@@ -39,7 +40,8 @@ const doc = {
     UnsavedCalculations: [MakeCalculationResponseDtoJsonSchema],
     UnsavedCalculation: MakeCalculationResponseDtoJsonSchema,
     SavedCalculations: [ListCalculationsResponseDtoJsonSchema],
-    SavedCalculation: ListCalculationsResponseDtoJsonSchema
+    SavedCalculation: ListCalculationsResponseDtoJsonSchema,
+    MarkAsNotRecipeRequestDto: MarkAsNotRecipeRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

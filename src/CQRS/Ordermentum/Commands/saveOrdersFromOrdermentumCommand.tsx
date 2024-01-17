@@ -125,7 +125,18 @@ const addProductFromOrderToDatabase = async (productFromOrder: Product) => {
   }
 };
 
+// Function to generate a random negative number
+function generateRandomNegativeNumber() {
+  return -Math.floor(Math.random() * 10000000); // Adjust the range as needed
+}
+
 const addOrderToDatabase = async (order: OrderExtended) => {
+  // Check if order has a null invoice number; this will be rare. I am not sure why this occurs.
+  if (order.invoiceNumber === null || order.invoiceNumber === undefined) {
+    // Assign a random negative number to invoiceNumber
+    console.log('Added invoice number');
+    order.invoiceNumber = generateRandomNegativeNumber().toString();
+  }
   try {
     await db.transaction(async (tx) => {
       const orderForDatabase: Order = { ...order };

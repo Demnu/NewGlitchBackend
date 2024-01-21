@@ -36,8 +36,8 @@ const createRecipeCommand = async (recipeRequest: CreateRecipeRequestDto) => {
     );
 
   // now we filter those beans out
-  const newBeansToBeAdded = recipeRequest.beans.filter((b) =>
-    beansFromDb.some((bDb) => bDb.beanName != b.beanName)
+  const newBeansToBeAdded = recipeRequest.beans.filter(
+    (b) => !beansFromDb.some((bDb) => bDb.beanName === b.beanName)
   );
 
   await db.transaction(async (tx) => {
@@ -47,11 +47,6 @@ const createRecipeCommand = async (recipeRequest: CreateRecipeRequestDto) => {
       .values(recipe)
       .returning({ insertedId: recipes.id });
     // we need to add the beans that are not saved to the db
-    const newBeans = await tx
-      .insert(beans)
-      .values(newBeansToBeAdded)
-      .returning({ insertedId: beans.id, insertedBeanName: beans.beanName });
-
     // now we need to associate the beans with the recipe
     // first the beans that were already in the db
     let recipeBeans: Recipe_Beans[] = [];
@@ -69,24 +64,31 @@ const createRecipeCommand = async (recipeRequest: CreateRecipeRequestDto) => {
         throw new Error('Error creating new recipe');
       }
     });
-    // now add the beans that were just added to the db
-    newBeans.forEach((nb) => {
-      let rb: Recipe_Beans = {
-        amountOrdered: 0,
-        beanId: nb.insertedId,
-        recipeId: 0
-      };
-      const bean = recipeRequest.beans.find(
-        (b) => b.beanName === nb.insertedBeanName
-      );
-      if (!!bean) {
-        rb.amountOrdered = bean?.beanAmount || 0;
-        rb.recipeId = newRecipeId[0].insertedId;
-        recipeBeans.push(rb);
-      } else {
-        throw new Error('Error creating new recipe');
-      }
-    });
+    if (newBeansToBeAdded.length > 0) {
+      const newBeans = await tx
+        .insert(beans)
+        .values(newBeansToBeAdded)
+        .returning({ insertedId: beans.id, insertedBeanName: beans.beanName });
+      // now add the beans that were just added to the db
+      newBeans.forEach((nb) => {
+        let rb: Recipe_Beans = {
+          amountOrdered: 0,
+          beanId: nb.insertedId,
+          recipeId: 0
+        };
+        const bean = recipeRequest.beans.find(
+          (b) => b.beanName === nb.insertedBeanName
+        );
+        if (!!bean) {
+          rb.amountOrdered = bean?.beanAmount || 0;
+          rb.recipeId = newRecipeId[0].insertedId;
+          recipeBeans.push(rb);
+        } else {
+          throw new Error('Error creating new recipe');
+        }
+      });
+    }
+
     // finally add the recipe_beans entries into the database
     await tx.insert(recipe_beans).values(recipeBeans);
   });

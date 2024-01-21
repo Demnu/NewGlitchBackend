@@ -1,4 +1,4 @@
-import { eq, inArray } from 'drizzle-orm';
+import { arrayContains, eq, inArray } from 'drizzle-orm';
 import { db } from '../../../dbConnection';
 import { Bean, beans } from '../../../Domain/Entities/beans';
 import {
@@ -19,59 +19,83 @@ const createRecipeCommand = async (recipeRequest: CreateRecipeRequestDto) => {
     throw new Error('Invalid product ID provided.');
   }
 
-  if (!(await areBeanNamesValid(recipeRequest))) {
-    throw new Error('Invalid bean names provided.');
+  if (!areBeanAmountsValid(recipeRequest)) {
+    throw new Error('Bean amounts are not valid');
   }
 
-  if (!(await areBeanIdsValid(recipeRequest))) {
-    throw new Error('Invalid bean IDs provided.');
-  }
+  // we need to see what beans are not in the db
+  // to do this we first get the beans that do exist
+  const beansFromDb = await db
+    .select()
+    .from(beans)
+    .where(
+      inArray(
+        beans.beanName,
+        recipeRequest.beans.map((b) => b.beanName)
+      )
+    );
 
-  const newBeanNames: Bean[] = recipeRequest.newBeans.map((bean) => ({
-    beanName: bean.beanName
-  }));
+  // now we filter those beans out
+  const newBeansToBeAdded = recipeRequest.beans.filter((b) =>
+    beansFromDb.some((bDb) => bDb.beanName != b.beanName)
+  );
 
   await db.transaction(async (tx) => {
-    const result = await tx
+    // first we add the new recipe
+    const newRecipeId = await tx
       .insert(recipes)
       .values(recipe)
       .returning({ insertedId: recipes.id });
-
-    // add preexisting beans
-    let recipeBeans: Recipe_Beans[] = recipeRequest.existingBeans.map(
-      (temp) => ({
-        recipeId: result[0].insertedId,
-        beanId: temp.beanId,
-        amountOrdered: temp.beanAmount
-      })
-    );
-
-    // add new beans
+    // we need to add the beans that are not saved to the db
     const newBeans = await tx
       .insert(beans)
-      .values(newBeanNames)
+      .values(newBeansToBeAdded)
       .returning({ insertedId: beans.id, insertedBeanName: beans.beanName });
 
-    const newBeansRecipeBeans: Recipe_Beans[] = [];
-    newBeans.forEach((bean) => {
-      const foundRecipeBean = recipeRequest.newBeans.find((b) =>
-        b.beanName.includes(bean.insertedBeanName)
+    // now we need to associate the beans with the recipe
+    // first the beans that were already in the db
+    let recipeBeans: Recipe_Beans[] = [];
+    beansFromDb.forEach((beanFromDb) => {
+      let rb: Recipe_Beans = { amountOrdered: 0, beanId: 0, recipeId: 0 };
+      const bean = recipeRequest.beans.find(
+        (b) => b.beanName === beanFromDb.beanName
       );
-
-      if (!!foundRecipeBean) {
-        newBeansRecipeBeans.push({
-          recipeId: result[0].insertedId,
-          beanId: bean.insertedId,
-          amountOrdered: foundRecipeBean.beanAmount
-        });
+      if (!!bean) {
+        rb.amountOrdered = bean?.beanAmount || 0;
+        rb.beanId = beanFromDb.id;
+        rb.recipeId = newRecipeId[0].insertedId;
+        recipeBeans.push(rb);
+      } else {
+        throw new Error('Error creating new recipe');
       }
     });
-
-    // add new beans to recipe beans
-    recipeBeans = [...recipeBeans, ...newBeansRecipeBeans];
+    // now add the beans that were just added to the db
+    newBeans.forEach((nb) => {
+      let rb: Recipe_Beans = {
+        amountOrdered: 0,
+        beanId: nb.insertedId,
+        recipeId: 0
+      };
+      const bean = recipeRequest.beans.find(
+        (b) => b.beanName === nb.insertedBeanName
+      );
+      if (!!bean) {
+        rb.amountOrdered = bean?.beanAmount || 0;
+        rb.recipeId = newRecipeId[0].insertedId;
+        recipeBeans.push(rb);
+      } else {
+        throw new Error('Error creating new recipe');
+      }
+    });
+    // finally add the recipe_beans entries into the database
     await tx.insert(recipe_beans).values(recipeBeans);
-    return result;
   });
+
+  //
+};
+
+const areBeanAmountsValid = (recipeRequest: CreateRecipeRequestDto) => {
+  return recipeRequest.beans.every((bean) => bean.beanAmount > 0);
 };
 
 const isProductIdValid = async (
@@ -88,35 +112,4 @@ const isProductIdValid = async (
   return product.length > 0;
 };
 
-const areBeanIdsValid = async (
-  recipeRequest: CreateRecipeRequestDto
-): Promise<boolean> => {
-  const beanIds = recipeRequest.existingBeans.map((bean) => bean.beanId);
-
-  const hasDuplicates = beanIds.length !== new Set(beanIds).size;
-  if (hasDuplicates) return false;
-
-  if (beanIds.length > 0) {
-    const existingBeanIds = await db
-      .select({ id: beans.id })
-      .from(beans)
-      .where(inArray(beans.id, beanIds));
-    return beanIds.every((id) =>
-      existingBeanIds.find((result) => id === result.id)
-    );
-  }
-  return true;
-  // Check if all requested beanIds exist in the database
-};
-
-const areBeanNamesValid = async (recipeRequest: CreateRecipeRequestDto) => {
-  // check if bean names inputted dont exist
-  let beanNames = recipeRequest.newBeans.map((bean) => bean.beanName);
-  const result = await db
-    .select()
-    .from(beans)
-    .where(inArray(beans.beanName, beanNames));
-
-  return result.length <= 0;
-};
 export { createRecipeCommand };

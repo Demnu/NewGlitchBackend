@@ -9,6 +9,7 @@ import ordersRoutes from './Routes/ordersRoutes';
 import recipeRoutes from './Routes/recipeRoutes';
 import calculationsRoutes from './Routes/calculationsRoutes';
 import beansRoutes from './Routes/beansRoutes';
+import productsRoutes from './Routes/productsRoutes';
 import ordermentumController from './Controllers/ordermentumController';
 import logsRoutes from './Routes/logsRoutes';
 import { errorHandler } from './Middlewares/errorHandler';
@@ -16,6 +17,7 @@ import cors from 'cors';
 import { performScheduledTasks } from './Utilities/performScheduledTasks';
 import { requestLoggerMiddleware } from './Middlewares/requestLoggerMiddleware';
 import { getRecipesFromMongo } from './Legacy/getRecipesFromMongo';
+import { db } from './dbConnection';
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger_output.json');
@@ -55,6 +57,7 @@ app.get('/', async (req, res) => {
   // await getRecipesFromMongo();
   res.render('welcome');
 });
+
 app.get('/getRecipesFromMongo', async (req, res) => {
   /*
     #swagger.ignore = true
@@ -78,6 +81,13 @@ app.use(
   /*
     #swagger.tags = ['Orders']
   */
+);
+app.use(
+  '/products',
+  productsRoutes
+  /*
+      #swagger.tags = ['Products']
+    */
 );
 app.use('/ordermentum', ordermentumController);
 app.use(

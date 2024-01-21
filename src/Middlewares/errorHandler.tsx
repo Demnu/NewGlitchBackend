@@ -9,7 +9,7 @@ const errorHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const ip = req.ip.replace(/^::ffff:/, '');
+  const ip = req.ip ? req.ip.replace(/^::ffff:/, '') : 'n/a';
   const path = req.path;
   const body = req.body;
   const queryParams = req.query;

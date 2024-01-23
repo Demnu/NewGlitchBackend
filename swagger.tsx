@@ -18,7 +18,8 @@ import { ListOrdersRequestDtoJsonSchema } from './src/CQRS/Orders/Queries/listOr
 import { ListCalculationsResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/Queries/listCalculationsQuery/listCalculationsResponseDto';
 import { MarkAsNotRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/markAsNotRecipeCommand/markAsNotRecipeRequestDto';
 import { ProductDtoJsonSchema } from './src/CQRS/Products/Commands/listProductsWithNoRecipeDto';
-
+import { EditRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/editRecipeCommand/editRecipeDto';
+import { DeleteRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/deleteRecipe/deleteRecipeRequestDto';
 const doc = {
   info: {
     title: 'Glitch Backend'
@@ -43,7 +44,9 @@ const doc = {
     SavedCalculations: [ListCalculationsResponseDtoJsonSchema],
     SavedCalculation: ListCalculationsResponseDtoJsonSchema,
     MarkAsNotRecipeRequestDto: MarkAsNotRecipeRequestDtoJsonSchema,
-    ListProductsWithNoRecipeDtos: [ProductDtoJsonSchema]
+    ListProductsWithNoRecipeDtos: [ProductDtoJsonSchema],
+    EditRecipeRequestDto: EditRecipeRequestDtoJsonSchema,
+    DeleteRecipeRequestDto: DeleteRecipeRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

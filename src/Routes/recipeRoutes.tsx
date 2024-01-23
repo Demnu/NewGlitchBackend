@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import {
   createRecipeController,
+  deleteRecipeController,
+  editRecipeController,
   listRecipesController,
   markAsNotRecipeController
 } from '../Controllers/recipesController';
@@ -22,6 +24,24 @@ router.post(
             in: 'body',
             description: 'Create a recipe!',
             schema: { $ref: '#/definitions/RecipeRequestDto' }
+    } */
+);
+router.post(
+  '/editRecipe',
+  editRecipeController
+  /*  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Create a recipe!',
+            schema: { $ref: '#/definitions/EditRecipeRequestDto' }
+    } */
+);
+router.delete(
+  '/deleteRecipe',
+  deleteRecipeController
+  /*  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Create a recipe!',
+            schema: { $ref: '#/definitions/DeleteRecipeRequestDto' }
     } */
 );
 

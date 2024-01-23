@@ -4,6 +4,10 @@ import { createRecipeCommand } from '../CQRS/Recipes/Commands/createRecipeComman
 import { CreateRecipeRequestDtoSchema } from '../CQRS/Recipes/Commands/createRecipeRequestDto';
 import { MarkAsNotRecipeRequestDtoSchema } from '../CQRS/Recipes/Commands/markAsNotRecipeCommand/markAsNotRecipeRequestDto';
 import { markAsNotRecipeCommand } from '../CQRS/Recipes/Commands/markAsNotRecipeCommand/markAsNotRecipeCommand';
+import { EditRecipeRequestDtoSchema } from '../CQRS/Recipes/Commands/editRecipeCommand/editRecipeDto';
+import { editRecipeCommand } from '../CQRS/Recipes/Commands/editRecipeCommand/editRecipeCommand';
+import { DeleteRecipeRequestDtoSchema } from '../CQRS/Recipes/Commands/deleteRecipe/deleteRecipeRequestDto';
+import { deleteRecipeCommand } from '../CQRS/Recipes/Commands/deleteRecipe/deleteRecipeCommand';
 
 const listRecipesController = async (
   req: Request,
@@ -46,8 +50,37 @@ const markAsNotRecipeController = async (
   }
 };
 
+const editRecipeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    EditRecipeRequestDtoSchema.parse(req.body);
+    const result = await editRecipeCommand(req.body);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteRecipeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    DeleteRecipeRequestDtoSchema.parse(req.body);
+    const result = await deleteRecipeCommand(req.body);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+};
 export {
+  deleteRecipeController,
   listRecipesController,
   createRecipeController,
-  markAsNotRecipeController
+  markAsNotRecipeController,
+  editRecipeController
 };

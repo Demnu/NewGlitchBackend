@@ -41,7 +41,7 @@ router.get(
   /*  
   #swagger.responses[200] = {
   description: 'Recieve calculations!',
-  schema: { $ref: '#/definitions/Calculations' }
+  schema: { $ref: '#/definitions/SavedCalculationDtos' }
 } */
 );
 

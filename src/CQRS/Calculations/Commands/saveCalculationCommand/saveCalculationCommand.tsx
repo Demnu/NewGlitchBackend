@@ -7,10 +7,11 @@ import {
 import { orders } from '../../../../Domain/Entities/orders';
 import { MakeCalculationResponseDto } from '../makeCalculationCommand/makeCalculationResponseDto';
 import { SaveCalculationRequestDto } from './saveCalculationRequestDto';
+import { SaveCalculationResponseDtoType } from './saveCalculationResponseDto';
 
 const saveCalculationCommand = async (
   calulationRequest: SaveCalculationRequestDto
-): Promise<string> => {
+): Promise<SaveCalculationResponseDtoType> => {
   const calculation: Calculation = {
     author: calulationRequest.author,
     createdAt: new Date().toISOString(),
@@ -21,7 +22,10 @@ const saveCalculationCommand = async (
     productsTally: JSON.stringify(calulationRequest.productsTally),
     beansTally: JSON.stringify(calulationRequest.beansTally)
   };
-  await db.insert(calculations).values(calculation);
+  const result = await db
+    .insert(calculations)
+    .values(calculation)
+    .returning({ id: calculations.id });
 
   // set all orders to state calculated
   await db
@@ -33,8 +37,10 @@ const saveCalculationCommand = async (
         calulationRequest.ordersCalculatedInformation.map((o) => o.id)
       )
     );
-
-  return '';
+  const returnResult: SaveCalculationResponseDtoType = {
+    calculationId: result[0].id
+  };
+  return returnResult;
 };
 
 export { saveCalculationCommand };

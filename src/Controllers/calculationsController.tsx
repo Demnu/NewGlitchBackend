@@ -28,6 +28,7 @@ const saveCalculationController = async (
   try {
     const parsedResult = SaveCalculationRequestDtoSchema.parse(req.body);
     const result = await saveCalculationCommand(parsedResult);
+    // result is a number but im getting an error
     res.send(result);
   } catch (error) {
     next(error);

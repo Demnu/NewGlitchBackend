@@ -28,9 +28,13 @@ router.post(
   saveCalculationController
 
   /*  
+  #swagger.responses[200] = {
+  description: 'Recieve a products tally, beans tally and the corresponding order ids!',
+  schema: { $ref: '#/definitions/SaveCalculationResponseDto' }
+} 
   #swagger.parameters['body'] = {
             in: 'body',
-  description: 'Save a calculation you have just made!',
+            description: 'Make a calculation!',
             schema: { $ref: '#/definitions/SaveCalculationRequestDto' }
     } */
 );

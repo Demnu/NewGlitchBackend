@@ -4,7 +4,7 @@ import { recipes } from './recipes';
 
 const blends = pgTable('blends', {
   id: serial('id').primaryKey(),
-  blendName: varchar('blend_name', { length: 256 }).notNull()
+  blendName: varchar('blend_name', { length: 256 }).notNull().unique()
 });
 
 const blendsRelations = relations(blends, ({ many }) => ({

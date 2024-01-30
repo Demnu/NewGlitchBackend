@@ -205,7 +205,7 @@ const getRecipesFromMongo = async () => {
     recipesToAdd.forEach((r) => {
       if (!!r.productId && !!r.productName && r.beans.length > 0) {
         const tempRecipe: Recipe = {
-          blendName: r.blendName,
+          // ble: r.blendName,
           productId: r.productId,
           recipeName: r.productName
         };

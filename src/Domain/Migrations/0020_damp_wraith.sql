@@ -1,0 +1,1 @@
+ALTER TABLE "blends" ADD CONSTRAINT "blends_blend_name_unique" UNIQUE("blend_name");

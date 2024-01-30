@@ -10,6 +10,7 @@ import recipeRoutes from './Routes/recipeRoutes';
 import calculationsRoutes from './Routes/calculationsRoutes';
 import beansRoutes from './Routes/beansRoutes';
 import productsRoutes from './Routes/productsRoutes';
+import blendsRoutes from './Routes/blendsRoutes';
 import ordermentumController from './Controllers/ordermentumController';
 import logsRoutes from './Routes/logsRoutes';
 import { errorHandler } from './Middlewares/errorHandler';
@@ -87,6 +88,13 @@ app.use(
   productsRoutes
   /*
       #swagger.tags = ['Products']
+    */
+);
+app.use(
+  '/blends',
+  blendsRoutes
+  /*
+      #swagger.tags = ['Blends']
     */
 );
 app.use('/ordermentum', ordermentumController);

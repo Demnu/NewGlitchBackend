@@ -21,8 +21,9 @@ import { ProductDtoJsonSchema } from './src/CQRS/Products/Commands/listProductsW
 import { EditRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/editRecipeCommand/editRecipeDto';
 import { DeleteRecipeRequestDtoJsonSchema } from './src/CQRS/Recipes/Commands/deleteRecipe/deleteRecipeRequestDto';
 import { SaveCalculationResponseDtoJsonSchema } from './src/CQRS/Calculations/Commands/saveCalculationCommand/saveCalculationResponseDto';
-import { CreateBlendRequestDtoJsonSchema } from './src/CQRS/Blends/CreateBlend/createBlendRequestDto';
-import { CreateBlendResponseDtoJsonSchema } from './src/CQRS/Blends/CreateBlend/createBlendResponseDto';
+import { CreateBlendRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/CreateBlend/createBlendRequestDto';
+import { CreateBlendResponseDtoJsonSchema } from './src/CQRS/Blends/Commands/CreateBlend/createBlendResponseDto';
+import { ListBlendsQueryRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/Queries/ListBlendsQuery/listBlendsQueryRequestDto';
 const doc = {
   info: {
     title: 'Glitch Backend'
@@ -52,7 +53,8 @@ const doc = {
     DeleteRecipeRequestDto: DeleteRecipeRequestDtoJsonSchema,
     SaveCalculationResponseDto: SaveCalculationResponseDtoJsonSchema,
     CreateBlendRequestDto: CreateBlendRequestDtoJsonSchema,
-    CreateBlendResponseDto: CreateBlendResponseDtoJsonSchema
+    CreateBlendResponseDto: CreateBlendResponseDtoJsonSchema,
+    ListBlendsQueryRequestDto: ListBlendsQueryRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

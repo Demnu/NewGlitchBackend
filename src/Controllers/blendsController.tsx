@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { CreateBlendRequestDtoSchema } from '../CQRS/Blends/CreateBlend/createBlendRequestDto';
-import { createBlendCommand } from '../CQRS/Blends/CreateBlend/createBlendCommand';
+import { CreateBlendRequestDtoSchema } from '../CQRS/Blends/Commands/CreateBlend/createBlendRequestDto';
+import { createBlendCommand } from '../CQRS/Blends/Commands/CreateBlend/createBlendCommand';
+import { listBlendsQuery } from '../CQRS/Blends/Commands/Queries/ListBlendsQuery/listBlendsQuery';
 
 const createBlendController = async (
   req: Request,
@@ -15,4 +16,17 @@ const createBlendController = async (
     next(error);
   }
 };
-export { createBlendController };
+
+const listBlendController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await listBlendsQuery();
+    res.status(200).send({ result });
+  } catch (error) {
+    next(error);
+  }
+};
+export { createBlendController, listBlendController };

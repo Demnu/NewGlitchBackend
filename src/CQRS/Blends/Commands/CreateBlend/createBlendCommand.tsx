@@ -1,8 +1,8 @@
 import { eq, inArray } from 'drizzle-orm';
-import { recipes } from '../../../Domain/Entities/recipes';
-import { db } from '../../../dbConnection';
+import { recipes } from '../../../../Domain/Entities/recipes';
+import { db } from '../../../../dbConnection';
 import { CreateBlendRequestDto } from './createBlendRequestDto';
-import { blends } from '../../../Domain/Entities/blends';
+import { blends } from '../../../../Domain/Entities/blends';
 
 const createBlendCommand = async (
   request: CreateBlendRequestDto

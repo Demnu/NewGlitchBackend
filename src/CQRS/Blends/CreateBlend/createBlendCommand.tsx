@@ -4,8 +4,10 @@ import { db } from '../../../dbConnection';
 import { CreateBlendRequestDto } from './createBlendRequestDto';
 import { blends } from '../../../Domain/Entities/blends';
 
-const createBlendCommand = async (request: CreateBlendRequestDto) => {
-  let blendId;
+const createBlendCommand = async (
+  request: CreateBlendRequestDto
+): Promise<number> => {
+  let blendId: number = -1;
   // validate recipe ids
   if (!(await areRecipesValid(request))) {
     throw Error('Error saving blend, at least one recipeId is invalid');
@@ -25,7 +27,7 @@ const createBlendCommand = async (request: CreateBlendRequestDto) => {
 
       blendId = savedBlend[0].blendId;
       // now save the blend id for the recipes
-      if (!!request.recipeIds) {
+      if (!!request.recipeIds && request.recipeIds.length > 0) {
         await tx
           .update(recipes)
           .set({ blendId: blendId })
@@ -51,7 +53,7 @@ const isBlendNameValid = async (request: CreateBlendRequestDto) => {
 };
 
 const areRecipesValid = async (request: CreateBlendRequestDto) => {
-  if (request.recipeIds) {
+  if (request.recipeIds && request.recipeIds.length > 0) {
     const result = await db
       .select()
       .from(recipes)

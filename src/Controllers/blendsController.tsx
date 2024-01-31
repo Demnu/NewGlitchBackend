@@ -10,7 +10,7 @@ const createBlendController = async (
   try {
     const parsedReq = CreateBlendRequestDtoSchema.parse(req.body);
     const result = await createBlendCommand(parsedReq);
-    res.send(result);
+    res.status(200).send({ blendId: result });
   } catch (error) {
     next(error);
   }

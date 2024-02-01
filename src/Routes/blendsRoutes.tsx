@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createBlendController,
+  editBlendController,
   listBlendController
 } from '../Controllers/blendsController';
 const router = Router();
@@ -18,6 +19,18 @@ router.post(
             schema: { $ref: '#/definitions/CreateBlendRequestDto' }
     } */
 );
+
+router.post(
+  '/editBlend',
+  editBlendController
+  /*  
+  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Make a blend!',
+            schema: { $ref: '#/definitions/EditBlendRequestDto' }
+    } */
+);
+
 router.get(
   '/listBlends',
   listBlendController

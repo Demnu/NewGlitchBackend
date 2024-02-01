@@ -24,7 +24,7 @@ router.get(
   /*  
   #swagger.responses[200] = {
   description: 'Recieve the new blends id!',
-  schema: { $ref: '#/definitions/ListBlendsQueryRequestDto' }
+  schema: { $ref: '#/definitions/ListBlendsQueryRequestDtos' }
 }  */
 );
 export default router;

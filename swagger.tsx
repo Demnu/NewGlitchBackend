@@ -54,7 +54,8 @@ const doc = {
     SaveCalculationResponseDto: SaveCalculationResponseDtoJsonSchema,
     CreateBlendRequestDto: CreateBlendRequestDtoJsonSchema,
     CreateBlendResponseDto: CreateBlendResponseDtoJsonSchema,
-    ListBlendsQueryRequestDtos: [ListBlendsQueryRequestDtoJsonSchema]
+    ListBlendsQueryRequestDtos: [ListBlendsQueryRequestDtoJsonSchema],
+    ListBlendsQueryRequestDto: ListBlendsQueryRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

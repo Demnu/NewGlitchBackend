@@ -12,6 +12,7 @@ const ListBlendsQueryRequestDtoJsonSchema = {
   $id: 1234,
   $recipes: [
     {
+      $id: 12345,
       $productId: 'asdasd',
       $blendId: 1234,
       $recipeName: 'Haywire 1KG'

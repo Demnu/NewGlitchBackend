@@ -25,6 +25,7 @@ import { CreateBlendRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/Crea
 import { CreateBlendResponseDtoJsonSchema } from './src/CQRS/Blends/Commands/CreateBlend/createBlendResponseDto';
 import { ListBlendsQueryRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/Queries/ListBlendsQuery/listBlendsQueryRequestDto';
 import { EditBlendRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/EditBlend/editBlendRequestDto';
+import { DeleteBlendRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/deleteBlend/deleteBlendRequestDto';
 const doc = {
   info: {
     title: 'Glitch Backend'
@@ -57,7 +58,8 @@ const doc = {
     CreateBlendResponseDto: CreateBlendResponseDtoJsonSchema,
     ListBlendsQueryRequestDtos: [ListBlendsQueryRequestDtoJsonSchema],
     ListBlendsQueryRequestDto: ListBlendsQueryRequestDtoJsonSchema,
-    EditBlendRequestDto: EditBlendRequestDtoJsonSchema
+    EditBlendRequestDto: EditBlendRequestDtoJsonSchema,
+    DeleteBlendRequestDto: DeleteBlendRequestDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };

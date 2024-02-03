@@ -4,6 +4,8 @@ import { createBlendCommand } from '../CQRS/Blends/Commands/CreateBlend/createBl
 import { listBlendsQuery } from '../CQRS/Blends/Commands/Queries/ListBlendsQuery/listBlendsQuery';
 import { EditBlendRequestDtoSchema } from '../CQRS/Blends/Commands/EditBlend/editBlendRequestDto';
 import { editBlendCommand } from '../CQRS/Blends/Commands/EditBlend/EditBlendCommand';
+import { DeleteBlendRequestDtoSchema } from '../CQRS/Blends/Commands/deleteBlend/deleteBlendRequestDto';
+import { deleteBlendCommand } from '../CQRS/Blends/Commands/deleteBlend/deleteBlendCommand';
 
 const createBlendController = async (
   req: Request,
@@ -33,6 +35,20 @@ const editBlendController = async (
   }
 };
 
+const deleteBlendController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const parsedReq = DeleteBlendRequestDtoSchema.parse(req.body);
+    const result = await deleteBlendCommand(parsedReq);
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const listBlendController = async (
   req: Request,
   res: Response,
@@ -45,4 +61,9 @@ const listBlendController = async (
     next(error);
   }
 };
-export { editBlendController, createBlendController, listBlendController };
+export {
+  editBlendController,
+  createBlendController,
+  listBlendController,
+  deleteBlendController
+};

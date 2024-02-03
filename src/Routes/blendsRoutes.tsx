@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createBlendController,
+  deleteBlendController,
   editBlendController,
   listBlendController
 } from '../Controllers/blendsController';
@@ -28,6 +29,17 @@ router.post(
             in: 'body',
             description: 'Make a blend!',
             schema: { $ref: '#/definitions/EditBlendRequestDto' }
+    } */
+);
+
+router.delete(
+  '/deleteBlend',
+  deleteBlendController
+  /*  
+  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Make a blend!',
+            schema: { $ref: '#/definitions/DeleteBlendRequestDto' }
     } */
 );
 

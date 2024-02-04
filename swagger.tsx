@@ -26,6 +26,8 @@ import { CreateBlendResponseDtoJsonSchema } from './src/CQRS/Blends/Commands/Cre
 import { ListBlendsQueryRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/Queries/ListBlendsQuery/listBlendsQueryRequestDto';
 import { EditBlendRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/EditBlend/editBlendRequestDto';
 import { DeleteBlendRequestDtoJsonSchema } from './src/CQRS/Blends/Commands/deleteBlend/deleteBlendRequestDto';
+import { MakeRoastingCalculationRequestDtoJsonSchema } from './src/CQRS/RoastingCalculation/makeRoastingCalculationRequestDto';
+import { MakeRoastingCalculationResponseDtoJsonSchema } from './src/CQRS/RoastingCalculation/makeRoastingCalculationResponseDto';
 const doc = {
   info: {
     title: 'Glitch Backend'
@@ -59,7 +61,11 @@ const doc = {
     ListBlendsQueryRequestDtos: [ListBlendsQueryRequestDtoJsonSchema],
     ListBlendsQueryRequestDto: ListBlendsQueryRequestDtoJsonSchema,
     EditBlendRequestDto: EditBlendRequestDtoJsonSchema,
-    DeleteBlendRequestDto: DeleteBlendRequestDtoJsonSchema
+    DeleteBlendRequestDto: DeleteBlendRequestDtoJsonSchema,
+    MakeRoastingCalculationRequestDto:
+      MakeRoastingCalculationRequestDtoJsonSchema,
+    MakeRoastingCalculationResponseDto:
+      MakeRoastingCalculationResponseDtoJsonSchema
   },
   host: environment == 'local' ? localAddress : serverAddress
 };
